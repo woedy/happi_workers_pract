@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Components/theme.dart';
 import 'package:happi_workers_pract/SplashScreen/splash_screen.dart';
-import 'package:happi_workers_pract/Welcome/welcome_page.dart';
+import 'package:happi_workers_pract/Welcome/welcome_page2.dart';
 import 'package:happi_workers_pract/Welcome/welcome_page1.dart';
 import 'package:happi_workers_pract/constants.dart';
 

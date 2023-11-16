@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happi_workers_pract/Welcome/welcome_page2.dart';
 import 'package:happi_workers_pract/constants.dart';
 
 class WelcomePage1 extends StatefulWidget {
@@ -60,9 +61,9 @@ class _WelcomePage1State extends State<WelcomePage1> {
                         mainAxisAlignment: MainAxisAlignment.end,
 
                         children: [
-                          Text("Millions of people have engaged with our\nplatform with our platform for therapy,\nmedication, assessment, healthy living support,\nand self-help tools.", style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),),
+                          Text("Millions of people have engaged with our\nplatform with our platform for therapy,\nmedication, assessment, healthy living support,\nand self-help tools.", style: TextStyle(fontSize: 14.2, color: Colors.white, fontWeight: FontWeight.w300),),
                           SizedBox(
-                            height: 10,
+                            height: 15,
                           ),
                           Container(
                             height: 10,
@@ -73,17 +74,22 @@ class _WelcomePage1State extends State<WelcomePage1> {
                             ),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 15,
                           ),
-                          Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15)
-                            ),
-                            child: Center(
-                              child: Text("Get Started", style: TextStyle(fontFamily: 'Montserrat',),),
+                          InkWell(
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
+
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15)
+                              ),
+                              child: Center(
+                                child: Text("Get Started", style: TextStyle(color: happiPrimary),),
+                              ),
                             ),
                           ),
                         ],
