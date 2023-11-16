@@ -5,7 +5,7 @@ import '../../constants.dart';
 ThemeData theme() {
   return ThemeData(
     scaffoldBackgroundColor: happiWhite,
-    fontFamily: "Montserrat",
+    fontFamily: 'Montserrat',
     appBarTheme: appBarTheme(),
     textTheme: textTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -15,8 +15,8 @@ ThemeData theme() {
 
 TextTheme textTheme() {
   return TextTheme(
-    bodyText1: TextStyle(color: bodyText1),
-    bodyText2: TextStyle(color: bodyText2),
+    bodyText1: TextStyle(color: Colors.black),
+    bodyText2: TextStyle(color: Colors.black),
   );
 }
 

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Components/theme.dart';
 import 'package:happi_workers_pract/SplashScreen/splash_screen.dart';
 import 'package:happi_workers_pract/Welcome/welcome_page.dart';
+import 'package:happi_workers_pract/Welcome/welcome_page1.dart';
 import 'package:happi_workers_pract/constants.dart';
 
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Libra',
+        title: 'Happiworkers',
         theme: theme(),
         home: MyHomePage(),
       ),
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
           //return api_key == null ? SplashScreen() : HomeScreen();
-          return WelcomePage();
+          return WelcomePage1();
 
         });
   }

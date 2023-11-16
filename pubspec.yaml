@@ -91,6 +91,7 @@ flutter_icons:
     - family: Montserrat
       fonts:
         - asset: assets/fonts/Montserrat-Regular.ttf
+          style: normal
         - asset: assets/fonts/Montserrat-Italic.ttf
           style: italic
         - asset: assets/fonts/Montserrat-Bold.ttf
@@ -100,6 +101,9 @@ flutter_icons:
           weight: 600
         - asset: assets/fonts/Montserrat-Medium.ttf
           weight: 500
+    - family: AlexBrush
+      fonts:
+        - asset: assets/fonts/static/AlexBrush-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
