@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:happi_workers_pract/Welcome/welcome_page2.dart';
 import 'package:happi_workers_pract/constants.dart';
@@ -16,6 +18,7 @@ class _WelcomePage1State extends State<WelcomePage1> {
 
       body: SafeArea(
         top: false,
+        bottom: false,
 
         child: Container(
           padding: EdgeInsets.all(0),
@@ -92,6 +95,14 @@ class _WelcomePage1State extends State<WelcomePage1> {
                               ),
                             ),
                           ),
+
+                          if(Platform.isIOS)...[
+                            SizedBox(
+                              height: 25,
+                            ),
+                          ]
+
+
                         ],
                       ),
                     )

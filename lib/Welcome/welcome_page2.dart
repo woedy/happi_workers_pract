@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happi_workers_pract/Authentication/SignUp/sign_up_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
 
 class WelcomePage2 extends StatefulWidget {
@@ -14,6 +15,7 @@ class _WelcomePage2State extends State<WelcomePage2> {
     return Scaffold(
 
       body: SafeArea(
+        bottom: false,
 
         child: Stack(
           children: [
@@ -93,7 +95,7 @@ class _WelcomePage2State extends State<WelcomePage2> {
                       ),
                       InkWell(
                         onTap: (){
-                          //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignUpScreen()));
 
                         },
                         child: Container(
