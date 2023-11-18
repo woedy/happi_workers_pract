@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_screen.dart';
 import 'package:happi_workers_pract/Components/theme.dart';
 import 'package:happi_workers_pract/SplashScreen/splash_screen.dart';

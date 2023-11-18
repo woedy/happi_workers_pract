@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
-import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Authentication/Password/password_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
+  var show_password = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Sign Up",
+                    "Sign In",
                     style: TextStyle(
                         fontSize: 64,
                         fontWeight: FontWeight.w400,
@@ -84,113 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          border:
-                              Border.all(color: Colors.black.withOpacity(0.1))),
-                      child: TextFormField(
-                        style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          //hintText: 'Enter Username/Email',
 
-                          hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal),
-                          labelText: "First name",
-                          labelStyle: TextStyle(
-                              fontSize: 13,
-                              color: Colors.black.withOpacity(0.5)),
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          border: InputBorder.none,
-                        ),
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(225),
-                          PasteTextInputFormatter(),
-                        ],
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'First name is required';
-                          }
-                          if (value.length < 3) {
-                            return 'Name too short';
-                          }
-                        },
-                        textInputAction: TextInputAction.next,
-                        autofocus: false,
-                        onSaved: (value) {
-                          setState(() {
-                            //email = value;
-                          });
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          border:
-                              Border.all(color: Colors.black.withOpacity(0.1))),
-                      child: TextFormField(
-                        style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          //hintText: 'Enter Username/Email',
-
-                          hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal),
-                          labelText: "Last Name",
-                          labelStyle: TextStyle(
-                              fontSize: 13,
-                              color: Colors.black.withOpacity(0.5)),
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          border: InputBorder.none,
-                        ),
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(225),
-                          PasteTextInputFormatter(),
-                        ],
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Email is required';
-                          }
-                          if (value.length < 3) {
-                            return 'Name too short';
-                          }
-                          String pattern =
-                              r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                              r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                              r"{0,253}[a-zA-Z0-9])?)*$";
-                          RegExp regex = RegExp(pattern);
-                          if (!regex.hasMatch(value))
-                            return 'Enter a valid email address';
-
-                          return null;
-                        },
-                        textInputAction: TextInputAction.next,
-                        autofocus: false,
-                        onSaved: (value) {
-                          setState(() {
-                            //email = value;
-                          });
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
@@ -247,6 +141,80 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     SizedBox(
+                      height: 40,
+                    ),
+
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          border:
+                          Border.all(color: Colors.black.withOpacity(0.1))),
+                      child: TextFormField(
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          //hintText: 'Enter Password',
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  show_password = !show_password;
+                                });
+                              },
+                              icon: Icon(
+                                show_password
+                                    ? Icons.remove_red_eye_outlined
+                                    : Icons.remove_red_eye,
+                                color: Colors.white,
+                              ),
+                            ),
+                            hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.normal),
+                            labelText: "Password",
+                            labelStyle:
+                            TextStyle(fontSize: 13, color: Colors.black.withOpacity(0.5)),
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white)),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white)),
+                            border: InputBorder.none),
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(225),
+                          PasteTextInputFormatter(),
+                        ],
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Password is required';
+                          }
+                          if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$%^&*])')
+                              .hasMatch(value)) {
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("- Password must be at least 8 characters long\n- Must include at least one uppercase letter,\n- One lowercase letter, one digit,\n- And one special character",),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                            return '';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            //password = value;
+                          });
+                        },
+                        textInputAction: TextInputAction.next,
+                        obscureText: show_password ? false : true,
+                        onSaved: (value) {
+                          setState(() {
+                            //password = value;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
                       height: 30,
                     ),
                   ],
@@ -257,7 +225,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignUpPassword()));
+                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
                     },
                     child: Container(
                       padding: EdgeInsets.all(20),
@@ -266,10 +234,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           borderRadius: BorderRadius.circular(15)),
                       child: Center(
                         child: Text(
-                          "Continue",
+                          "SignIn",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ForgotPassword()));
+
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Forgot password? ", style: TextStyle(fontSize: 12),),
+                        Text("Click here to recover", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: happiPrimary),),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -332,7 +316,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             width: 15,
                           ),
                           Text(
-                            "Sign up with google",
+                            "Sign in with google",
                             style: TextStyle(color: Colors.black),
                           ),
                         ],
@@ -366,7 +350,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             width: 15,
                           ),
                           Text(
-                            "Sign up with Microsoft",
+                            "Sign in with Microsoft",
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
@@ -379,18 +363,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 20,
                   ),
 
-                  InkWell(
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignInScreen()));
-
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Already have an account? ", style: TextStyle(fontSize: 12),),
-                        Text("Sign in here", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: happiPrimary),),
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Dont have an account? ", style: TextStyle(fontSize: 12),),
+                      Text("Sign up here", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: happiPrimary),),
+                    ],
                   )
                 ],
               ))
