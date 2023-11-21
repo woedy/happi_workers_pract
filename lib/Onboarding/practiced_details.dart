@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
-import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/constants.dart';
 
-class MyPersonalInfo extends StatefulWidget {
-  const MyPersonalInfo({super.key});
+class PracticedDetails extends StatefulWidget {
+  const PracticedDetails({super.key});
 
   @override
-  State<MyPersonalInfo> createState() => _MyPersonalInfoState();
+  State<PracticedDetails> createState() => _PracticedDetailsState();
 }
 
-class _MyPersonalInfoState extends State<MyPersonalInfo> {
+class _PracticedDetailsState extends State<PracticedDetails> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -71,7 +70,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "My Personal\nInformation",
+                                      "My Practice\nDetails",
                                       style: TextStyle(
                                           fontSize: 48,
                                           fontWeight: FontWeight.w400,
@@ -83,23 +82,6 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                   height: 10,
                                 ),
 
-                                Container(
-                                  height: 132,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(15),
-                                      border:
-                                      Border.all(color: Colors.black.withOpacity(0.1)) ),
-                                  child:  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.upload_file, size: 50, color: Colors.grey,),
-                                      Text("Upload a picture")
-                                    ],
-                                  )
-                                ),
                                 Form(
                                   key: _formKey,
                                   child: Column(
@@ -119,7 +101,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                             hintStyle: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.normal),
-                                            labelText: "Contact",
+                                            labelText: "Profile title",
                                             labelStyle: TextStyle(
                                                 fontSize: 13,
                                                 color: Colors.black.withOpacity(0.5)),
@@ -168,7 +150,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                             hintStyle: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.normal),
-                                            labelText: "Date of birth",
+                                            labelText: "Highest Qualification",
                                             labelStyle: TextStyle(
                                                 fontSize: 13,
                                                 color: Colors.black.withOpacity(0.5)),
@@ -226,7 +208,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                             hintStyle: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.normal),
-                                            labelText: "Select Gender",
+                                            labelText: "Specialization",
                                             labelStyle: TextStyle(
                                                 fontSize: 13,
                                                 color: Colors.black.withOpacity(0.5)),
@@ -285,7 +267,122 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                             hintStyle: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.normal),
-                                            labelText: "Academic Title",
+                                            labelText: "Accreditations",
+                                            labelStyle: TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.black.withOpacity(0.5)),
+                                            enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.white)),
+                                            focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.white)),
+                                            border: InputBorder.none,
+                                          ),
+                                          inputFormatters: [
+                                            LengthLimitingTextInputFormatter(225),
+                                            PasteTextInputFormatter(),
+                                          ],
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Email is required';
+                                            }
+                                            if (value.length < 3) {
+                                              return 'Name too short';
+                                            }
+                                            String pattern =
+                                                r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                                                r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                                                r"{0,253}[a-zA-Z0-9])?)*$";
+                                            RegExp regex = RegExp(pattern);
+                                            if (!regex.hasMatch(value))
+                                              return 'Enter a valid email address';
+
+                                            return null;
+                                          },
+                                          textInputAction: TextInputAction.next,
+                                          autofocus: false,
+                                          onSaved: (value) {
+                                            setState(() {
+                                              //email = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 10),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(15),
+                                            border:
+                                            Border.all(color: Colors.black.withOpacity(0.1))),
+                                        child: TextFormField(
+                                          style: TextStyle(color: Colors.black),
+                                          decoration: InputDecoration(
+                                            //hintText: 'Enter Username/Email',
+
+                                            hintStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.normal),
+                                            labelText: "My Approach Is (Choose 3 Approaches)",
+                                            labelStyle: TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.black.withOpacity(0.5)),
+                                            enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.white)),
+                                            focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.white)),
+                                            border: InputBorder.none,
+                                          ),
+                                          inputFormatters: [
+                                            LengthLimitingTextInputFormatter(225),
+                                            PasteTextInputFormatter(),
+                                          ],
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Email is required';
+                                            }
+                                            if (value.length < 3) {
+                                              return 'Name too short';
+                                            }
+                                            String pattern =
+                                                r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                                                r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                                                r"{0,253}[a-zA-Z0-9])?)*$";
+                                            RegExp regex = RegExp(pattern);
+                                            if (!regex.hasMatch(value))
+                                              return 'Enter a valid email address';
+
+                                            return null;
+                                          },
+                                          textInputAction: TextInputAction.next,
+                                          autofocus: false,
+                                          onSaved: (value) {
+                                            setState(() {
+                                              //email = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      ), Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 10),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(15),
+                                            border:
+                                            Border.all(color: Colors.black.withOpacity(0.1))),
+                                        child: TextFormField(
+                                          style: TextStyle(color: Colors.black),
+                                          decoration: InputDecoration(
+                                            //hintText: 'Enter Username/Email',
+
+                                            hintStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.normal),
+                                            labelText: "Therapies Offered (More than one if applicable)",
                                             labelStyle: TextStyle(
                                                 fontSize: 13,
                                                 color: Colors.black.withOpacity(0.5)),
@@ -333,7 +430,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PracticedDetails()));
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignUpPassword()));
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(20),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_screen.dart';
+import 'package:happi_workers_pract/Onboarding/personal_Info.dart';
 import 'package:happi_workers_pract/constants.dart';
 
 class Onboarding1 extends StatefulWidget {
@@ -84,7 +85,7 @@ class _Onboarding1State extends State<Onboarding1> {
                           children: [
                             InkWell(
                               onTap: () {
-                                //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyPersonalInfo()));
                               },
                               child: Container(
                                 padding: EdgeInsets.all(20),

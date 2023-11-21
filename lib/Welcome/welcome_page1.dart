@@ -64,7 +64,7 @@ class _WelcomePage1State extends State<WelcomePage1> {
                         mainAxisAlignment: MainAxisAlignment.end,
 
                         children: [
-                          Text("Millions of people have engaged with our\nplatform with our platform for therapy,\nmedication, assessment, healthy living support,\nand self-help tools.", style: TextStyle(fontSize: 14.2, color: Colors.white, fontWeight: FontWeight.w300),),
+                          Text("Millions of pe ople have engaged with our\nplatform with our platform for therapy,\nmedication, assessment, healthy living support,\nand self-help tools.", style: TextStyle(fontSize: 14.2, color: Colors.white, fontWeight: FontWeight.w300),),
                           SizedBox(
                             height: 15,
                           ),

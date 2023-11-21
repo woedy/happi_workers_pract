@@ -9,6 +9,8 @@ import 'package:happi_workers_pract/Welcome/welcome_page2.dart';
 import 'package:happi_workers_pract/Welcome/welcome_page1.dart';
 import 'package:happi_workers_pract/constants.dart';
 
+import 'Onboarding/onboarding_1.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
           //return api_key == null ? SplashScreen() : HomeScreen();
-          return WelcomePage1();
+          return Onboarding1();
 
         });
   }
