@@ -100,7 +100,7 @@ class _Onboarding1State extends State<Onboarding1> {
                               ),
                             ),
                             SizedBox(
-                              height: 20,
+                                height: 20
                             ),
 
 
