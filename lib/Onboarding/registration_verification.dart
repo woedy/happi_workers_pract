@@ -6,19 +6,18 @@ import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
-import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
-class MyDeviceCheck extends StatefulWidget {
-  const MyDeviceCheck({super.key});
+class RegistrationVerification extends StatefulWidget {
+  const RegistrationVerification({super.key});
 
   @override
-  State<MyDeviceCheck> createState() => _MyDeviceCheckState();
+  State<RegistrationVerification> createState() => _RegistrationVerificationState();
 }
 
-class _MyDeviceCheckState extends State<MyDeviceCheck> {
+class _RegistrationVerificationState extends State<RegistrationVerification> {
   final _formKey = GlobalKey<FormState>();
   String? selectedInterval;
 
@@ -103,7 +102,7 @@ class _MyDeviceCheckState extends State<MyDeviceCheck> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "My Device\nCheck",
+                                      "Registration\nVerification",
                                       style: TextStyle(
                                           fontSize: 48,
                                           fontWeight: FontWeight.w400,
@@ -121,43 +120,145 @@ class _MyDeviceCheckState extends State<MyDeviceCheck> {
                             ),
 
 
+
+
                             Expanded(
                               child: Container(
-                                child: Column(
+                                child: ListView(
                                   children: [
-
-                                    Icon(Icons.phonelink_setup_rounded, size: 100,),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-
                                     Container(
-                                     // height: 200,
-                                        padding: EdgeInsets.all(20),
-                                        width: MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(15),
-                                            border:
-                                            Border.all(color: Colors.black.withOpacity(0.1))),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                      padding: EdgeInsets.all(30),
+                                      //width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.withOpacity(0.06),
+                                        borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text("Is your device compatible?", style: TextStyle(color: happiPrimary, fontSize: 14),),
-                                          SizedBox(
-                                            height: 15,
-                                          ),
-                                          Text("Click on the below button to conduct a device check to ensure that your camera, speakers and microphone is working for you to connect with clients ?", style: TextStyle(color: happiPrimary, fontSize: 12),),
+                                          Text("Personal Information", style: TextStyle(fontSize: 20),),
 
-                                          SizedBox(
-                                            height: 40,
-                                          ),
+                                          Icon(Icons.check_box_rounded, color: happiPrimary.withOpacity(0.7), size: 40,),
+
                                         ],
                                       ),
-                                    )
+                                    ),
+
+
+                                    SizedBox(
+                                      height:20,
+                                    ),
+
+
+                                    Container(
+                                      padding: EdgeInsets.all(30),
+                                      //width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.withOpacity(0.06),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Documents Uploaded", style: TextStyle(fontSize: 20),),
+
+                                          Icon(Icons.check_box_rounded, color: happiPrimary.withOpacity(0.7), size: 40,),
+
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height:20,
+                                    ),
+
+
+                                    Container(
+                                      padding: EdgeInsets.all(30),
+                                      //width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.withOpacity(0.06),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Availability", style: TextStyle(fontSize: 20),),
+
+                                          Icon(Icons.check_box_rounded, color: happiPrimary.withOpacity(0.7), size: 40,),
+
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height:20,
+                                    ),
+
+
+                                    Container(
+                                      padding: EdgeInsets.all(30),
+                                      //width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.withOpacity(0.06),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Device Check", style: TextStyle(fontSize: 20),),
+
+                                          Icon(Icons.check_box_rounded, color: happiPrimary.withOpacity(0.7), size: 40,),
+
+                                        ],
+                                      ),
+                                    ),
+
+                                    SizedBox(
+                                      height:20,
+                                    ),
+
+
+                                    Container(
+                                      padding: EdgeInsets.all(30),
+                                      //width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.withOpacity(0.06),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Interviewed", style: TextStyle(fontSize: 20),),
+
+                                          Icon(Icons.check_box_rounded, color: happiPrimary.withOpacity(0.7), size: 40,),
+
+                                        ],
+                                      ),
+                                    ),
+
+                                    SizedBox(
+                                      height:20,
+                                    ),
+
+
+                                    Container(
+                                      padding: EdgeInsets.all(30),
+                                      //width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.withOpacity(0.06),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Practitioner Profile is Live", style: TextStyle(fontSize: 20),),
+
+                                          Icon(Icons.check_box_rounded, color: happiPrimary.withOpacity(0.7), size: 40,),
+
+                                        ],
+                                      ),
+                                    ),
+
+
 
 
                                   ],
@@ -173,7 +274,6 @@ class _MyDeviceCheckState extends State<MyDeviceCheck> {
 
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => RegistrationVerification()));
 
 
                               },
