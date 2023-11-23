@@ -38,6 +38,9 @@ dependencies:
   http: ^1.1.0
   shared_preferences:
   pin_code_text_field:
+  date_field:
+  intl:
+
 
 
 
