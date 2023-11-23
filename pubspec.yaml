@@ -40,6 +40,9 @@ dependencies:
   pin_code_text_field:
   date_field:
   intl:
+  image_picker:
+  image_cropper:
+
 
 
 

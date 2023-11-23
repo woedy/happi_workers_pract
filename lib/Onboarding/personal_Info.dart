@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Components/photos/select_photo_options_screen.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/constants.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class MyPersonalInfo extends StatefulWidget {
@@ -18,6 +23,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
   final _formKey = GlobalKey<FormState>();
 
   String? selectedGender;
+  File? _image;
 
 
   @override
@@ -112,22 +118,68 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                         height: 10,
                                       ),
 
-                                      Container(
-                                        height: 132,
-                                        width: MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(15),
-                                            border:
-                                            Border.all(color: Colors.black.withOpacity(0.1)) ),
-                                        child:  Column(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.upload_file, size: 50, color: Colors.grey,),
-                                            Text("Upload a picture")
-                                          ],
-                                        )
+                                      Stack(
+                                        children: [
+                                          InkWell(
+                                            onTap: (){
+                                              _showSelectPhotoOptions(context);
+                                            },
+                                            child: _image == null
+                                                ?  Container(
+                                                height: 132,
+                                                width: MediaQuery.of(context).size.width,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(15),
+                                                    border:
+                                                    Border.all(color: Colors.black.withOpacity(0.1)) ),
+                                                child:  Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.upload_file, size: 50, color: Colors.grey,),
+                                                    Text("Upload a picture")
+                                                  ],
+                                                )
+                                            )
+                                                :Container(
+                                              height: 132,
+                                              width: MediaQuery.of(context).size.width,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+
+                                                      image: FileImage(_image!),
+                                                      fit: BoxFit.cover
+                                                  ),
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  border:
+                                                  Border.all(color: Colors.black.withOpacity(0.1)) ),
+
+
+                                            ),
+
+                                          ),
+
+                                          if (_image != null)
+                                            Positioned(
+                                              bottom: 10,
+                                              right: 10,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _image = null;
+                                                  });
+                                                },
+                                                child: Icon(Icons.delete_forever, color: Colors.white,),
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Colors.red,
+                                                  shape: CircleBorder(),
+                                                  padding: EdgeInsets.all(8),
+                                                ),
+                                              ),
+                                            ),
+                                        ],
                                       ),
 
                                       SizedBox(
@@ -400,5 +452,59 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
       },
     );
   }
+
+
+
+  void _showSelectPhotoOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+          initialChildSize: 0.28,
+          maxChildSize: 0.4,
+          minChildSize: 0.28,
+          expand: false,
+          builder: (context, scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              child: SelectPhotoOptionsScreen(
+                onTap: _pickImage,
+              ),
+            );
+          }),
+    );
+  }
+
+
+  Future _pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      File? img = File(image.path);
+      img = await _cropImage(imageFile: img);
+      setState(() {
+        _image = img;
+        Navigator.of(context).pop();
+      });
+    } on PlatformException catch (e) {
+      print(e);
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future<File?> _cropImage({required File imageFile}) async {
+    CroppedFile? croppedImage =
+    await ImageCropper().cropImage(sourcePath: imageFile.path);
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
+  }
+
+
+
 
 }
