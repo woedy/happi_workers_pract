@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_screen.dart';
 import 'package:happi_workers_pract/Components/theme.dart';
+import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/SplashScreen/splash_screen.dart';
 import 'package:happi_workers_pract/Welcome/welcome_page2.dart';
 import 'package:happi_workers_pract/Welcome/welcome_page1.dart';
@@ -65,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
           //return api_key == null ? SplashScreen() : HomeScreen();
+          return HomeScreen();
           return Onboarding1();
 
         });

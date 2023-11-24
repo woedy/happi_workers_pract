@@ -150,7 +150,7 @@ class _MyDeviceCheckState extends State<MyDeviceCheck> {
                                           SizedBox(
                                             height: 15,
                                           ),
-                                          Text("Click on the below button to conduct a device check to ensure that your camera, speakers and microphone is working for you to connect with clients ?", style: TextStyle(color: happiPrimary, fontSize: 12),),
+                                          Text("Click on the below button to conduct a device check to ensure that your camera, speakers and microphone is working for you to connect with clients ?", style: TextStyle( fontSize: 12),),
 
                                           SizedBox(
                                             height: 40,
