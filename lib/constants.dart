@@ -7,6 +7,7 @@ const happiPrimary = Color(0xff533593);
 const happiDark = Color(0xff251C36);
 const happiGreen = Color(0xff2CD788);
 const happiWhite = Color(0xffF8F7FC);
+const happiLghtPurple = Color(0xffE4D8FF);
 
 const bodyText1 = Color(0xffffffff);
 const bodyText2 = Color(0xffffffff);

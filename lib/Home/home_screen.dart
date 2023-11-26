@@ -409,13 +409,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             crossAxisAlignment: CrossAxisAlignment.center,
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
                                                               Text("Completed\nsessions ever", style: TextStyle( fontSize: 15),),
                                                               SizedBox(
-                                                                height: 20,
+                                                                height: 10,
                                                               ),
                                                               Text("15% Increase from last week", style: TextStyle( fontSize: 10),),
                                                               SizedBox(
-                                                                height: 20,
+                                                                height: 10,
                                                               ),
                                                               Text("14", style: TextStyle( fontSize: 40),),
 
@@ -451,13 +454,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             crossAxisAlignment: CrossAxisAlignment.center,
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
                                                               Text("Completed\nHours ever", style: TextStyle( fontSize: 15),),
                                                               SizedBox(
-                                                                height: 20,
+                                                                height: 10,
                                                               ),
                                                               Text("5% Increase from last week", style: TextStyle( fontSize: 10),),
                                                               SizedBox(
-                                                                height: 20,
+                                                                height: 10,
                                                               ),
                                                               Text("10.5h", style: TextStyle( fontSize: 40),),
 
@@ -497,13 +503,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             crossAxisAlignment: CrossAxisAlignment.center,
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
                                                               Text("Completed\nsessions ever", style: TextStyle( fontSize: 15),),
                                                               SizedBox(
-                                                                height: 20,
+                                                                height: 10,
                                                               ),
                                                               Text("15% Increase from last week", style: TextStyle( fontSize: 10),),
                                                               SizedBox(
-                                                                height: 20,
+                                                                height: 10,
                                                               ),
                                                               Text("14", style: TextStyle( fontSize: 40),),
 
@@ -539,13 +548,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             crossAxisAlignment: CrossAxisAlignment.center,
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
                                                               Text("Completed\nHours ever", style: TextStyle( fontSize: 15),),
                                                               SizedBox(
-                                                                height: 20,
+                                                                height: 15,
                                                               ),
                                                               Text("5% Increase from last week", style: TextStyle( fontSize: 10),),
                                                               SizedBox(
-                                                                height: 20,
+                                                                height: 15,
                                                               ),
                                                               Text("10.5h", style: TextStyle( fontSize: 40),),
 
