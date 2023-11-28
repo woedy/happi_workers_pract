@@ -7,6 +7,7 @@ import 'package:happi_workers_pract/Authentication/SignUp/sign_up_screen.dart';
 import 'package:happi_workers_pract/Components/theme.dart';
 import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/Messages/my_chat_screen.dart';
+import 'package:happi_workers_pract/Profile/personal_info.dart';
 import 'package:happi_workers_pract/Settings/faqs_screen.dart';
 import 'package:happi_workers_pract/Settings/settings_screen.dart';
 import 'package:happi_workers_pract/SplashScreen/splash_screen.dart';
@@ -70,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
           //return api_key == null ? SplashScreen() : HomeScreen();
-          return MyAppointments();
+          return PersonalInfo();
           return Onboarding1();
 
         });
