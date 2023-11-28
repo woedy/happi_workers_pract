@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Clients/meet_your_clients.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
@@ -644,7 +645,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   InkWell(
                                     onTap: (){
 
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => UserProfileScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MeetYourClients()));
 
                                     },
                                     child: Column(
@@ -653,7 +654,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           height: 4,
                                         ),
-                                        Text('Profile', style: TextStyle(color: Colors.black, fontSize: 12)),
+                                        Text('Clients', style: TextStyle(color: Colors.black, fontSize: 12)),
                                       ],
                                     ),
                                   ),

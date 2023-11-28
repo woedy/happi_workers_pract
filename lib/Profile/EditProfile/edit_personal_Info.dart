@@ -7,6 +7,7 @@ import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Components/photos/select_photo_options_screen.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
+import 'package:happi_workers_pract/Profile/EditProfile/edit_my_personal_Info.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -107,8 +108,32 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                                         height: 20,
                                       ),
 
-                                      CircleAvatar(
-                                        radius: 60,
+                                      Stack(
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 60,
+                                          ),
+
+                                          Positioned(
+                                            top: 30,
+                                              right: 0,
+                                              left: 0,
+                                              child: Column(
+                                                children: [
+                                                  Icon(Icons.camera_alt, color: Colors.white,),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    "Upload an image",
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.white),
+                                                  )
+                                                ],
+                                              )
+                                          )
+                                        ],
                                       ),
 
 
@@ -281,7 +306,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
 
 
                                               SizedBox(
-                                                height: 10,
+                                                height: 20,
 
                                               ),
 
@@ -298,7 +323,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                                                           color: happiPrimary),
                                                     ),
                                                     SizedBox(
-                                                      height: 10,
+                                                      height: 20,
 
                                                     ),
                                                     Row(
@@ -341,13 +366,13 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                                                     ),
 
                                                     SizedBox(
-                                                      height: 20,
+                                                      height: 30,
 
                                                     ),
 
                                                     InkWell(
                                                       onTap: () {
-                                                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PracticedDetails()));
+                                                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EditMyPersonalInfo()));
                                                       },
                                                       child: Container(
                                                         padding: EdgeInsets.all(20),
