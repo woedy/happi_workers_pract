@@ -6,6 +6,8 @@ import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart'
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_screen.dart';
 import 'package:happi_workers_pract/Clients/meet_your_clients.dart';
 import 'package:happi_workers_pract/Components/theme.dart';
+import 'package:happi_workers_pract/Earnings/earnings_overview.dart';
+import 'package:happi_workers_pract/Earnings/earnings_screen.dart';
 import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/Messages/my_chat_screen.dart';
 import 'package:happi_workers_pract/Profile/personal_info.dart';
@@ -72,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
           //return api_key == null ? SplashScreen() : HomeScreen();
-          return MeetYourClients();
+          return EarningsOverview();
           return Onboarding1();
 
         });
