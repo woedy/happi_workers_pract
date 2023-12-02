@@ -78,7 +78,7 @@ class _MeetYourClientsState extends State<MeetYourClients> {
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
 
-                            child: Column(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
@@ -107,8 +107,8 @@ class _MeetYourClientsState extends State<MeetYourClients> {
                                           Container(
                                             padding: EdgeInsets.all(5),
                                             decoration: BoxDecoration(
-                                              color: happiPrimary.withOpacity(0.2),
-                                              borderRadius: BorderRadius.circular(100)
+                                                color: happiPrimary.withOpacity(0.2),
+                                                borderRadius: BorderRadius.circular(100)
                                             ),
                                             child: Icon(Icons.notifications, color: happiPrimary,),
                                           ),
@@ -124,7 +124,7 @@ class _MeetYourClientsState extends State<MeetYourClients> {
                                   ),
 
                                   SizedBox(
-                                    height: 15,
+                                    height: 5,
                                   ),
 
 
@@ -134,7 +134,173 @@ class _MeetYourClientsState extends State<MeetYourClients> {
 
 
                             Expanded(
-                              child: Container(),
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  //color: Colors.red,
+                                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 1),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+
+
+                                      SingleChildScrollView(
+                                        child: Container(
+                                          height: MediaQuery.of(context).size.height,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Meet Your\nClients",
+                                                    style: TextStyle(
+                                                        fontSize: 48,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Colors.black),
+                                                  ),
+                                                ],
+                                              ),
+
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+
+                                              Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(15),
+                                                    border:
+                                                    Border.all(color: Colors.black.withOpacity(0.1))),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: TextFormField(
+                                                        style: TextStyle(color: Colors.black),
+                                                        decoration: InputDecoration(
+                                                          //hintText: 'Enter Username/Email',
+
+                                                          hintStyle: TextStyle(
+                                                              color: Colors.black.withOpacity(0.7),
+                                                              fontWeight: FontWeight.normal),
+                                                          labelText: "Search here",
+
+                                                          labelStyle: TextStyle(
+                                                              fontSize: 13,
+                                                              color: Colors.black.withOpacity(0.5)),
+                                                          enabledBorder: UnderlineInputBorder(
+                                                              borderSide: BorderSide(color: Colors.white)),
+                                                          focusedBorder: UnderlineInputBorder(
+                                                              borderSide: BorderSide(color: Colors.white)),
+                                                          border: InputBorder.none,
+                                                        ),
+                                                        inputFormatters: [
+                                                          LengthLimitingTextInputFormatter(225),
+                                                          PasteTextInputFormatter(),
+                                                        ],
+
+                                                        textInputAction: TextInputAction.next,
+                                                        autofocus: false,
+                                                        onSaved: (value) {
+                                                          setState(() {
+                                                            //email = value;
+                                                          });
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Icon(Icons.list_alt_outlined),
+                                                        SizedBox(
+                                                          width: 10 ,
+                                                        ),
+                                                        Icon(Icons.search),
+
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+
+                                              Expanded(
+                                                child: GridView.builder(
+                                                  itemCount: 20, // Number of items in the grid
+                                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2, // Number of columns
+                                                    crossAxisSpacing: 8.0, // Spacing between columns
+                                                    mainAxisSpacing: 8.0, // Spacing between rows
+                                                  ),
+                                                  itemBuilder: (BuildContext context, int index) {
+                                                    // Replace this container with your custom widget for each grid item
+                                                    return Container(
+
+                                                      padding: EdgeInsets.all(10),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          color: Colors.white
+
+                                                      ),
+
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              CircleAvatar(
+                                                                radius: 23,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10 ,
+                                                              ),
+                                                              Expanded(
+                                                                  child: Text("Savannah Nguyen edfsfds",  style: TextStyle(fontSize: 14),
+                                                                  ))
+                                                            ],
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text("Bank of America",  style: TextStyle(fontSize: 14)),
+                                                              Text("New",  style: TextStyle(fontSize: 10, color: Colors.green)),
+                                                            ],
+                                                          ),
+
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width,
+                                                            padding: EdgeInsets.all(5),
+                                                            decoration: BoxDecoration(
+                                                                color: happiPrimary,
+                                                                borderRadius: BorderRadius.circular(10)
+                                                            ),
+                                                            child: Center(child: Text("Select", style: TextStyle(color: Colors.white),)),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+
+
+
+
+
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
 
 

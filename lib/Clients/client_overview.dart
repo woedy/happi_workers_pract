@@ -11,14 +11,14 @@ import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
-class EarningsOverview extends StatefulWidget {
-  const EarningsOverview({super.key});
+class ClientsOverview extends StatefulWidget {
+  const ClientsOverview({super.key});
 
   @override
-  State<EarningsOverview> createState() => _EarningsOverviewState();
+  State<ClientsOverview> createState() => _ClientsOverviewState();
 }
 
-class _EarningsOverviewState extends State<EarningsOverview> {
+class _ClientsOverviewState extends State<ClientsOverview> {
   final _formKey = GlobalKey<FormState>();
   File? _image;
   String? selectedCertificate;
@@ -285,184 +285,20 @@ class _EarningsOverviewState extends State<EarningsOverview> {
                                         height: 20,
                                       ),
 
-                                      Row(
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                              color: happiDark,
-                                              borderRadius: BorderRadius.circular(10)
-                                            ),
-                                            child: Text(
-                                              "Paid",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                              color: happiDark,
-                                              borderRadius: BorderRadius.circular(10)
-                                            ),
-                                            child: Text(
-                                              "£220.3K",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+
 
                                       SizedBox(
                                         height: 20,
                                       ),
                                       Expanded(
-                                        child: ListView(
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.all(20),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10)
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "22nd January 2023, 12PM",
-                                                    style: TextStyle(
-                                                        fontSize: 12,),
-
-                                                  ),
-                                                  Icon(Icons.arrow_forward_sharp)
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-
-                                            Container(
-                                              padding: EdgeInsets.all(20),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10)
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "22nd January 2023, 12PM",
-                                                    style: TextStyle(
-                                                      fontSize: 12,),
-
-                                                  ),
-                                                  Icon(Icons.arrow_forward_sharp)
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-
-                                            Container(
-                                              padding: EdgeInsets.all(20),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10)
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "22nd January 2023, 12PM",
-                                                    style: TextStyle(
-                                                      fontSize: 12,),
-
-                                                  ),
-                                                  Icon(Icons.arrow_forward_sharp)
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-
-                                            Container(
-                                              padding: EdgeInsets.all(20),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10)
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "22nd January 2023, 12PM",
-                                                    style: TextStyle(
-                                                      fontSize: 12,),
-
-                                                  ),
-                                                  Icon(Icons.arrow_forward_sharp)
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-
-                                            Container(
-                                              padding: EdgeInsets.all(20),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10)
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "22nd January 2023, 12PM",
-                                                    style: TextStyle(
-                                                      fontSize: 12,),
-
-                                                  ),
-                                                  Icon(Icons.arrow_forward_sharp)
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-
-                                            Container(
-                                              padding: EdgeInsets.all(20),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10)
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "22nd January 2023, 12PM",
-                                                    style: TextStyle(
-                                                      fontSize: 12,),
-
-                                                  ),
-                                                  Icon(Icons.arrow_forward_sharp)
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                          ],
+                                        child: Container(
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       )
 
