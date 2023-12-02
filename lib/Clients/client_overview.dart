@@ -295,8 +295,123 @@ class _ClientsOverviewState extends State<ClientsOverview> {
                                           child: Column(
                                             children: [
                                               Row(
-                                                children: [],
-                                              )
+                                                children: [
+
+                                                  Expanded(
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(35),
+                                                      decoration: BoxDecoration(
+                                                        color: happiDark,
+                                                        borderRadius: BorderRadius.circular(20)
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          Icon(Icons.message, size: 40, color: Colors.white,),
+                                                          SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Text(
+                                                            "Mesages\n ",
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                color: Colors.white),
+                                                          ),
+
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(35),
+                                                      decoration: BoxDecoration(
+                                                        color: happiDark,
+                                                        borderRadius: BorderRadius.circular(20)
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          Icon(Icons.video_camera_front_outlined, size: 40, color: Colors.white,),
+                                                          SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Text(
+                                                            "Appointments\n ",
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                color: Colors.white),
+                                                          ),
+
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                children: [
+
+                                                  Expanded(
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(35),
+                                                      decoration: BoxDecoration(
+                                                        color: happiDark,
+                                                        borderRadius: BorderRadius.circular(20)
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          Icon(Icons.add_box_rounded, size: 40, color: Colors.white,),
+                                                          SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Text(
+                                                            "Notes\n ",
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                color: Colors.white),
+                                                          ),
+
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(35),
+                                                      decoration: BoxDecoration(
+                                                        color: happiDark,
+                                                        borderRadius: BorderRadius.circular(20)
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          Icon(Icons.video_camera_front_outlined, size: 40, color: Colors.white,),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Center(
+                                                            child: Text(
+                                                              "Clinical\nAssessment",
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+
+                                                                  color: Colors.white,),
+                                                            ),
+                                                          ),
+
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         ),
