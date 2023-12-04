@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/Password/password_screen.dart';
+import 'package:happi_workers_pract/Authentication/SignUp/sign_up_screen.dart';
 import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:happi_workers_pract/main.dart';
@@ -53,8 +54,8 @@ class _SignInScreenState extends State<SignInScreen> {
           width: MediaQuery.of(context).size.width,
           //color: Colors.red,
           padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
+            //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -154,7 +155,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           border:
                           Border.all(color: Colors.black.withOpacity(0.1))),
                       child: TextFormField(
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           //hintText: 'Enter Password',
                             suffixIcon: IconButton(
@@ -167,7 +168,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 show_password
                                     ? Icons.remove_red_eye_outlined
                                     : Icons.remove_red_eye,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                             hintStyle: TextStyle(
@@ -365,12 +366,18 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: 20,
                   ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Dont have an account? ", style: TextStyle(fontSize: 12),),
-                      Text("Sign up here", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: happiPrimary),),
-                    ],
+                  InkWell(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignUpScreen()));
+
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Dont have an account? ", style: TextStyle(fontSize: 12),),
+                        Text("Sign up here", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: happiPrimary),),
+                      ],
+                    ),
                   )
                 ],
               ))
