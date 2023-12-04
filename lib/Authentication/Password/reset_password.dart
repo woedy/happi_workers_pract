@@ -51,8 +51,8 @@ class _ResetPasswordState extends State<ResetPassword> {
           width: MediaQuery.of(context).size.width,
           //color: Colors.red,
           padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
+           // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -93,7 +93,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           border:
                               Border.all(color: Colors.black.withOpacity(0.1))),
                       child: TextFormField(
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           //hintText: 'Enter Password',
                             suffixIcon: IconButton(
@@ -106,7 +106,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 show_password
                                     ? Icons.remove_red_eye_outlined
                                     : Icons.remove_red_eye,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                             hintStyle: TextStyle(
@@ -166,7 +166,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           border:
                               Border.all(color: Colors.black.withOpacity(0.1))),
                       child: TextFormField(
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           //hintText: 'Enter Password',
                             suffixIcon: IconButton(
@@ -179,7 +179,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 show_password
                                     ? Icons.remove_red_eye_outlined
                                     : Icons.remove_red_eye,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                             hintStyle: TextStyle(
@@ -226,33 +226,32 @@ class _ResetPasswordState extends State<ResetPassword> {
                   ],
                 ),
               ),
-              Expanded(
-                  child: Column(
+              Column(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                          color: happiPrimary,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Center(
-                        child: Text(
-                          "Update New Password",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+              InkWell(
+                onTap: () {
+                  //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      color: happiPrimary,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Center(
+                    child: Text(
+                      "Update New Password",
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
 
 
                 ],
-              ))
+              )
             ],
           ),
         )

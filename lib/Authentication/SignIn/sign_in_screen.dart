@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/Password/password_screen.dart';
+import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
+import 'package:happi_workers_pract/main.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -225,7 +227,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
                     },
                     child: Container(
                       padding: EdgeInsets.all(20),
@@ -234,7 +236,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           borderRadius: BorderRadius.circular(15)),
                       child: Center(
                         child: Text(
-                          "SignIn",
+                          "Sign In",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

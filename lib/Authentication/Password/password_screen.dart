@@ -48,11 +48,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                 ),
                 Container(
+
+
                   width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   //color: Colors.red,
                   padding: EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  child: ListView(
+                   // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -155,33 +158,28 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             SizedBox(
                               height: 30,
                             ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                          child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PasswordConfirm()));
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                      color: happiPrimary,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Center(
-                                    child: Text(
-                                      "Confirm",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PasswordConfirm()));
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                    color: happiPrimary,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Center(
+                                  child: Text(
+                                    "Confirm",
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ),
+                            )
+                          ],
+                        ),
+                      ),
 
-
-                            ],
-                          ))
                     ],
                   ),
                 )
