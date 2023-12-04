@@ -15,6 +15,9 @@ class PracticedDetails extends StatefulWidget {
 class _PracticedDetailsState extends State<PracticedDetails> {
   final _formKey = GlobalKey<FormState>();
 
+  String? selectedTitle;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,45 +121,34 @@ class _PracticedDetailsState extends State<PracticedDetails> {
                                                   borderRadius: BorderRadius.circular(15),
                                                   border:
                                                   Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: TextFormField(
-                                                style: TextStyle(color: Colors.black),
-                                                decoration: InputDecoration(
-                                                  //hintText: 'Enter Username/Email',
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  _showTitleSelectionModal(context);
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(10),
 
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.normal),
-                                                  labelText: "Profile title",
-                                                  labelStyle: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  border: InputBorder.none,
+                                                  height: 60,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5),
+                                                      border: Border.all(
+                                                          color: Colors.white.withOpacity(0.1))
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        selectedTitle ?? 'Profile Title',
+                                                        style: TextStyle(fontSize: 13,
+                                                            color: Colors.black.withOpacity(0.5)),
+                                                      ),
+                                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
+                                                    ],
+                                                  ),
                                                 ),
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(225),
-                                                  PasteTextInputFormatter(),
-                                                ],
-                                                validator: (value) {
-                                                  if (value!.isEmpty) {
-                                                    return 'Contact name is required';
-                                                  }
-                                                  if (value.length < 3) {
-                                                    return 'Contact too short';
-                                                  }
-                                                },
-                                                textInputAction: TextInputAction.next,
-                                                autofocus: false,
-                                                onSaved: (value) {
-                                                  setState(() {
-                                                    //email = value;
-                                                  });
-                                                },
                                               ),
                                             ),
+
                                             SizedBox(
                                               height: 20,
                                             ),
@@ -488,4 +480,60 @@ class _PracticedDetailsState extends State<PracticedDetails> {
               ],
             )));
   }
+
+
+  void _showTitleSelectionModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+
+              ListTile(
+                title: const Text('Dr'),
+                onTap: () {
+                  setState(() {
+                    selectedTitle = 'Dr';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Mr'),
+                onTap: () {
+                  setState(() {
+                    selectedTitle = 'Mr';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Mrs'),
+                onTap: () {
+                  setState(() {
+                    selectedTitle = 'Mrs';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+
+              ListTile(
+                title: const Text('Prof'),
+                onTap: () {
+                  setState(() {
+                    selectedTitle = 'Prof';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
 }
