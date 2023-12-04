@@ -16,6 +16,9 @@ class _PracticedDetailsState extends State<PracticedDetails> {
   final _formKey = GlobalKey<FormState>();
 
   String? selectedTitle;
+  String? selectedQualification;
+  String? selectedApproach;
+  String? selectedTherapiesOffered;
 
 
   @override
@@ -159,52 +162,31 @@ class _PracticedDetailsState extends State<PracticedDetails> {
                                                   borderRadius: BorderRadius.circular(15),
                                                   border:
                                                   Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: TextFormField(
-                                                style: TextStyle(color: Colors.black),
-                                                decoration: InputDecoration(
-                                                  //hintText: 'Enter Username/Email',
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  _showQualificationSelectionModal(context);
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(10),
 
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.normal),
-                                                  labelText: "Highest Qualification",
-                                                  labelStyle: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  border: InputBorder.none,
+                                                  height: 60,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5),
+                                                      border: Border.all(
+                                                          color: Colors.white.withOpacity(0.1))
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        selectedQualification ?? 'Highest Qualification',
+                                                        style: TextStyle(fontSize: 13,
+                                                            color: Colors.black.withOpacity(0.5)),
+                                                      ),
+                                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
+                                                    ],
+                                                  ),
                                                 ),
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(225),
-                                                  PasteTextInputFormatter(),
-                                                ],
-                                                validator: (value) {
-                                                  if (value!.isEmpty) {
-                                                    return 'Email is required';
-                                                  }
-                                                  if (value.length < 3) {
-                                                    return 'Name too short';
-                                                  }
-                                                  String pattern =
-                                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?)*$";
-                                                  RegExp regex = RegExp(pattern);
-                                                  if (!regex.hasMatch(value))
-                                                    return 'Enter a valid email address';
-
-                                                  return null;
-                                                },
-                                                textInputAction: TextInputAction.next,
-                                                autofocus: false,
-                                                onSaved: (value) {
-                                                  setState(() {
-                                                    //email = value;
-                                                  });
-                                                },
                                               ),
                                             ),
                                             SizedBox(
@@ -327,6 +309,7 @@ class _PracticedDetailsState extends State<PracticedDetails> {
                                             SizedBox(
                                               height: 20,
                                             ),
+
                                             Container(
                                               padding: EdgeInsets.symmetric(horizontal: 10),
                                               decoration: BoxDecoration(
@@ -334,111 +317,74 @@ class _PracticedDetailsState extends State<PracticedDetails> {
                                                   borderRadius: BorderRadius.circular(15),
                                                   border:
                                                   Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: TextFormField(
-                                                style: TextStyle(color: Colors.black),
-                                                decoration: InputDecoration(
-                                                  //hintText: 'Enter Username/Email',
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  _showApproachSelectionModal(context);
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(10),
 
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.normal),
-                                                  labelText: "My Approach Is (Choose 3 Approaches)",
-                                                  labelStyle: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  border: InputBorder.none,
+                                                  height: 60,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5),
+                                                      border: Border.all(
+                                                          color: Colors.white.withOpacity(0.1))
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        selectedApproach ?? 'My Approach Is (Choose 3 Approaches)',
+                                                        style: TextStyle(fontSize: 13,
+                                                            color: Colors.black.withOpacity(0.5)),
+                                                      ),
+                                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
+                                                    ],
+                                                  ),
                                                 ),
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(225),
-                                                  PasteTextInputFormatter(),
-                                                ],
-                                                validator: (value) {
-                                                  if (value!.isEmpty) {
-                                                    return 'Email is required';
-                                                  }
-                                                  if (value.length < 3) {
-                                                    return 'Name too short';
-                                                  }
-                                                  String pattern =
-                                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?)*$";
-                                                  RegExp regex = RegExp(pattern);
-                                                  if (!regex.hasMatch(value))
-                                                    return 'Enter a valid email address';
-
-                                                  return null;
-                                                },
-                                                textInputAction: TextInputAction.next,
-                                                autofocus: false,
-                                                onSaved: (value) {
-                                                  setState(() {
-                                                    //email = value;
-                                                  });
-                                                },
                                               ),
                                             ),
+
                                             SizedBox(
                                               height: 30,
-                                            ), Container(
+                                            ),
+
+                                            Container(
                                               padding: EdgeInsets.symmetric(horizontal: 10),
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius: BorderRadius.circular(15),
                                                   border:
                                                   Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: TextFormField(
-                                                style: TextStyle(color: Colors.black),
-                                                decoration: InputDecoration(
-                                                  //hintText: 'Enter Username/Email',
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  _showTherapiesOfferedSelectionModal(context);
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(10),
 
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.normal),
-                                                  labelText: "Therapies Offered (More than one if applicable)",
-                                                  labelStyle: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  border: InputBorder.none,
+                                                  height: 60,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5),
+                                                      border: Border.all(
+                                                          color: Colors.white.withOpacity(0.1))
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        selectedTherapiesOffered ?? 'Therapies Offered (More than one if applicable)',
+                                                        style: TextStyle(fontSize: 13,
+                                                            color: Colors.black.withOpacity(0.5)),
+                                                      ),
+                                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
+                                                    ],
+                                                  ),
                                                 ),
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(225),
-                                                  PasteTextInputFormatter(),
-                                                ],
-                                                validator: (value) {
-                                                  if (value!.isEmpty) {
-                                                    return 'Email is required';
-                                                  }
-                                                  if (value.length < 3) {
-                                                    return 'Name too short';
-                                                  }
-                                                  String pattern =
-                                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?)*$";
-                                                  RegExp regex = RegExp(pattern);
-                                                  if (!regex.hasMatch(value))
-                                                    return 'Enter a valid email address';
-
-                                                  return null;
-                                                },
-                                                textInputAction: TextInputAction.next,
-                                                autofocus: false,
-                                                onSaved: (value) {
-                                                  setState(() {
-                                                    //email = value;
-                                                  });
-                                                },
                                               ),
                                             ),
+
+
                                             SizedBox(
                                               height: 30,
                                             ),
@@ -534,6 +480,151 @@ class _PracticedDetailsState extends State<PracticedDetails> {
       },
     );
   }
+
+
+
+  void _showQualificationSelectionModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+
+              ListTile(
+                title: const Text('Doctoral degree'),
+                onTap: () {
+                  setState(() {
+                    selectedQualification = 'Doctoral degree';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Masters degree'),
+                onTap: () {
+                  setState(() {
+                    selectedQualification = 'Masters degree';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Graduate diploma'),
+                onTap: () {
+                  setState(() {
+                    selectedQualification = 'Graduate diploma';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+
+              ListTile(
+                title: const Text('Graduate certificate'),
+                onTap: () {
+                  setState(() {
+                    selectedQualification = 'Graduate certificate';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
+
+  void _showApproachSelectionModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+
+              ListTile(
+                title: const Text('Approach 1'),
+                onTap: () {
+                  setState(() {
+                    selectedApproach = 'Approach 1';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Approach 2'),
+                onTap: () {
+                  setState(() {
+                    selectedApproach = 'Approach 2';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Approach 3'),
+                onTap: () {
+                  setState(() {
+                    selectedApproach = 'Approach 3';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+
+            ],
+          ),
+        );
+      },
+    );
+  }
+ void _showTherapiesOfferedSelectionModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+
+              ListTile(
+                title: const Text('Therapy 1'),
+                onTap: () {
+                  setState(() {
+                    selectedTherapiesOffered = 'Therapy 1';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Therapy 2'),
+                onTap: () {
+                  setState(() {
+                    selectedTherapiesOffered = 'Therapy 2';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Therapy 3'),
+                onTap: () {
+                  setState(() {
+                    selectedTherapiesOffered = 'Therapy 3';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+
+            ],
+          ),
+        );
+      },
+    );
+  }
+
 
 
 }

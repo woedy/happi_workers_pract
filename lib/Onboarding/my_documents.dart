@@ -185,7 +185,9 @@ class _MyDocumentsState extends State<MyDocuments> {
                                                   color: Colors.black,
                                                   borderRadius: BorderRadius.circular(10)
                                               ),
-                                              child: Text("Certificate", style: TextStyle(color: Colors.white, fontSize: 12),),
+                                              child: Text(
+                                                selectedCertificate.toString(),
+                                                style: TextStyle(color: Colors.white, fontSize: 12),),
                                             )
                                           ],
                                         ),
