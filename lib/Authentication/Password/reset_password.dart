@@ -23,28 +23,30 @@ class _ResetPasswordState extends State<ResetPassword> {
 
             child: Stack(
       children: [
-        Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              Positioned(
-                  bottom: 40,
-                  left: 0,
-                  right: 0,
-                  child: Image(image: AssetImage("assets/images/stroke.png"))),
-              Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Image(
-                      height: 280,
-                      image: AssetImage("assets/images/conner.png"))),
-              Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child:
-                      Image(image: AssetImage("assets/images/square_c.png"))),
-            ],
+        SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+              children: [
+                Positioned(
+                    bottom: 40,
+                    left: 0,
+                    right: 0,
+                    child: Image(image: AssetImage("assets/images/stroke.png"))),
+                Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Image(
+                        height: 280,
+                        image: AssetImage("assets/images/conner.png"))),
+                Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child:
+                        Image(image: AssetImage("assets/images/square_c.png"))),
+              ],
+            ),
           ),
         ),
         Container(
