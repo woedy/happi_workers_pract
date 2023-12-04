@@ -277,7 +277,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
 
                                                   });
                                                 },
-                                                dateFormat: DateFormat("MM/yy"), // Specify the desired date format (month/year)
+                                                dateFormat: DateFormat("dd/MM/yy"), // Specify the desired date format (month/year)
                                               ),
                                             ),
                                             SizedBox(

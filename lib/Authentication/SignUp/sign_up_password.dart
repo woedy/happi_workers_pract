@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Onboarding/onboarding_1.dart';
 import 'package:happi_workers_pract/constants.dart';
 
@@ -14,6 +15,7 @@ class _SignUpPasswordState extends State<SignUpPassword> {
   final _formKey = GlobalKey<FormState>();
 
   var show_password = false;
+  var terms_check = false;
 
   @override
   Widget build(BuildContext context) {
@@ -229,53 +231,72 @@ class _SignUpPasswordState extends State<SignUpPassword> {
                   ],
                 ),
               ),
-              Expanded(
-                  child: Column(
+              Column(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => Onboarding1()));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                          color: happiPrimary,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Center(
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => Onboarding1()));
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      color: happiPrimary,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Center(
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
 
-                  Row(
-                    children: [
-                      Icon(Icons.check_box_outline_blank, color: happiGreen,),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("I agree to the Terms & Conditions of this platform", style: TextStyle(fontSize: 13),),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 150,
-                  ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: (){
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Already have an account? ", style: TextStyle(fontSize: 12),),
-                      Text("Sign in here", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: happiPrimary),),
-                    ],
+                      setState(() {
+                        terms_check = !terms_check;
+                      });
+
+                    },
+
+                      child: Icon(
+
+                        terms_check
+                            ? Icons.check_box
+                            :Icons.check_box_outline_blank ,
+
+                        color: happiGreen,)),
+                  SizedBox(
+                    width: 10,
                   ),
+                  Text("I agree to the Terms & Conditions of this platform", style: TextStyle(fontSize: 13),),
+                ],
+              ),
+              SizedBox(
+                height: 150,
+              ),
+
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignInScreen()));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Already have an account? ", style: TextStyle(fontSize: 12),),
+                    Text("Sign in here", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: happiPrimary),),
+                  ],
+                ),
+              ),
 
                 ],
-              ))
+              )
             ],
           ),
         )
