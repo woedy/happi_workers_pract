@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Earnings/earnings_overview.dart';
+import 'package:happi_workers_pract/Notifications/notifications.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
+import 'package:happi_workers_pract/Profile/personal_info.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -104,19 +107,32 @@ class _EarningsScreenState extends State<EarningsScreen> {
                                       ),
                                       Row(
                                         children: [
-                                          Container(
-                                            padding: EdgeInsets.all(5),
-                                            decoration: BoxDecoration(
-                                              color: happiPrimary.withOpacity(0.2),
-                                              borderRadius: BorderRadius.circular(100)
+                                          InkWell(
+                                            onTap: (){
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => NotificationsScreen()));
+
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                color: happiPrimary.withOpacity(0.2),
+                                                borderRadius: BorderRadius.circular(100)
+                                              ),
+                                              child: Icon(Icons.notifications, color: happiPrimary,),
                                             ),
-                                            child: Icon(Icons.notifications, color: happiPrimary,),
                                           ),
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          CircleAvatar(
-                                            radius: 30,
+                                          InkWell(
+                                            onTap: (){
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PersonalInfo()));
+
+                                            },
+                                            child: CircleAvatar(
+                                              radius: 30,
+                                              backgroundImage: AssetImage("assets/images/user.png"),
+                                            ),
                                           )
                                         ],
                                       ),
@@ -188,8 +204,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
                                                               fontWeight: FontWeight.normal),
                                                           labelText: "Search here",
 
-                                                          labelStyle: TextStyle(
-                                                              fontSize: 13,
+                                                          labelStyle: TextStyle(fontSize: 13,
                                                               color: Colors.black.withOpacity(0.5)),
                                                           enabledBorder: UnderlineInputBorder(
                                                               borderSide: BorderSide(color: Colors.white)),
@@ -273,14 +288,20 @@ class _EarningsScreenState extends State<EarningsScreen> {
                                                             ],
                                                           ),
 
-                                                          Container(
-                                                            width: MediaQuery.of(context).size.width,
-                                                            padding: EdgeInsets.all(5),
-                                                            decoration: BoxDecoration(
-                                                              color: happiPrimary,
-                                                              borderRadius: BorderRadius.circular(10)
+                                                          InkWell(
+                                                            onTap: (){
+                                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EarningsOverview()));
+
+                                                            },
+                                                            child: Container(
+                                                              width: MediaQuery.of(context).size.width,
+                                                              padding: EdgeInsets.all(5),
+                                                              decoration: BoxDecoration(
+                                                                color: happiPrimary,
+                                                                borderRadius: BorderRadius.circular(10)
+                                                              ),
+                                                              child: Center(child: Text("Select", style: TextStyle(color: Colors.white),)),
                                                             ),
-                                                            child: Center(child: Text("Select", style: TextStyle(color: Colors.white),)),
                                                           )
                                                         ],
                                                       ),

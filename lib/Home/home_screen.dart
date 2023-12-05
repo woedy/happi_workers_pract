@@ -5,9 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Clients/meet_your_clients.dart';
+import 'package:happi_workers_pract/Earnings/earnings_screen.dart';
+import 'package:happi_workers_pract/Notifications/notifications.dart';
+import 'package:happi_workers_pract/Onboarding/my_availability.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
+import 'package:happi_workers_pract/Profile/personal_info.dart';
+import 'package:happi_workers_pract/VideoCall/video_call_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -105,20 +110,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       Row(
                                         children: [
-                                          Container(
-                                            padding: EdgeInsets.all(5),
-                                            decoration: BoxDecoration(
-                                              color: happiPrimary.withOpacity(0.2),
-                                              borderRadius: BorderRadius.circular(100)
+                                          InkWell(
+                                            onTap: (){
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => NotificationsScreen()));
+
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                color: happiPrimary.withOpacity(0.2),
+                                                borderRadius: BorderRadius.circular(100)
+                                              ),
+                                              child: Icon(Icons.notifications, color: happiPrimary,),
                                             ),
-                                            child: Icon(Icons.notifications, color: happiPrimary,),
                                           ),
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          CircleAvatar(
-                                            radius: 30,
-                                            backgroundImage: AssetImage("assets/images/user.png"),
+                                          InkWell(
+                                            onTap: (){
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PersonalInfo()));
+
+                                            },
+                                            child: CircleAvatar(
+                                              radius: 30,
+                                              backgroundImage: AssetImage("assets/images/user.png"),
+                                            ),
                                           )
                                         ],
                                       ),
@@ -200,16 +217,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   height: 40,
                                                 ),
 
-                                                Container(
-                                                  padding: EdgeInsets.all(15),
-                                                    width: 250,
-                                                    decoration: BoxDecoration(
-                                                      color: happiGreen,
-                                                      borderRadius: BorderRadius.circular(15),
+                                                InkWell(
+                                                  onTap: (){
+                                                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyAvailability()));
 
-                                                    ),
+                                                  },
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(15),
+                                                      width: 250,
+                                                      decoration: BoxDecoration(
+                                                        color: happiGreen,
+                                                        borderRadius: BorderRadius.circular(15),
 
-                                                    child: Center(child: Text("Schedule an appointment", style: TextStyle(color: Colors.black, fontSize: 10),))),
+                                                      ),
+
+                                                      child: Center(child: Text("Schedule an appointment", style: TextStyle(color: Colors.black, fontSize: 10),))),
+                                                ),
 
                                               ],
                                             ),
@@ -276,6 +299,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       children: [
                                                         InkWell(
                                                           onTap: (){
+
+                                                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => VideoCallScreen()));
+
 
                                                           },
                                                           child: Container(
@@ -622,7 +648,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   InkWell(
                                     onTap: (){
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => RadioScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EarningsScreen()));
                                     },
                                     child: Column(
                                       children: [
