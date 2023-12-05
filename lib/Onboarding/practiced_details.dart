@@ -372,10 +372,12 @@ class _PracticedDetailsState extends State<PracticedDetails> {
                                                   child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      Text(
-                                                        selectedTherapiesOffered ?? 'Therapies Offered (More than one if applicable)',
-                                                        style: TextStyle(fontSize: 13,
-                                                            color: Colors.black.withOpacity(0.5)),
+                                                      Expanded(
+                                                        child: Text(
+                                                          selectedTherapiesOffered ?? 'Therapies Offered (More than one if applicable)',
+                                                          style: TextStyle(fontSize: 13,
+                                                              color: Colors.black.withOpacity(0.5)),
+                                                        ),
                                                       ),
                                                       Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
                                                     ],

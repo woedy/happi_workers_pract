@@ -86,9 +86,9 @@ class _WelcomePage1State extends State<WelcomePage1> {
                             ),
                             InkWell(
                               onTap: (){
-                                //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
 
-                                showDialog(
+                            /*    showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                   //  return LoadingDialogBox(text: "Loading Here....",); // Display your custom dialog
@@ -98,7 +98,7 @@ class _WelcomePage1State extends State<WelcomePage1> {
 
                                   },);
                                   },
-                                );
+                                );*/
                               },
                               child: Container(
                                 padding: EdgeInsets.all(20),

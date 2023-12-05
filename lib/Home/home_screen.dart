@@ -118,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           CircleAvatar(
                                             radius: 30,
+                                            backgroundImage: AssetImage("assets/images/user.png"),
                                           )
                                         ],
                                       ),
@@ -242,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             children: [
 
                                                               CircleAvatar(
-
+                                                                backgroundImage: AssetImage("assets/images/user2.png"),
                                                               ),
                                                               SizedBox(
                                                                 width: 10,
@@ -273,16 +274,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                                     Row(
                                                       children: [
-                                                        Container(
-                                                          padding: EdgeInsets.all(15),
-                                                            width: 120,
-                                                            decoration: BoxDecoration(
-                                                              color: happiGreen,
-                                                              borderRadius: BorderRadius.circular(20),
+                                                        InkWell(
+                                                          onTap: (){
 
-                                                            ),
-
-                                                            child: Center(child: Text("Join", style: TextStyle(color: Colors.black, fontSize: 10),))),
+                                                          },
+                                                          child: Container(
+                                                            padding: EdgeInsets.all(15),
+                                                              width: 120,
+                                                              decoration: BoxDecoration(
+                                                                color: happiGreen,
+                                                                borderRadius: BorderRadius.circular(20),
+                                                          
+                                                              ),
+                                                          
+                                                              child: Center(child: Text("Join", style: TextStyle(color: Colors.black, fontSize: 10),))),
+                                                        ),
                                                         SizedBox(
                                                           width: 10,
                                                         ),

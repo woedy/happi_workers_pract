@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Components/verification_status_dialogbox.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/constants.dart';
@@ -275,7 +276,14 @@ class _RegistrationVerificationState extends State<RegistrationVerification> {
                             InkWell(
                               onTap: () {
 
-
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    //  return LoadingDialogBox(text: "Loading Here....",); // Display your custom dialog
+                                    //return SuccessDialogBox();
+                                    return VerificationStatusDialogbox();
+                                  },
+                                );
                               },
                               child: Container(
                                 padding: EdgeInsets.all(15),
