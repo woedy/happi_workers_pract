@@ -1,6 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:happi_workers_pract/Components/custom_dialog_box.dart';
+import 'package:happi_workers_pract/Components/generic_button_dialog_box.dart';
+import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
+import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
 import 'package:happi_workers_pract/Welcome/welcome_page2.dart';
 import 'package:happi_workers_pract/constants.dart';
 
@@ -82,8 +86,19 @@ class _WelcomePage1State extends State<WelcomePage1> {
                             ),
                             InkWell(
                               onTap: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
+                                //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
 
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                  //  return LoadingDialogBox(text: "Loading Here....",); // Display your custom dialog
+                                  //return SuccessDialogBox();
+                                  return ButtonDialogBox(loadingText: "Loadddsdsd...", onTapFunction: (){
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
+
+                                  },);
+                                  },
+                                );
                               },
                               child: Container(
                                 padding: EdgeInsets.all(20),
