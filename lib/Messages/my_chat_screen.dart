@@ -4,10 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Clients/meet_your_clients.dart';
+import 'package:happi_workers_pract/Components/add_button_dialogbox.dart';
+import 'package:happi_workers_pract/Earnings/earnings_overview.dart';
+import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/Messages/chats_screen.dart';
+import 'package:happi_workers_pract/Notifications/notifications.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
+import 'package:happi_workers_pract/Profile/personal_info.dart';
+import 'package:happi_workers_pract/Settings/settings_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -105,19 +112,32 @@ class _MyChatScreenState extends State<MyChatScreen> {
                                       ),
                                       Row(
                                         children: [
-                                          Container(
-                                            padding: EdgeInsets.all(5),
-                                            decoration: BoxDecoration(
-                                              color: happiPrimary.withOpacity(0.2),
-                                              borderRadius: BorderRadius.circular(100)
+                                          InkWell(
+                                            onTap: (){
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => NotificationsScreen()));
+
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                color: happiPrimary.withOpacity(0.2),
+                                                borderRadius: BorderRadius.circular(100)
+                                              ),
+                                              child: Icon(Icons.notifications, color: happiPrimary,),
                                             ),
-                                            child: Icon(Icons.notifications, color: happiPrimary,),
                                           ),
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          CircleAvatar(
-                                            radius: 30,
+                                          InkWell(
+                                            onTap: (){
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PersonalInfo()));
+
+                                            },
+                                            child: CircleAvatar(
+                                              radius: 30,
+                                              backgroundImage: AssetImage("assets/images/user.png"),
+                                            ),
                                           )
                                         ],
                                       ),
@@ -164,6 +184,8 @@ class _MyChatScreenState extends State<MyChatScreen> {
                                                   children: [
                                                     CircleAvatar(
                                                       radius: 35,
+                                                      backgroundImage: AssetImage("assets/images/user2.png"),
+
                                                     ),
                                                     Positioned(
                                                       bottom: 0,
@@ -183,8 +205,14 @@ class _MyChatScreenState extends State<MyChatScreen> {
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text("Julia Reddington", style: TextStyle( fontSize: 16, fontWeight: FontWeight.bold),),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
                                                       Text("Hi, I accidentally deleted some important files from my account. Is there any way to recover them?", style: TextStyle( fontSize: 12,),),
-                                                      Text("16 Minutes ago", style: TextStyle( fontSize: 8, color: Colors.grey),),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text("16 Minutes ago", style: TextStyle( fontSize: 8, color: happiPrimary),),
                                                     ],
                                                   ),
                                                 )
@@ -222,21 +250,21 @@ class _MyChatScreenState extends State<MyChatScreen> {
                                 children: [
                                   InkWell(
                                     onTap: (){
-                                      /*      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => DashboardScreen()));
-                      */  },
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+                        },
                                     child: Column(
                                       children: [
-                                        Icon(Icons.home_outlined, color: happiGreen,),
+                                        Icon(Icons.home_outlined, color: Colors.black,),
                                         SizedBox(
                                           height: 4,
                                         ),
-                                        Text('Home', style: TextStyle(color: happiGreen, fontSize: 12),),
+                                        Text('Home', style: TextStyle(color: Colors.black, fontSize: 12),),
                                       ],
                                     ),
                                   ),
                                   InkWell(
                                     onTap: (){
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => RadioScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EarningsOverview()));
                                     },
                                     child: Column(
                                       children: [
@@ -251,12 +279,16 @@ class _MyChatScreenState extends State<MyChatScreen> {
                                   InkWell(
                                     onTap: (){
 
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => UserProfileScreen()));
-
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AddButtonDialogBox();
+                                        },
+                                      );
                                     },
                                     child: Column(
                                       children: [
-                                        Icon(Icons.add_circle_outline, color: Colors.black, size: 40,),
+                                        Icon(Icons.add_circle_outline, color: happiGreen, size: 40,),
 
                                       ],
                                     ),
@@ -265,7 +297,7 @@ class _MyChatScreenState extends State<MyChatScreen> {
                                   InkWell(
                                     onTap: (){
 
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => UserProfileScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MeetYourClients()));
 
                                     },
                                     child: Column(
@@ -274,7 +306,7 @@ class _MyChatScreenState extends State<MyChatScreen> {
                                         SizedBox(
                                           height: 4,
                                         ),
-                                        Text('Profile', style: TextStyle(color: Colors.black, fontSize: 12)),
+                                        Text('Clients', style: TextStyle(color: Colors.black, fontSize: 12)),
                                       ],
                                     ),
                                   ),
@@ -282,7 +314,7 @@ class _MyChatScreenState extends State<MyChatScreen> {
                                   InkWell(
                                     onTap: (){
 
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SettingsScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SettingsScreen()));
 
                                     },
                                     child: Column(

@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Clients/meet_your_clients.dart';
+import 'package:happi_workers_pract/Components/add_button_dialogbox.dart';
+import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
 import 'package:happi_workers_pract/Earnings/earnings_screen.dart';
 import 'package:happi_workers_pract/Notifications/notifications.dart';
 import 'package:happi_workers_pract/Onboarding/my_availability.dart';
@@ -299,9 +301,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       children: [
                                                         InkWell(
                                                           onTap: (){
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (BuildContext context) {
+                                                                //  return LoadingDialogBox(text: "Loading Here....",); // Display your custom dialog
+                                                                //return SuccessDialogBox();
+                                                                return LoadingDialogBox(text: 'Wait as your session loads',);
+                                                              },
+                                                            );
 
-                                                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => VideoCallScreen()));
-
+                                                            Future.delayed(Duration(seconds: 2), () {
+                                                              Navigator.of(context).pop();
+                                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => VideoCallScreen()));
+                                                            });
 
                                                           },
                                                           child: Container(
@@ -663,8 +675,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   InkWell(
                                     onTap: (){
 
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => UserProfileScreen()));
-
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AddButtonDialogBox();
+                                        },
+                                      );
                                     },
                                     child: Column(
                                       children: [

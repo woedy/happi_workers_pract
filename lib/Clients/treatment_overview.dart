@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Clients/your_clinical_assessment.dart';
+import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents.dart';
 import 'package:happi_workers_pract/constants.dart';
 
@@ -390,7 +392,21 @@ class _TreatmentOverviewState extends State<TreatmentOverview> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyDocuments()));
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              //  return LoadingDialogBox(text: "Loading Here....",); // Display your custom dialog
+                                              //return SuccessDialogBox();
+                                              return SuccessDialogBox(text: 'You have successfully submitted clients treatment overview',);
+                                            },
+                                          );
+
+                                          Future.delayed(Duration(seconds: 2), () {
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => YourClinicalAssessment()));
+                                          });
+
+
                                         },
                                         child: Container(
                                           padding: EdgeInsets.all(20),

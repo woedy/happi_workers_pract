@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:happi_workers_pract/constants.dart';
 
-class SuccessDialogBox extends StatelessWidget {
+class SuccessDialogBox extends StatefulWidget {
+  final String text;
+
+  const SuccessDialogBox({Key? key, required this.text}) : super(key: key);
+
+  @override
+  State<SuccessDialogBox> createState() => _SuccessDialogBoxState();
+}
+
+class _SuccessDialogBoxState extends State<SuccessDialogBox> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -22,8 +31,8 @@ class SuccessDialogBox extends StatelessWidget {
             children: [
              Icon(Icons.check_circle, color: happiGreen, size: 50,),
               SizedBox(height: 30), // Spacer
-              Text(
-                'Loading, please wait...',
+              Text(widget.text,
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 15),
               ), // Text
             ],

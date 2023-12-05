@@ -2,8 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:happi_workers_pract/Appointments/my_appointments.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Clients/progress_notes.dart';
+import 'package:happi_workers_pract/Clients/your_clinical_assessment.dart';
+import 'package:happi_workers_pract/Messages/chats_screen.dart';
 import 'package:happi_workers_pract/Onboarding/my_availability.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
@@ -153,6 +157,7 @@ class _ClientsOverviewState extends State<ClientsOverview> {
                                         children: [
                                           CircleAvatar(
                                             radius: 40,
+                                            backgroundImage: AssetImage("assets/images/user3.png"),
                                           ),
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,26 +303,32 @@ class _ClientsOverviewState extends State<ClientsOverview> {
                                                 children: [
 
                                                   Expanded(
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(35),
-                                                      decoration: BoxDecoration(
-                                                        color: happiDark,
-                                                        borderRadius: BorderRadius.circular(20)
-                                                      ),
-                                                      child: Column(
-                                                        children: [
-                                                          Icon(Icons.message, size: 40, color: Colors.white,),
-                                                          SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          Text(
-                                                            "Mesages\n ",
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Colors.white),
-                                                          ),
+                                                    child: InkWell(
+                                                      onTap: (){
+                                                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ChatsScreen()));
 
-                                                        ],
+                                                      },
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(35),
+                                                        decoration: BoxDecoration(
+                                                          color: happiDark,
+                                                          borderRadius: BorderRadius.circular(20)
+                                                        ),
+                                                        child: Column(
+                                                          children: [
+                                                            Icon(Icons.message, size: 40, color: Colors.white,),
+                                                            SizedBox(
+                                                              height: 15,
+                                                            ),
+                                                            Text(
+                                                              "Mesages\n ",
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Colors.white),
+                                                            ),
+
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -325,26 +336,32 @@ class _ClientsOverviewState extends State<ClientsOverview> {
                                                     width: 10,
                                                   ),
                                                   Expanded(
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(35),
-                                                      decoration: BoxDecoration(
-                                                        color: happiDark,
-                                                        borderRadius: BorderRadius.circular(20)
-                                                      ),
-                                                      child: Column(
-                                                        children: [
-                                                          Icon(Icons.video_camera_front_outlined, size: 40, color: Colors.white,),
-                                                          SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          Text(
-                                                            "Appointments\n ",
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Colors.white),
-                                                          ),
+                                                    child: InkWell(
+                                                        onTap: (){
+                                                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyAppointments()));
 
-                                                        ],
+                                                        },
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(35),
+                                                        decoration: BoxDecoration(
+                                                          color: happiDark,
+                                                          borderRadius: BorderRadius.circular(20)
+                                                        ),
+                                                        child: Column(
+                                                          children: [
+                                                            Icon(Icons.video_camera_front_outlined, size: 40, color: Colors.white,),
+                                                            SizedBox(
+                                                              height: 15,
+                                                            ),
+                                                            Text(
+                                                              "Appointments\n ",
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Colors.white),
+                                                            ),
+
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -357,26 +374,32 @@ class _ClientsOverviewState extends State<ClientsOverview> {
                                                 children: [
 
                                                   Expanded(
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(35),
-                                                      decoration: BoxDecoration(
-                                                        color: happiDark,
-                                                        borderRadius: BorderRadius.circular(20)
-                                                      ),
-                                                      child: Column(
-                                                        children: [
-                                                          Icon(Icons.add_box_rounded, size: 40, color: Colors.white,),
-                                                          SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          Text(
-                                                            "Notes\n ",
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Colors.white),
-                                                          ),
+                                                    child: InkWell(
+                                                      onTap: (){
+                                                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ProgressNotes()));
 
-                                                        ],
+                                                      },
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(35),
+                                                        decoration: BoxDecoration(
+                                                          color: happiDark,
+                                                          borderRadius: BorderRadius.circular(20)
+                                                        ),
+                                                        child: Column(
+                                                          children: [
+                                                            Icon(Icons.add_box_rounded, size: 40, color: Colors.white,),
+                                                            SizedBox(
+                                                              height: 15,
+                                                            ),
+                                                            Text(
+                                                              "Notes\n ",
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Colors.white),
+                                                            ),
+
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -384,29 +407,36 @@ class _ClientsOverviewState extends State<ClientsOverview> {
                                                     width: 10,
                                                   ),
                                                   Expanded(
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(35),
-                                                      decoration: BoxDecoration(
-                                                        color: happiDark,
-                                                        borderRadius: BorderRadius.circular(20)
-                                                      ),
-                                                      child: Column(
-                                                        children: [
-                                                          Icon(Icons.video_camera_front_outlined, size: 40, color: Colors.white,),
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Center(
-                                                            child: Text(
-                                                              "Clinical\nAssessment",
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
+                                                    child: InkWell(
+                                                      onTap: (){
+                                                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => YourClinicalAssessment()));
 
-                                                                  color: Colors.white,),
+                                                      },
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(35),
+                                                        decoration: BoxDecoration(
+                                                          color: happiDark,
+                                                          borderRadius: BorderRadius.circular(20)
+                                                        ),
+                                                        child: Column(
+                                                          children: [
+                                                            Icon(Icons.video_camera_front_outlined, size: 40, color: Colors.white,),
+                                                            SizedBox(
+                                                              height: 10,
                                                             ),
-                                                          ),
+                                                            Center(
+                                                              child: Text(
+                                                                "Clinical\nAssessment",
+                                                                textAlign: TextAlign.center,
+                                                                style: TextStyle(
+                                                                    fontSize: 15,
 
-                                                        ],
+                                                                    color: Colors.white,),
+                                                              ),
+                                                            ),
+
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),

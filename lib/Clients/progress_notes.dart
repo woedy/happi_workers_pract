@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Clients/new_note.dart';
+import 'package:happi_workers_pract/Clients/progress_note_details.dart';
 import 'package:happi_workers_pract/Onboarding/my_availability.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
@@ -142,23 +144,29 @@ class _ProgressNotesState extends State<ProgressNotes> {
                                                   SizedBox(
                                                     height: 10,
                                                   ),
-                                                  Container(
-                                                    padding: EdgeInsets.all(20),
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(10)
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          "User reports that their desktop app crashed while .. ",
-                                                          style: TextStyle(
-                                                              fontSize: 12,),
+                                                  InkWell(
+                                                    onTap: (){
+                                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ProgressNoteDetails()));
 
-                                                        ),
-                                                        Icon(Icons.arrow_forward_sharp)
-                                                      ],
+                                                    },
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(20),
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(10)
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            "User reports that their desktop app crashed while .. ",
+                                                            style: TextStyle(
+                                                                fontSize: 12,),
+
+                                                          ),
+                                                          Icon(Icons.arrow_forward_sharp)
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
@@ -291,16 +299,22 @@ class _ProgressNotesState extends State<ProgressNotes> {
                                                 height: 70,
                                               ),
 
-                                              Row(
-                                                children: [
-                                                  Icon(Icons.add_box_rounded, color: happiPrimary, size: 70,),
-                                                  Text(
-                                                    "Add New Note",
-                                                    style: TextStyle(
-                                                      fontSize: 15,),
+                                              InkWell(
+                                                onTap: (){
+                                                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => NewNoteScreen()));
 
-                                                  ),
-                                                ],
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.add_box_rounded, color: happiPrimary, size: 70,),
+                                                    Text(
+                                                      "Add New Note",
+                                                      style: TextStyle(
+                                                        fontSize: 15,),
+
+                                                    ),
+                                                  ],
+                                                ),
                                               )
 
                                             ],

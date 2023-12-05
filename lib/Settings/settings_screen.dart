@@ -3,11 +3,18 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:happi_workers_pract/Appointments/my_appointments.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Components/add_button_dialogbox.dart';
+import 'package:happi_workers_pract/Earnings/earnings_screen.dart';
+import 'package:happi_workers_pract/Home/home_screen.dart';
+import 'package:happi_workers_pract/Notifications/notifications.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
+import 'package:happi_workers_pract/Profile/personal_info.dart';
+import 'package:happi_workers_pract/Settings/faqs_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -92,19 +99,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       ),
                                       Row(
                                         children: [
-                                          Container(
-                                            padding: EdgeInsets.all(5),
-                                            decoration: BoxDecoration(
-                                              color: happiPrimary.withOpacity(0.2),
-                                              borderRadius: BorderRadius.circular(100)
+                                          InkWell(
+                                            onTap: (){
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => NotificationsScreen()));
+
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                color: happiPrimary.withOpacity(0.2),
+                                                borderRadius: BorderRadius.circular(100)
+                                              ),
+                                              child: Icon(Icons.notifications, color: happiPrimary,),
                                             ),
-                                            child: Icon(Icons.notifications, color: happiPrimary,),
                                           ),
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          CircleAvatar(
-                                            radius: 30,
+                                          InkWell(
+                                            onTap: (){
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PersonalInfo()));
+
+                                            },
+                                            child: CircleAvatar(
+                                              radius: 30,
+                                              backgroundImage: AssetImage("assets/images/user.png"),
+                                            ),
                                           )
                                         ],
                                       ),
@@ -140,14 +160,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Icon(Icons.medical_services_outlined, size: 25,),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text("Appointments", style: TextStyle(fontSize: 16),),
-                                              ],
+                                            InkWell(
+                                              onTap: (){
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyAppointments()));
+
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.medical_services_outlined, size: 25,),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text("Appointments", style: TextStyle(fontSize: 16),),
+                                                ],
+                                              ),
                                             ),
                                             Icon(Icons.arrow_forward_ios_outlined, size: 20,)
                                           ],
@@ -166,14 +192,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Icon(Icons.help_outline_outlined, size: 25,),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text("FAQs", style: TextStyle(fontSize: 16),),
-                                              ],
+                                            InkWell(
+                                              onTap: (){
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => FAQsScreens()));
+
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.help_outline_outlined, size: 25,),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text("FAQs", style: TextStyle(fontSize: 16),),
+                                                ],
+                                              ),
                                             ),
                                             Icon(Icons.arrow_forward_ios_outlined, size: 20,)
                                           ],
@@ -245,14 +277,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Icon(Icons.logout, size: 25,),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text("Log Out", style: TextStyle(fontSize: 16),),
-                                              ],
+                                            InkWell(
+                                              onTap: (){
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignInScreen()));
+
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.logout, size: 25,),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text("Log Out", style: TextStyle(fontSize: 16),),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -286,8 +324,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 children: [
                                   InkWell(
                                     onTap: (){
-                                      /*      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => DashboardScreen()));
-                      */  },
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+                        },
                                     child: Column(
                                       children: [
                                         Icon(Icons.home_outlined, color: Colors.black,),
@@ -300,7 +338,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ),
                                   InkWell(
                                     onTap: (){
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => RadioScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EarningsScreen()));
                                     },
                                     child: Column(
                                       children: [
@@ -314,9 +352,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ),
                                   InkWell(
                                     onTap: (){
-
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => UserProfileScreen()));
-
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AddButtonDialogBox();
+                                        },
+                                      );
                                     },
                                     child: Column(
                                       children: [
@@ -329,7 +370,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   InkWell(
                                     onTap: (){
 
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => UserProfileScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PersonalInfo()));
 
                                     },
                                     child: Column(
@@ -338,7 +379,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         SizedBox(
                                           height: 4,
                                         ),
-                                        Text('Profile', style: TextStyle(color: Colors.black, fontSize: 12)),
+                                        Text('Clients', style: TextStyle(color: Colors.black, fontSize: 12)),
                                       ],
                                     ),
                                   ),

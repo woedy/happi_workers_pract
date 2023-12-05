@@ -5,14 +5,14 @@ import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart'
 import 'package:happi_workers_pract/Onboarding/my_documents.dart';
 import 'package:happi_workers_pract/constants.dart';
 
-class OnlineTreatment extends StatefulWidget {
-  const OnlineTreatment({super.key});
+class OnlineAssessment extends StatefulWidget {
+  const OnlineAssessment({super.key});
 
   @override
-  State<OnlineTreatment> createState() => _OnlineTreatmentState();
+  State<OnlineAssessment> createState() => _OnlineAssessmentState();
 }
 
-class _OnlineTreatmentState extends State<OnlineTreatment> {
+class _OnlineAssessmentState extends State<OnlineAssessment> {
   final _formKey = GlobalKey<FormState>();
 
   @override

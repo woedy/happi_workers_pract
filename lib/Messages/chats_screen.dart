@@ -158,6 +158,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                                 ),
                                                 CircleAvatar(
                                                   radius: 30,
+                                                  backgroundImage: AssetImage("assets/images/user.png"),
+
                                                 )
                                               ],
                                             ),
@@ -170,6 +172,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
                                                 CircleAvatar(
                                                   radius: 30,
+                                                  backgroundImage: AssetImage("assets/images/user2.png"),
+
                                                 ),
                                                 SizedBox(
                                                   width: 5,
@@ -202,6 +206,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
                                                 CircleAvatar(
                                                   radius: 30,
+                                                  backgroundImage: AssetImage("assets/images/user2.png"),
+
                                                 ),
                                                 SizedBox(
                                                   width: 5,

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Clients/online_assessment.dart';
+import 'package:happi_workers_pract/Clients/performance_overview.dart';
+import 'package:happi_workers_pract/Clients/treatment_overview.dart';
 import 'package:happi_workers_pract/Onboarding/my_availability.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
@@ -130,7 +133,7 @@ class _YourClinicalAssessmentState extends State<YourClinicalAssessment> {
 
                                             InkWell(
                                               onTap: (){
-                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ProfileOverview()));
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => TreatmentOverview()));
 
                                               },
                                               child: Container(
@@ -159,7 +162,7 @@ class _YourClinicalAssessmentState extends State<YourClinicalAssessment> {
                                             ),
                                             InkWell(
                                               onTap: (){
-                                                //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EditPersonalInfo()));
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => OnlineAssessment()));
 
                                               },
                                               child: Container(
@@ -216,6 +219,7 @@ class _YourClinicalAssessmentState extends State<YourClinicalAssessment> {
                                             ),
                                             InkWell(
                                               onTap: (){
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PerformanceOverview()));
 
                                               },
                                               child: Container(
