@@ -182,6 +182,101 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                                               children: [
 
                                                                 CircleAvatar(
+                                                                  backgroundImage: AssetImage("assets/images/user.png"),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Text("Julia Reddington", style: TextStyle(color: Colors.white, fontSize: 12),),
+                                                              ],
+                                                            ),
+                                                            Icon(Icons.info_outline, color: Colors.white,)
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text("9/23/16 at 10Am", style: TextStyle(color: happiGreen, fontWeight: FontWeight.w900, fontSize: 15),),
+                                                        Text("curtis.weaver@example.com", style: TextStyle(color: Colors.white, fontSize: 12),),
+
+                                                        SizedBox(
+                                                          height: 40,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+
+
+                                                      Row(
+                                                        children: [
+                                                          Container(
+                                                              padding: EdgeInsets.all(15),
+                                                              width: 120,
+                                                              decoration: BoxDecoration(
+                                                                color: happiGreen,
+                                                                borderRadius: BorderRadius.circular(20),
+
+                                                              ),
+
+                                                              child: Center(child: Text("Join", style: TextStyle(color: Colors.black, fontSize: 10),))),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Container(
+                                                              padding: EdgeInsets.all(15),
+                                                              width: 120,
+                                                              decoration: BoxDecoration(
+                                                                color: Colors.white,
+                                                                borderRadius: BorderRadius.circular(20),
+
+                                                              ),
+
+                                                              child: Center(child: Text("Cancel", style: TextStyle(color: Colors.black, fontSize: 10),))),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Container(
+                                              height: 209,
+                                              width: 335,
+                                              decoration: BoxDecoration(
+                                                color: happiDark,
+                                                borderRadius: BorderRadius.circular(20),
+
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal:15.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                                                          children: [
+                                                            Row(
+                                                              children: [
+
+                                                                CircleAvatar(
+                                                                  backgroundImage: AssetImage("assets/images/user.png"),
 
                                                                 ),
                                                                 SizedBox(
@@ -276,100 +371,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                                               children: [
 
                                                                 CircleAvatar(
-
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                Text("Julia Reddington", style: TextStyle(color: Colors.white, fontSize: 12),),
-                                                              ],
-                                                            ),
-                                                            Icon(Icons.info_outline, color: Colors.white,)
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Text("9/23/16 at 10Am", style: TextStyle(color: happiGreen, fontWeight: FontWeight.w900, fontSize: 15),),
-                                                        Text("curtis.weaver@example.com", style: TextStyle(color: Colors.white, fontSize: 12),),
-
-                                                        SizedBox(
-                                                          height: 40,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    children: [
-
-
-                                                      Row(
-                                                        children: [
-                                                          Container(
-                                                              padding: EdgeInsets.all(15),
-                                                              width: 120,
-                                                              decoration: BoxDecoration(
-                                                                color: happiGreen,
-                                                                borderRadius: BorderRadius.circular(20),
-
-                                                              ),
-
-                                                              child: Center(child: Text("Join", style: TextStyle(color: Colors.black, fontSize: 10),))),
-                                                          SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Container(
-                                                              padding: EdgeInsets.all(15),
-                                                              width: 120,
-                                                              decoration: BoxDecoration(
-                                                                color: Colors.white,
-                                                                borderRadius: BorderRadius.circular(20),
-
-                                                              ),
-
-                                                              child: Center(child: Text("Cancel", style: TextStyle(color: Colors.black, fontSize: 10),))),
-                                                          SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Container(
-                                              height: 209,
-                                              width: 335,
-                                              decoration: BoxDecoration(
-                                                color: happiDark,
-                                                borderRadius: BorderRadius.circular(20),
-
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal:15.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                                                          children: [
-                                                            Row(
-                                                              children: [
-
-                                                                CircleAvatar(
+                                                                  backgroundImage: AssetImage("assets/images/user.png"),
 
                                                                 ),
                                                                 SizedBox(
@@ -461,76 +463,6 @@ class _MyAppointmentsState extends State<MyAppointments> {
             )));
   }
 
-
-
-  Future _pickImage(ImageSource source) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-      File? img = File(image.path);
-      img = await _cropImage(imageFile: img);
-      setState(() {
-        _image = img;
-        //Navigator.of(context).pop();
-      });
-    } on PlatformException catch (e) {
-      print(e);
-      Navigator.of(context).pop();
-    }
-  }
-
-
-  Future<File?> _cropImage({required File imageFile}) async {
-    CroppedFile? croppedImage =
-    await ImageCropper().cropImage(sourcePath: imageFile.path);
-    if (croppedImage == null) return null;
-    return File(croppedImage.path);
-  }
-
-
-
-
-  void _showCertificateSelectionModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: const Text('Certificate'),
-                onTap: () {
-                  setState(() {
-                    selectedCertificate = 'Certificate';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Accreditation'),
-                onTap: () {
-                  setState(() {
-                    selectedCertificate = 'Accreditation';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('DBS Check'),
-                onTap: () {
-                  setState(() {
-                    selectedCertificate = 'DBS Check';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 
 
 

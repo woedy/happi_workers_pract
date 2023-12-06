@@ -5,11 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Clients/client_overview.dart';
+import 'package:happi_workers_pract/Components/add_button_dialogbox.dart';
+import 'package:happi_workers_pract/Earnings/earnings_screen.dart';
+import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/Notifications/notifications.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
 import 'package:happi_workers_pract/Profile/personal_info.dart';
+import 'package:happi_workers_pract/Settings/settings_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -348,21 +352,21 @@ class _MeetYourClientsState extends State<MeetYourClients> {
                                 children: [
                                   InkWell(
                                     onTap: (){
-                                      /*      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => DashboardScreen()));
-                      */  },
+                                           Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+                   },
                                     child: Column(
                                       children: [
-                                        Icon(Icons.home_outlined, color: happiGreen,),
+                                        Icon(Icons.home_outlined, color: Colors.black,),
                                         SizedBox(
                                           height: 4,
                                         ),
-                                        Text('Home', style: TextStyle(color: happiGreen, fontSize: 12),),
+                                        Text('Home', style: TextStyle(color: Colors.black, fontSize: 12),),
                                       ],
                                     ),
                                   ),
                                   InkWell(
                                     onTap: (){
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => RadioScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EarningsScreen()));
                                     },
                                     child: Column(
                                       children: [
@@ -377,8 +381,12 @@ class _MeetYourClientsState extends State<MeetYourClients> {
                                   InkWell(
                                     onTap: (){
 
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => UserProfileScreen()));
-
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AddButtonDialogBox();
+                                        },
+                                      );
                                     },
                                     child: Column(
                                       children: [
@@ -396,11 +404,11 @@ class _MeetYourClientsState extends State<MeetYourClients> {
                                     },
                                     child: Column(
                                       children: [
-                                        Icon(Icons.people_alt_outlined, color: Colors.black,),
+                                        Icon(Icons.people_alt_outlined, color: happiGreen,),
                                         SizedBox(
                                           height: 4,
                                         ),
-                                        Text('Clients', style: TextStyle(color: Colors.black, fontSize: 12)),
+                                        Text('Clients', style: TextStyle(color: happiGreen, fontSize: 12)),
                                       ],
                                     ),
                                   ),
@@ -408,7 +416,7 @@ class _MeetYourClientsState extends State<MeetYourClients> {
                                   InkWell(
                                     onTap: (){
 
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SettingsScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SettingsScreen()));
 
                                     },
                                     child: Column(

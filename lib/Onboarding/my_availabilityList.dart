@@ -7,6 +7,7 @@ import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart'
 import 'package:happi_workers_pract/Onboarding/my_device_check.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
+import 'package:happi_workers_pract/Onboarding/recurring_availability.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -177,6 +178,25 @@ class _MyAvailabilityListState extends State<MyAvailabilityList> {
 
                             SizedBox(
                               height: 20,
+                            ),
+
+                            InkWell(
+                              onTap: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => RecurringAvailability()));
+
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(Icons.add_box_rounded, color: happiPrimary, size: 70,),
+                                  Text(
+                                    "Set to recurring",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    color: Colors.red),
+
+                                  ),
+                                ],
+                              ),
                             ),
 
 

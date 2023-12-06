@@ -6,20 +6,21 @@ import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Components/photos/select_photo_options_screen.dart';
+import 'package:happi_workers_pract/Onboarding/my_device_check.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class MyPersonalInfo extends StatefulWidget {
-  const MyPersonalInfo({super.key});
+class RecurringAvailability extends StatefulWidget {
+  const RecurringAvailability({super.key});
 
   @override
-  State<MyPersonalInfo> createState() => _MyPersonalInfoState();
+  State<RecurringAvailability> createState() => _RecurringAvailabilityState();
 }
 
-class _MyPersonalInfoState extends State<MyPersonalInfo> {
+class _RecurringAvailabilityState extends State<RecurringAvailability> {
   final _formKey = GlobalKey<FormState>();
 
   String? selectedGender;
@@ -106,7 +107,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "My Personal\nInformation",
+                                            "Set To\nRecurring",
                                             style: TextStyle(
                                                 fontSize: 48,
                                                 fontWeight: FontWeight.w400,
@@ -118,125 +119,17 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                         height: 10,
                                       ),
 
-                                      Stack(
-                                        children: [
-                                          InkWell(
-                                            onTap: (){
-                                              _showSelectPhotoOptions(context);
-                                            },
-                                            child: _image == null
-                                                ?  Container(
-                                                height: 132,
-                                                width: MediaQuery.of(context).size.width,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius: BorderRadius.circular(15),
-                                                    border:
-                                                    Border.all(color: Colors.black.withOpacity(0.1)) ),
-                                                child:  Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(Icons.upload_file, size: 50, color: Colors.grey,),
-                                                    Text("Upload a picture")
-                                                  ],
-                                                )
-                                            )
-                                                :Container(
-                                              height: 132,
-                                              width: MediaQuery.of(context).size.width,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-
-                                                      image: FileImage(_image!),
-                                                      fit: BoxFit.cover
-                                                  ),
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1)) ),
 
 
-                                            ),
-
-                                          ),
-
-                                          if (_image != null)
-                                            Positioned(
-                                              bottom: 10,
-                                              right: 10,
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _image = null;
-                                                  });
-                                                },
-                                                child: Icon(Icons.delete_forever, color: Colors.white,),
-                                                style: ElevatedButton.styleFrom(
-                                                  primary: Colors.red,
-                                                  shape: CircleBorder(),
-                                                  padding: EdgeInsets.all(8),
-                                                ),
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-
-                                      SizedBox(
-                                        height: 20,
-                                      ),
                                       Form(
                                         key: _formKey,
                                         child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: TextFormField(
-                                                style: TextStyle(color: Colors.black),
-                                                decoration: InputDecoration(
-                                                  //hintText: 'Enter Username/Email',
 
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.normal),
-                                                  labelText: "Contact",
-                                                  labelStyle: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  border: InputBorder.none,
-                                                ),
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(225),
-                                                  PasteTextInputFormatter(),
-                                                ],
-                                                validator: (value) {
-                                                  if (value!.isEmpty) {
-                                                    return 'Contact name is required';
-                                                  }
-                                                  if (value.length < 3) {
-                                                    return 'Contact too short';
-                                                  }
-                                                },
-                                                textInputAction: TextInputAction.next,
-                                                autofocus: false,
-                                                onSaved: (value) {
-                                                  setState(() {
-                                                    //email = value;
-                                                  });
-                                                },
-                                              ),
-                                            ),
+                                            Text("Start date", style: TextStyle(fontSize: 12, color: Colors.black),),
                                             SizedBox(
-                                              height: 20,
+                                              height: 10,
                                             ),
                                             Container(
                                               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -251,7 +144,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                                   errorStyle: TextStyle(color: Colors.redAccent),
                                                   border: InputBorder.none,
                                                   suffixIcon: Icon(Icons.event_note, color: Colors.black),
-                                                  labelText: 'Date of birth',
+                                                  labelText: 'Select start date',
                                                   labelStyle: TextStyle(color: Colors.grey),
                                                 ),
                                                 mode: DateTimeFieldPickerMode.date,
@@ -280,47 +173,15 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                                 dateFormat: DateFormat("dd/MM/yy"), // Specify the desired date format (month/year)
                                               ),
                                             ),
+
                                             SizedBox(
                                               height: 20,
                                             ),
 
-                                            Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  _showGenderSelectionModal(context);
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10),
 
-                                                  height: 60,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(5),
-                                                      border: Border.all(
-                                                          color: Colors.white.withOpacity(0.1))
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        selectedGender ?? 'Select Gender',
-                                                        style: TextStyle(fontSize: 13,
-                                                            color: Colors.black.withOpacity(0.5)),
-                                                      ),
-                                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-
+                                            Text("End date", style: TextStyle(fontSize: 12, color: Colors.black),),
                                             SizedBox(
-                                              height: 20,
+                                              height: 10,
                                             ),
                                             Container(
                                               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -329,63 +190,161 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                                   borderRadius: BorderRadius.circular(15),
                                                   border:
                                                   Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: TextFormField(
-                                                style: TextStyle(color: Colors.black),
-                                                decoration: InputDecoration(
-                                                  //hintText: 'Enter Username/Email',
-
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.normal),
-                                                  labelText: "Academic Title",
-                                                  labelStyle: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
+                                              child: DateTimeFormField(
+                                                decoration: const InputDecoration(
+                                                  hintStyle: TextStyle(color: Colors.white),
+                                                  errorStyle: TextStyle(color: Colors.redAccent),
                                                   border: InputBorder.none,
+                                                  suffixIcon: Icon(Icons.event_note, color: Colors.black),
+                                                  labelText: 'Select end date',
+                                                  labelStyle: TextStyle(color: Colors.grey),
                                                 ),
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(225),
-                                                  PasteTextInputFormatter(),
-                                                ],
-                                                validator: (value) {
-                                                  if (value!.isEmpty) {
-                                                    return 'Email is required';
+                                                mode: DateTimeFieldPickerMode.date,
+                                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                                validator: (e) {
+                                                  if (e == null) {
+                                                    return 'Date of birth required';
                                                   }
-                                                  if (value.length < 3) {
-                                                    return 'Name too short';
-                                                  }
-                                                  String pattern =
-                                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?)*$";
-                                                  RegExp regex = RegExp(pattern);
-                                                  if (!regex.hasMatch(value))
-                                                    return 'Enter a valid email address';
+
+                                                  /* bool isValid = isDateBeforeToday(e.toString());
+
+        if (isValid) {
+
+        } else {
+          return "The dob field must be a date before today.";
+        }*/
 
                                                   return null;
                                                 },
-                                                textInputAction: TextInputAction.next,
-                                                autofocus: false,
+                                                onDateSelected: (DateTime value) {},
                                                 onSaved: (value) {
                                                   setState(() {
-                                                    //email = value;
+
                                                   });
                                                 },
+                                                dateFormat: DateFormat("dd/MM/yy"), // Specify the desired date format (month/year)
                                               ),
                                             ),
+
+
+
                                             SizedBox(
-                                              height: 30,
+                                              height: 20,
                                             ),
+
+
+                                            Text("Start time", style: TextStyle(fontSize: 12, color: Colors.black),),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  border:
+                                                  Border.all(color: Colors.black.withOpacity(0.1))),
+                                              child: DateTimeFormField(
+                                                decoration: const InputDecoration(
+                                                  hintStyle: TextStyle(color: Colors.white),
+                                                  errorStyle: TextStyle(color: Colors.redAccent),
+                                                  border: InputBorder.none,
+                                                  suffixIcon: Icon(Icons.access_time_sharp, color: Colors.black),
+                                                  labelText: 'Select start time',
+                                                  labelStyle: TextStyle(color: Colors.grey),
+                                                ),
+                                                mode: DateTimeFieldPickerMode.time,
+                                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                                validator: (e) {
+                                                  if (e == null) {
+                                                    return 'Date of birth required';
+                                                  }
+
+                                                  /* bool isValid = isDateBeforeToday(e.toString());
+
+        if (isValid) {
+
+        } else {
+          return "The dob field must be a date before today.";
+        }*/
+
+                                                  return null;
+                                                },
+                                                onDateSelected: (DateTime value) {},
+                                                onSaved: (value) {
+                                                  setState(() {
+
+                                                  });
+                                                },
+                                                //dateFormat: DateFormat("dd/MM/yy"), // Specify the desired date format (month/year)
+                                              ),
+                                            ),
+
+
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+
+
+                                            Text("End time", style: TextStyle(fontSize: 12, color: Colors.black),),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  border:
+                                                  Border.all(color: Colors.black.withOpacity(0.1))),
+                                              child: DateTimeFormField(
+                                                decoration: const InputDecoration(
+                                                  hintStyle: TextStyle(color: Colors.white),
+                                                  errorStyle: TextStyle(color: Colors.redAccent),
+                                                  border: InputBorder.none,
+                                                  suffixIcon: Icon(Icons.access_time_sharp, color: Colors.black),
+                                                  labelText: 'Select end time',
+                                                  labelStyle: TextStyle(color: Colors.grey),
+                                                ),
+                                                mode: DateTimeFieldPickerMode.time,
+                                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                                validator: (e) {
+                                                  if (e == null) {
+                                                    return 'Date of birth required';
+                                                  }
+
+                                                  /* bool isValid = isDateBeforeToday(e.toString());
+
+        if (isValid) {
+
+        } else {
+          return "The dob field must be a date before today.";
+        }*/
+
+                                                  return null;
+                                                },
+                                                onDateSelected: (DateTime value) {},
+                                                onSaved: (value) {
+                                                  setState(() {
+
+                                                  });
+                                                },
+                                                //dateFormat: DateFormat("dd/MM/yy"), // Specify the desired date format (month/year)
+                                              ),
+                                            ),
+
                                           ],
                                         ),
                                       ),
+
+
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+
                                       InkWell(
                                         onTap: () {
-                                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PracticedDetails()));
+                                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyDeviceCheck()));
                                         },
                                         child: Container(
                                           padding: EdgeInsets.all(20),

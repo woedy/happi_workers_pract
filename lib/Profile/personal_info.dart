@@ -6,8 +6,10 @@ import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Onboarding/my_availability.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
+import 'package:happi_workers_pract/Onboarding/personal_Info.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/Profile/EditProfile/edit_personal_Info.dart';
+import 'package:happi_workers_pract/Profile/EditProfile/my_payment_details.dart';
 import 'package:happi_workers_pract/Profile/overview.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -188,6 +190,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                             ),
                                             InkWell(
                                               onTap: (){
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyPersonalInfo()));
 
                                               },
                                               child: Container(
@@ -216,6 +219,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                             ),
                                             InkWell(
                                               onTap: (){
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PracticedDetails()));
 
                                               },
                                               child: Container(
@@ -244,6 +248,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                             ),
                                             InkWell(
                                               onTap: (){
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyPaymentDetails()));
 
                                               },
                                               child: Container(

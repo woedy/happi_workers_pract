@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Appointments/my_appointments.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Clients/meet_your_clients.dart';
 import 'package:happi_workers_pract/Components/add_button_dialogbox.dart';
 import 'package:happi_workers_pract/Earnings/earnings_screen.dart';
 import 'package:happi_workers_pract/Home/home_screen.dart';
@@ -370,7 +371,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   InkWell(
                                     onTap: (){
 
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PersonalInfo()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MeetYourClients()));
 
                                     },
                                     child: Column(

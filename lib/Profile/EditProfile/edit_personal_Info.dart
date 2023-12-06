@@ -112,6 +112,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                                         children: [
                                           CircleAvatar(
                                             radius: 60,
+                                            backgroundImage: AssetImage("assets/images/user.png"),
                                           ),
 
                                           Positioned(

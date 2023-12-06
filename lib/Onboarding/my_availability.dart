@@ -62,21 +62,30 @@ class _MyAvailabilityState extends State<MyAvailability> {
                           SizedBox(
                             height: 10,
                           ),
-                          InkWell(
-                            onTap: (){
-                              Navigator.of(context).pop();
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image(
-                                    image: AssetImage("assets/images/Back_b.png")),
-                                SizedBox(
-                                  width: 10,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: (){
+                                  Navigator.of(context).pop();
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image(
+                                        image: AssetImage("assets/images/Back_b.png")),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("Back", style: TextStyle(fontSize: 20),)
+                                  ],
                                 ),
-                                Text("Back", style: TextStyle(fontSize: 20),)
-                              ],
-                            ),
+                              ),
+
+                            /*  InkWell(
+                                child: Text("Add recuring availability", style: TextStyle(color: happiPrimary, fontWeight: FontWeight.bold),),
+                              ),*/
+                            ],
                           ),
                           SizedBox(
                             height: 10,

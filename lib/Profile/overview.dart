@@ -115,6 +115,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                                           children: [
                                             CircleAvatar(
                                               radius: 50,
+                                              backgroundImage: AssetImage("assets/images/user.png"),
 
                                             ),
                                             SizedBox(

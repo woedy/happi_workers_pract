@@ -14,6 +14,7 @@ import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
 import 'package:happi_workers_pract/Profile/personal_info.dart';
+import 'package:happi_workers_pract/Settings/settings_screen.dart';
 import 'package:happi_workers_pract/VideoCall/video_call_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -710,7 +711,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   InkWell(
                                     onTap: (){
 
-                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SettingsScreen()));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SettingsScreen()));
 
                                     },
                                     child: Column(
