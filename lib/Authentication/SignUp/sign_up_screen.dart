@@ -1,8 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
+import 'package:happi_workers_pract/Authentication/SignUp/models/sign_up_model.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Components/keyboard_utils.dart';
 import 'package:happi_workers_pract/constants.dart';
+import 'package:http/http.dart' as http;
+
+
+
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -13,6 +21,18 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+
+
+
+
+
+
+  String? first_name;
+  String? last_name;
+  String? email;
+  String? password;
+  String? password_confirmation;
+
 
   @override
   Widget build(BuildContext context) {
@@ -122,14 +142,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     return 'First name is required';
                                   }
                                   if (value.length < 3) {
-                                    return 'Name too short';
+                                    return 'Last Name too short';
                                   }
                                 },
                                 textInputAction: TextInputAction.next,
                                 autofocus: false,
                                 onSaved: (value) {
                                   setState(() {
-                                    //email = value;
+                                    first_name = value;
                                   });
                                 },
                               ),
@@ -152,16 +172,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   hintStyle: TextStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.normal),
-                                  labelText: "Last Name",
+                                  labelText: "Last name",
                                   labelStyle: TextStyle(
                                       fontSize: 13,
                                       color: Colors.black.withOpacity(0.5)),
                                   enabledBorder: UnderlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Colors.white)),
+                                      BorderSide(color: Colors.white)),
                                   focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Colors.white)),
+                                      BorderSide(color: Colors.white)),
                                   border: InputBorder.none,
                                 ),
                                 inputFormatters: [
@@ -170,26 +190,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ],
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Email is required';
+                                    return 'Last name is required';
                                   }
                                   if (value.length < 3) {
-                                    return 'Name too short';
+                                    return 'Last name too short';
                                   }
-                                  String pattern =
-                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                      r"{0,253}[a-zA-Z0-9])?)*$";
-                                  RegExp regex = RegExp(pattern);
-                                  if (!regex.hasMatch(value))
-                                    return 'Enter a valid email address';
-
-                                  return null;
                                 },
                                 textInputAction: TextInputAction.next,
                                 autofocus: false,
                                 onSaved: (value) {
                                   setState(() {
-                                    //email = value;
+                                    last_name = value;
                                   });
                                 },
                               ),
@@ -232,9 +243,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (value!.isEmpty) {
                                     return 'Email is required';
                                   }
-                                  if (value.length < 3) {
-                                    return 'Name too short';
-                                  }
+
                                   String pattern =
                                       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
                                       r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
@@ -249,7 +258,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 autofocus: false,
                                 onSaved: (value) {
                                   setState(() {
-                                    //email = value;
+                                    email = value;
                                   });
                                 },
                               ),
@@ -264,9 +273,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         children: [
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  SignUpPassword()));
+
+
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            KeyboardUtil.hideKeyboard(context);
+
+
+                            print("###############");
+                            print(first_name);
+                            print(last_name);
+                            print(email);
+
+                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignUpPassword(
+                              first_name: first_name,
+                              last_name: last_name,
+                              email: email,
+                            )));
+
+
+                          }
+
+
                         },
                         child: Container(
                           padding: EdgeInsets.all(20),
