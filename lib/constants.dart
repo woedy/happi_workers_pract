@@ -14,8 +14,7 @@ const bodyText2 = Color(0xffffffff);
 const clay = Color(0xffa499b3);
 
 
-const hostName = "https://libra.teamalfy.co.uk";
-const socketHostName = "wss://libra.teamalfy.co.uk";
+const hostName = "https://app.happiworkers.teamalfy.co.uk/practitioners/v1";
 
 
 Future<String?> getApiPref() async {

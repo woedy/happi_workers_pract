@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happi_workers_pract/constants.dart';
 
 class LoadingDialogBox extends StatefulWidget {
   final String text;
@@ -29,35 +30,38 @@ class _LoadingDialogBoxState extends State<LoadingDialogBox>
   }
 
   Widget build(BuildContext context) {
-    return Center(
-      child: Material(
-        color: Colors.transparent,
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 322,
-          margin: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            color: Colors.white,
-          ),
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RotationTransition(
-                turns: _controller,
-                child: Image.asset(
-                  "assets/icons/loading.png",
+    return Scaffold(
+      backgroundColor: happiWhite,
+      body: Center(
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 322,
+            margin: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: Colors.white,
+            ),
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RotationTransition(
+                  turns: _controller,
+                  child: Image.asset(
+                    "assets/icons/loading.png",
 
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                widget.text,
-                style: TextStyle(fontSize: 15),
-              ),
-            ],
+                SizedBox(height: 20),
+                Text(
+                  widget.text,
+                  style: TextStyle(fontSize: 15),
+                ),
+              ],
+            ),
           ),
         ),
       ),
