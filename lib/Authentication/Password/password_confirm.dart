@@ -1,11 +1,62 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/Password/reset_password.dart';
+import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
+import 'package:happi_workers_pract/Authentication/SignUp/models/verify_email_model.dart';
+import 'package:happi_workers_pract/Authentication/SignUp/resend_email.dart';
+import 'package:happi_workers_pract/Components/generic_error_dialog_box.dart';
+import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
+import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
+import 'package:happi_workers_pract/Onboarding/onboarding_1.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:http/http.dart' as http;
+
+
+Future<VerifyEmailModel> resetPasswordToken(String email, String token) async {
+
+  final response = await http.post(
+    Uri.parse(hostName + "/auth/verify-reset-token"),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+    },
+    body: jsonEncode({
+      "email": email,
+      "token": token,
+    }),
+  );
+
+
+  if (response.statusCode == 200) {
+    print(jsonDecode(response.body));
+    final result = json.decode(response.body);
+    if (result != null) {
+
+      print("#######################");
+      print(result);
+
+
+    }
+    return VerifyEmailModel.fromJson(jsonDecode(response.body));
+  } else if (response.statusCode == 422) {
+    print(jsonDecode(response.body));
+    return VerifyEmailModel.fromJson(jsonDecode(response.body));
+  }  else if (response.statusCode == 403) {
+    print(jsonDecode(response.body));
+    return VerifyEmailModel.fromJson(jsonDecode(response.body));
+  }  else {
+
+    throw Exception('Failed to Reset token');
+  }
+}
+
 
 class PasswordConfirm extends StatefulWidget {
-  const PasswordConfirm({super.key});
+  final email;
+  const PasswordConfirm({super.key, required this.email});
 
   @override
   State<PasswordConfirm> createState() => _PasswordConfirmState();
@@ -14,12 +65,20 @@ class PasswordConfirm extends StatefulWidget {
 class _PasswordConfirmState extends State<PasswordConfirm> {
   final _formKey = GlobalKey<FormState>();
   bool hasError = false;
-  String email_token = "";
+  String token = "";
   TextEditingController controller = TextEditingController(text: "");
+
+
+  Future<VerifyEmailModel>? _futureResetToken;
 
 
   @override
   Widget build(BuildContext context) {
+    return (_futureResetToken == null) ? buildColumn() : buildFutureBuilder();
+  }
+
+
+  buildColumn(){
     return Scaffold(
 
         body: SafeArea(
@@ -75,7 +134,7 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            "Forgot\nPassword",
+                            "Password\nReset",
                             style: TextStyle(
                                 fontSize: 64,
                                 fontWeight: FontWeight.w400,
@@ -84,7 +143,7 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                         ],
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 70,
                       ),
                       Form(
                         key: _formKey,
@@ -119,7 +178,7 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                                   pinBoxColor: Colors.white.withOpacity(0.3),
                                   pinBoxRadius: 10,
                                   keyboardType: TextInputType.text,
-                                  maxLength: 4,
+                                  maxLength: 6,
                                   //maskCharacter: "😎",
                                   onTextChanged: (text) {
                                     setState(() {
@@ -129,9 +188,9 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                                   onDone: (text) {
                                     print("DONE $text");
                                     print("DONE CONTROLLER ${controller.text}");
-                                    email_token=text.toString();
+                                    token=text.toString();
                                   },
-                                  pinBoxWidth: 80,
+                                  pinBoxWidth: 50,
                                   pinBoxHeight: 80,
                                   //hasUnderline: true,
                                   wrapAlignment: WrapAlignment.spaceAround,
@@ -159,7 +218,13 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ResetPassword()));
+
+                                  setState(() {
+                                  _futureResetToken = resetPasswordToken(widget.email, token);
+
+                                  });
+
+                                  //verifyUserEmail(email_token, widget.token);
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(20),
@@ -176,12 +241,113 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                               ),
 
 
+
                             ],
-                          ))
+                          )),
+
+
                     ],
                   ),
                 )
               ],
             )));
+
   }
+
+
+
+  FutureBuilder<VerifyEmailModel> buildFutureBuilder() {
+    return FutureBuilder<VerifyEmailModel>(
+        future: _futureResetToken,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingDialogBox(text: 'Please Wait..',);
+          }
+          else if(snapshot.hasData) {
+
+            var data = snapshot.data!;
+
+            print("#########################");
+            //print(data.data!.token!);
+
+            if(data.message == "Reset token verified successfully") {
+
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ResetPassword(email: widget.email, token: token,)),
+                );
+
+                showDialog(
+                    barrierDismissible: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      // Show the dialog
+                      return SuccessDialogBox(text: "Reset token verified successfully");
+                    }
+                );
+
+
+
+
+
+              });
+
+
+            }
+
+            else if (data.message == "This password reset token is invalid.") {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => PasswordConfirm(email: widget.email,))
+                );
+
+                showDialog(
+                    barrierDismissible: true,
+                    context: context,
+                    builder: (BuildContext context){
+                      return ErrorDialogBox(text: 'This password reset token is invalid.',);
+                    }
+                );
+
+
+
+
+              });
+
+            }
+
+
+
+          }
+
+          return Scaffold(
+            body: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Please Wait...")
+                ],
+              ),
+            ),
+          );
+
+
+        }
+    );
+  }
+
+
+  void dispose() {
+    super.dispose();
+  }
+
 }
