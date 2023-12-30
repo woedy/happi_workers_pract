@@ -19,6 +19,7 @@ import 'package:happi_workers_pract/Settings/faqs_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -280,8 +281,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           children: [
                                             InkWell(
                                               onTap: (){
-                                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignInScreen()));
+                                                clearApiKey();
 
+                                                Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => SignInScreen()),
+                                                      (route) => false,
+                                                );
                                               },
                                               child: Row(
                                                 children: [
@@ -419,6 +425,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
 
+  Future<void> clearApiKey() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove("API_Key");
+
+  }
 
 
 

@@ -2,36 +2,29 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:happi_workers_pract/Authentication/Password/password_screen.dart';
 import 'package:happi_workers_pract/Authentication/Password/reset_password.dart';
-import 'package:happi_workers_pract/Authentication/SignIn/models/sign_in_model.dart';
-import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
-import 'package:happi_workers_pract/Authentication/SignUp/models/sign_up_model.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/models/verify_email_model.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/resend_email.dart';
-import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Components/generic_error_dialog_box.dart';
 import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
 import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
-import 'package:happi_workers_pract/Components/keyboard_utils.dart';
-import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/Onboarding/onboarding_1.dart';
 import 'package:happi_workers_pract/constants.dart';
-import 'package:http/http.dart' as http;
 import 'package:pin_code_text_field/pin_code_text_field.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-Future<VerifyEmailModel> resetPasswordToken(String email, String token) async {
+
+Future<VerifyEmailModel> verifyUserEmail(String email_token, String token) async {
 
   final response = await http.post(
-    Uri.parse(hostName + "/auth/verify-reset-token"),
+    Uri.parse(hostName + "/email/verify-token"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
+      'Authorization': 'Bearer ' + token
     },
     body: jsonEncode({
-      "email": email,
-      "token": token,
+      "token": email_token,
     }),
   );
 
@@ -55,39 +48,41 @@ Future<VerifyEmailModel> resetPasswordToken(String email, String token) async {
     return VerifyEmailModel.fromJson(jsonDecode(response.body));
   }  else {
 
-    throw Exception('Failed to Reset token');
+    throw Exception('Failed to Verify User');
   }
 }
 
 
-class PasswordConfirm extends StatefulWidget {
-  final email;
-  const PasswordConfirm({super.key, required this.email});
+class VerifyEmail extends StatefulWidget {
+  final token;
+  const VerifyEmail({super.key, required this.token});
 
   @override
-  State<PasswordConfirm> createState() => _PasswordConfirmState();
+  State<VerifyEmail> createState() => _VerifyEmailState();
 }
 
-class _PasswordConfirmState extends State<PasswordConfirm> {
+class _VerifyEmailState extends State<VerifyEmail> {
   final _formKey = GlobalKey<FormState>();
   bool hasError = false;
-  String token = "";
+  String email_token = "";
   TextEditingController controller = TextEditingController(text: "");
 
 
-  Future<VerifyEmailModel>? _futureResetToken;
+  Future<VerifyEmailModel>? _futureVerifyEmail;
 
 
   @override
   Widget build(BuildContext context) {
-    return (_futureResetToken == null) ? buildColumn() : buildFutureBuilder();
+    return (_futureVerifyEmail == null) ? buildColumn() : buildFutureBuilder();
   }
 
 
   buildColumn(){
     return Scaffold(
+
         body: SafeArea(
             bottom: false,
+
             child: Stack(
               children: [
                 SingleChildScrollView(
@@ -100,8 +95,7 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                             bottom: 40,
                             left: 0,
                             right: 0,
-                            child: Image(
-                                image: AssetImage("assets/images/stroke.png"))),
+                            child: Image(image: AssetImage("assets/images/stroke.png"))),
                         Positioned(
                             top: 0,
                             right: 0,
@@ -111,8 +105,8 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                         Positioned(
                             bottom: 0,
                             left: 0,
-                            child: Image(
-                                image: AssetImage("assets/images/square_c.png"))),
+                            child:
+                            Image(image: AssetImage("assets/images/square_c.png"))),
                       ],
                     ),
                   ),
@@ -129,8 +123,7 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                         children: [
                           Image(
                               height: 51,
-                              image:
-                              AssetImage("assets/images/happi_logo.png")),
+                              image: AssetImage("assets/images/happi_logo.png")),
                         ],
                       ),
                       SizedBox(
@@ -149,12 +142,24 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                         ],
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 70,
                       ),
                       Form(
                         key: _formKey,
                         child: Column(
+
                           children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Enter the code sent below", style: TextStyle(color: Colors.white, fontSize: 15),),
+                              ],
+                            ),
+
+                            SizedBox(
+                              height:15,
+                            ),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -182,7 +187,7 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                                   onDone: (text) {
                                     print("DONE $text");
                                     print("DONE CONTROLLER ${controller.text}");
-                                    token=text.toString();
+                                    email_token=text.toString();
                                   },
                                   pinBoxWidth: 50,
                                   pinBoxHeight: 80,
@@ -202,53 +207,67 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                               ],
                             ),
                             SizedBox(
-                              height: 30,
+                              height: 70,
                             ),
                           ],
                         ),
                       ),
-                      Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
+                      Expanded(
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
 
-                              setState(() {
-                                _futureResetToken = resetPasswordToken(widget.email, token);
+                                  setState(() {
+                                    _futureVerifyEmail = verifyUserEmail(email_token, widget.token);
 
-                              });
+                                  });
 
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                  color: happiPrimary,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Center(
-                                child: Text(
-                                  "Confirm Code",
-                                  style: TextStyle(color: Colors.white),
+                                //verifyUserEmail(email_token, widget.token);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                      color: happiPrimary,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Center(
+                                    child: Text(
+                                      "Confirm Code",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 70,
-                          ),
+                              SizedBox(
+                                height: 70,
+                              ),
+                              InkWell(
+                                  onTap: () {
+
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) => ResendEmailVerification(token: widget.token,))
+                                    );
+                                  },
+                                  child: Text("Resend Verification", style: TextStyle(color: happiPrimary, fontSize: 17, fontWeight: FontWeight.bold),)),
 
 
-                        ],
-                      )
+                            ],
+                          )),
+
+
                     ],
                   ),
                 )
               ],
             )));
+
   }
+
 
 
   FutureBuilder<VerifyEmailModel> buildFutureBuilder() {
     return FutureBuilder<VerifyEmailModel>(
-        future: _futureResetToken,
+        future: _futureVerifyEmail,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return LoadingDialogBox(text: 'Please Wait..',);
@@ -260,24 +279,27 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
             print("#########################");
             //print(data.data!.token!);
 
-            if(data.message == "Reset token verified successfully") {
+            if(data.message == "Email verified successfully") {
 
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => ResetPassword(email: widget.email, token: token,)),
-                );
-
                 showDialog(
                     barrierDismissible: true,
                     context: context,
                     builder: (BuildContext context) {
                       // Show the dialog
-                      return SuccessDialogBox(text: "Reset token verified successfully");
+                      return SuccessDialogBox(text: "Verification Successful");
                     }
                 );
+                Future.delayed(Duration(milliseconds: 500), () {
+                  // Pop the dialog
+                  //Navigator.of(context).pop();
 
+                  // Navigate to the dashboard
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Onboarding1()),
+                  );
+                });
 
 
 
@@ -287,18 +309,18 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
 
             }
 
-            else if (data.message == "This password reset token is invalid.") {
+            else if (data.message == "Invalid token") {
               WidgetsBinding.instance.addPostFrameCallback((_) {
 
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => PasswordConfirm(email: widget.email,))
+                    MaterialPageRoute(builder: (context) => VerifyEmail(token: widget.token,))
                 );
 
                 showDialog(
                     barrierDismissible: true,
                     context: context,
                     builder: (BuildContext context){
-                      return ErrorDialogBox(text: 'This password reset token is invalid.',);
+                      return ErrorDialogBox(text: 'Invalid token',);
                     }
                 );
 
@@ -339,7 +361,5 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
   void dispose() {
     super.dispose();
   }
-
-
 
 }

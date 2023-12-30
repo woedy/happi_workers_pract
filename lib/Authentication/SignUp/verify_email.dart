@@ -2,17 +2,23 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:happi_workers_pract/Authentication/Password/reset_password.dart';
+import 'package:happi_workers_pract/Authentication/Password/password_screen.dart';
+import 'package:happi_workers_pract/Authentication/SignIn/models/sign_in_model.dart';
+import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
+import 'package:happi_workers_pract/Authentication/SignUp/models/sign_up_model.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/models/verify_email_model.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/resend_email.dart';
+import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Components/generic_error_dialog_box.dart';
 import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
 import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
+import 'package:happi_workers_pract/Components/keyboard_utils.dart';
+import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/Onboarding/onboarding_1.dart';
 import 'package:happi_workers_pract/constants.dart';
-import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<VerifyEmailModel> verifyUserEmail(String email_token, String token) async {
 
@@ -52,10 +58,10 @@ Future<VerifyEmailModel> verifyUserEmail(String email_token, String token) async
   }
 }
 
-
 class VerifyEmail extends StatefulWidget {
   final token;
   const VerifyEmail({super.key, required this.token});
+
 
   @override
   State<VerifyEmail> createState() => _VerifyEmailState();
@@ -79,10 +85,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   buildColumn(){
     return Scaffold(
-
         body: SafeArea(
             bottom: false,
-
             child: Stack(
               children: [
                 SingleChildScrollView(
@@ -95,7 +99,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
                             bottom: 40,
                             left: 0,
                             right: 0,
-                            child: Image(image: AssetImage("assets/images/stroke.png"))),
+                            child: Image(
+                                image: AssetImage("assets/images/stroke.png"))),
                         Positioned(
                             top: 0,
                             right: 0,
@@ -105,8 +110,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         Positioned(
                             bottom: 0,
                             left: 0,
-                            child:
-                            Image(image: AssetImage("assets/images/square_c.png"))),
+                            child: Image(
+                                image: AssetImage("assets/images/square_c.png"))),
                       ],
                     ),
                   ),
@@ -123,7 +128,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         children: [
                           Image(
                               height: 51,
-                              image: AssetImage("assets/images/happi_logo.png")),
+                              image:
+                              AssetImage("assets/images/happi_logo.png")),
                         ],
                       ),
                       SizedBox(
@@ -142,24 +148,12 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         ],
                       ),
                       SizedBox(
-                        height: 70,
+                        height: 20,
                       ),
                       Form(
                         key: _formKey,
                         child: Column(
-
                           children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Enter the code sent below", style: TextStyle(color: Colors.white, fontSize: 15),),
-                              ],
-                            ),
-
-                            SizedBox(
-                              height:15,
-                            ),
-
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -207,63 +201,55 @@ class _VerifyEmailState extends State<VerifyEmail> {
                               ],
                             ),
                             SizedBox(
-                              height: 70,
+                              height: 30,
                             ),
                           ],
                         ),
                       ),
-                      Expanded(
-                          child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
+                      Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
 
-                                  setState(() {
-                                    _futureVerifyEmail = verifyUserEmail(email_token, widget.token);
+                              setState(() {
+                                _futureVerifyEmail = verifyUserEmail(email_token, widget.token);
 
-                                  });
+                              });
 
-                                //verifyUserEmail(email_token, widget.token);
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                      color: happiPrimary,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Center(
-                                    child: Text(
-                                      "Confirm Code",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                  color: happiPrimary,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Center(
+                                child: Text(
+                                  "Confirm Code",
+                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
-                              SizedBox(
-                                height: 70,
-                              ),
-                              InkWell(
-                                  onTap: () {
+                            ),
+                          ),
+                          SizedBox(
+                            height: 70,
+                          ),
+                          InkWell(
+                              onTap: () {
 
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) => ResendEmailVerification(token: widget.token,))
-                                    );
-                                  },
-                                  child: Text("Resend Verification", style: TextStyle(color: happiPrimary, fontSize: 17, fontWeight: FontWeight.bold),)),
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => ResendEmailVerification(token: widget.token,))
+                                );
+                              },
+                              child: Text("Resend Verification", style: TextStyle(color: happiPrimary, fontSize: 17, fontWeight: FontWeight.bold),)),
 
-
-                            ],
-                          )),
-
-
+                        ],
+                      )
                     ],
                   ),
                 )
               ],
             )));
-
   }
-
-
 
   FutureBuilder<VerifyEmailModel> buildFutureBuilder() {
     return FutureBuilder<VerifyEmailModel>(
@@ -361,5 +347,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
   void dispose() {
     super.dispose();
   }
+
+
 
 }

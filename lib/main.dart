@@ -9,6 +9,8 @@ import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/Welcome/welcome_page1.dart';
 import 'package:happi_workers_pract/constants.dart';
 
+import 'Authentication/SignUp/verify_email.dart';
+
 
 
 Future<void> main() async {
@@ -63,7 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
         future: _user_api,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
-          return api_key == null ? WelcomePage1() : HomeScreen();
+         return api_key == null ? WelcomePage1() : HomeScreen();
+          //return VerifyEmail(token: "43543543543",);
 
         });
   }

@@ -2,24 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:happi_workers_pract/Authentication/Password/password_screen.dart';
 import 'package:happi_workers_pract/Authentication/Password/reset_password.dart';
-import 'package:happi_workers_pract/Authentication/SignIn/models/sign_in_model.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
-import 'package:happi_workers_pract/Authentication/SignUp/models/sign_up_model.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/models/verify_email_model.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/resend_email.dart';
-import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Components/generic_error_dialog_box.dart';
 import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
 import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
-import 'package:happi_workers_pract/Components/keyboard_utils.dart';
-import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/Onboarding/onboarding_1.dart';
 import 'package:happi_workers_pract/constants.dart';
-import 'package:http/http.dart' as http;
 import 'package:pin_code_text_field/pin_code_text_field.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
 
 Future<VerifyEmailModel> resetPasswordToken(String email, String token) async {
 
@@ -86,8 +80,10 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
 
   buildColumn(){
     return Scaffold(
+
         body: SafeArea(
             bottom: false,
+
             child: Stack(
               children: [
                 SingleChildScrollView(
@@ -100,8 +96,7 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                             bottom: 40,
                             left: 0,
                             right: 0,
-                            child: Image(
-                                image: AssetImage("assets/images/stroke.png"))),
+                            child: Image(image: AssetImage("assets/images/stroke.png"))),
                         Positioned(
                             top: 0,
                             right: 0,
@@ -111,8 +106,8 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                         Positioned(
                             bottom: 0,
                             left: 0,
-                            child: Image(
-                                image: AssetImage("assets/images/square_c.png"))),
+                            child:
+                            Image(image: AssetImage("assets/images/square_c.png"))),
                       ],
                     ),
                   ),
@@ -129,8 +124,7 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                         children: [
                           Image(
                               height: 51,
-                              image:
-                              AssetImage("assets/images/happi_logo.png")),
+                              image: AssetImage("assets/images/happi_logo.png")),
                         ],
                       ),
                       SizedBox(
@@ -140,7 +134,7 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            "Verify Email",
+                            "Password\nReset",
                             style: TextStyle(
                                 fontSize: 64,
                                 fontWeight: FontWeight.w400,
@@ -149,12 +143,24 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                         ],
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 70,
                       ),
                       Form(
                         key: _formKey,
                         child: Column(
+
                           children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Enter the code sent below", style: TextStyle(color: Colors.white, fontSize: 15),),
+                              ],
+                            ),
+
+                            SizedBox(
+                              height:15,
+                            ),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -202,48 +208,52 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                               ],
                             ),
                             SizedBox(
-                              height: 30,
+                              height: 70,
                             ),
                           ],
                         ),
                       ),
-                      Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
+                      Expanded(
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
 
-                              setState(() {
-                                _futureResetToken = resetPasswordToken(widget.email, token);
+                                  setState(() {
+                                  _futureResetToken = resetPasswordToken(widget.email, token);
 
-                              });
+                                  });
 
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                  color: happiPrimary,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Center(
-                                child: Text(
-                                  "Confirm Code",
-                                  style: TextStyle(color: Colors.white),
+                                  //verifyUserEmail(email_token, widget.token);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                      color: happiPrimary,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Center(
+                                    child: Text(
+                                      "Confirm Code",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 70,
-                          ),
 
 
-                        ],
-                      )
+
+                            ],
+                          )),
+
+
                     ],
                   ),
                 )
               ],
             )));
+
   }
+
 
 
   FutureBuilder<VerifyEmailModel> buildFutureBuilder() {
@@ -339,7 +349,5 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
   void dispose() {
     super.dispose();
   }
-
-
 
 }

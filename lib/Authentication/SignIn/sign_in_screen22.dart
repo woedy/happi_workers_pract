@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/Password/password_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/models/sign_in_model.dart';
-import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
-import 'package:happi_workers_pract/Authentication/SignUp/models/sign_up_model.dart';
-import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_screen.dart';
 import 'package:happi_workers_pract/Components/generic_error_dialog_box.dart';
 import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
@@ -14,8 +11,11 @@ import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
 import 'package:happi_workers_pract/Components/keyboard_utils.dart';
 import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/constants.dart';
+import 'package:happi_workers_pract/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 Future<SignInModel> signInUser(String email, String password) async {
 
@@ -76,10 +76,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
 
 
-
-
-
-
   String? email;
   String? password;
 
@@ -91,8 +87,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
   buildColumn(){
     return Scaffold(
+
         body: SafeArea(
             bottom: false,
+
             child: Stack(
               children: [
                 SingleChildScrollView(
@@ -105,8 +103,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             bottom: 40,
                             left: 0,
                             right: 0,
-                            child: Image(
-                                image: AssetImage("assets/images/stroke.png"))),
+                            child: Image(image: AssetImage("assets/images/stroke.png"))),
                         Positioned(
                             top: 0,
                             right: 0,
@@ -116,8 +113,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         Positioned(
                             bottom: 0,
                             left: 0,
-                            child: Image(
-                                image: AssetImage("assets/images/square_c.png"))),
+                            child:
+                            Image(image: AssetImage("assets/images/square_c.png"))),
                       ],
                     ),
                   ),
@@ -134,8 +131,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         children: [
                           Image(
                               height: 51,
-                              image:
-                              AssetImage("assets/images/happi_logo.png")),
+                              image: AssetImage("assets/images/happi_logo.png")),
                         ],
                       ),
                       SizedBox(
@@ -160,6 +156,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
+
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 10),
                               decoration: BoxDecoration(
@@ -295,185 +292,181 @@ class _SignInScreenState extends State<SignInScreen> {
                           ],
                         ),
                       ),
-                      Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
+                      Expanded(
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    KeyboardUtil.hideKeyboard(context);
 
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-                                KeyboardUtil.hideKeyboard(context);
-
-                                _futureSignIn = signInUser(email!, password!);
-                                //_futureSignIn = signInUser(user!, password!, platformType!);
+                                    _futureSignIn = signInUser(email!, password!);
+                                    //_futureSignIn = signInUser(user!, password!, platformType!);
 
 
-                              }
+                                  }
 
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                  color: happiPrimary,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Center(
-                                child: Text(
-                                  "Sign In",
-                                  style: TextStyle(color: Colors.white),
+
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                      color: happiPrimary,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Center(
+                                    child: Text(
+                                      "Sign In",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          InkWell(
-                            onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ForgotPassword()));
-
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Forgot password? ", style: TextStyle(fontSize: 12),),
-                                Text("Click here to recover", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: happiPrimary),),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 1,
-                                    decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.3)),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-
-
-                                Text(
-                                  "or",
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    height: 1,
-                                    decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.3)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: Colors.black.withOpacity(0.1))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image(
-                                    image:
-                                    AssetImage("assets/images/gmail.png"),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text(
-                                    "Sign in with google",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ],
+                              SizedBox(
+                                height: 20,
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: happiDark,
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: Colors.black.withOpacity(0.1))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image(
-                                    image: AssetImage(
-                                        "assets/images/Microsoft_logo 1.png"),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text(
-                                    "Sign in with Microsoft",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
+                              InkWell(
+                                onTap: (){
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ForgotPassword()));
+
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Forgot password? ", style: TextStyle(fontSize: 12),),
+                                    Text("Click here to recover", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: happiPrimary),),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      SignUpScreen()));
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Don't have an account? ",
-                                  style: TextStyle(fontSize: 12),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 1,
+                                        decoration: BoxDecoration(
+                                            color: Colors.black.withOpacity(0.3)),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "or",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        height: 1,
+                                        decoration: BoxDecoration(
+                                            color: Colors.black.withOpacity(0.3)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  "Sign up here",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: happiPrimary),
+                              ),
+
+                              SizedBox(
+                                height: 20,
+                              ),
+
+                              InkWell(
+                                onTap: () {
+                                  //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                      border:
+                                      Border.all(color: Colors.black.withOpacity(0.1))
+                                  ),
+
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image(image: AssetImage("assets/images/gmail.png"),),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Text(
+                                        "Sign in with google",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          )
-                        ],
-                      )
+                              ),
+
+                              SizedBox(
+                                height: 20,
+                              ),
+
+
+                              InkWell(
+                                onTap: () {
+                                  //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: happiDark,
+                                      borderRadius: BorderRadius.circular(15),
+                                      border:
+                                      Border.all(color: Colors.black.withOpacity(0.1))
+                                  ),
+
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image(image: AssetImage("assets/images/Microsoft_logo 1.png"),),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Text(
+                                        "Sign in with Microsoft",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+
+                              SizedBox(
+                                height: 20,
+                              ),
+
+                              InkWell(
+                                onTap: (){
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignUpScreen()));
+
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Dont have an account? ", style: TextStyle(fontSize: 12),),
+                                    Text("Sign up here", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: happiPrimary),),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ))
                     ],
                   ),
                 )
               ],
             )));
   }
+
 
   FutureBuilder<SignInModel> buildFutureBuilder() {
     return FutureBuilder<SignInModel>(
@@ -577,7 +570,4 @@ class _SignInScreenState extends State<SignInScreen> {
   void dispose() {
     super.dispose();
   }
-
-
-
 }
