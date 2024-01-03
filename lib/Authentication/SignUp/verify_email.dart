@@ -268,6 +268,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
             if(data.message == "Email verified successfully") {
 
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Onboarding1()),
+                );
+                
                 showDialog(
                     barrierDismissible: true,
                     context: context,
@@ -276,16 +281,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       return SuccessDialogBox(text: "Verification Successful");
                     }
                 );
-                Future.delayed(Duration(milliseconds: 500), () {
-                  // Pop the dialog
-                  //Navigator.of(context).pop();
 
-                  // Navigate to the dashboard
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => Onboarding1()),
-                  );
-                });
 
 
 
