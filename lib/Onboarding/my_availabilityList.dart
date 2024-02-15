@@ -13,7 +13,10 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MyAvailabilityList extends StatefulWidget {
-  const MyAvailabilityList({super.key});
+  final availability_data;
+  final minimum_booking_time_frame;
+
+  const MyAvailabilityList({super.key, required this.availability_data, required this.minimum_booking_time_frame});
 
   @override
   State<MyAvailabilityList> createState() => _MyAvailabilityListState();
@@ -128,7 +131,7 @@ class _MyAvailabilityListState extends State<MyAvailabilityList> {
                             Expanded(
                               child: Container(
                                 child: ListView.builder(
-                                    itemCount: 10,
+                                    itemCount: widget.availability_data.length,
                                     itemBuilder: (context, index){
                                       return Column(
                                         children: [
@@ -149,13 +152,21 @@ class _MyAvailabilityListState extends State<MyAvailabilityList> {
                                                       Border.all(color: Colors.black.withOpacity(0.1))),
                                                   child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
 
                                                     children: [
-                                                      Text("21st August 2023", style: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),),
-                                                      Row(
+                                                      Text(widget.availability_data[index]["date"], style: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),),
+                                                      Column(
                                                         children: [
-                                                          Icon(Icons.access_time_sharp),
-                                                          Text("10:00am", style: TextStyle(fontSize: 12, color: Colors.black),),
+                                                          ...widget.availability_data[index]["time"].map((time) => Row(
+                                                            children: [
+                                                              Icon(Icons.access_time_sharp),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Text("$time", style: TextStyle(fontSize: 12, color: Colors.black),),
+                                                            ],
+                                                          ),)
                                                         ],
                                                       ),
 

@@ -22,6 +22,17 @@ class _MyAvailabilityState extends State<MyAvailability> {
   final _formKey = GlobalKey<FormState>();
   String? selectedInterval;
 
+  String selectedMonth = 'Select Month';
+  List<DateTime> selectedMonthDays = [];
+  int? selectedMonthIndex;
+  int? selectedDayIndex;
+  Set<int> selectedHourIndices = Set();
+  List<String> hourlySlots = List.generate(24, (index) {
+    String hour = (index < 10) ? '0$index' : '$index';
+    return '$hour:00';
+  });
+
+  List<Map<String, dynamic>> availabilityList = [];
 
 
   @override
@@ -207,7 +218,7 @@ class _MyAvailabilityState extends State<MyAvailability> {
                                                         Border.all(color: Colors.black.withOpacity(0.1))),
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        _showIntervalSelectionModal(context);
+                                                        _showMonthModal(context);
                                                       },
                                                       child: Container(
                                                         padding: EdgeInsets.all(5),
@@ -223,7 +234,7 @@ class _MyAvailabilityState extends State<MyAvailability> {
                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: [
                                                             Text(
-                                                               'August',
+                                                              selectedMonth ?? 'Select Month',
                                                               style: TextStyle(fontSize: 13,
                                                                   color: Colors.black.withOpacity(0.5)),
                                                             ),
@@ -303,117 +314,70 @@ class _MyAvailabilityState extends State<MyAvailability> {
 
                                             Container(
                                               height: 50,
-                                              child: ListView(
-                                                scrollDirection: Axis.horizontal,
-                                                children: [
-                                                  Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 10),
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        border:
-                                                        Border.all(color: Colors.black.withOpacity(0.1))),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                      },
-                                                      child: Container(
-                                                        padding: EdgeInsets.all(12),
-                                                        width: 150,
+                                              child: ListView.builder(
+                                                  scrollDirection: Axis.horizontal,
+                                                  itemCount: selectedMonthDays.length,
+                                                  itemBuilder: (BuildContext context, int index){
+                                                    DateTime date = selectedMonthDays[index];
 
-                                                        //height: 10,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(5),
-                                                            border: Border.all(
-                                                                color: Colors.white.withOpacity(0.1))
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Text(
-                                                         '21st August 2023',
-                                                              style: TextStyle(fontSize: 13,
-                                                                  color: Colors.black.withOpacity(0.5)),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 10),
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        border:
-                                                        Border.all(color: Colors.black.withOpacity(0.1))),
-                                                    child: GestureDetector(
+                                                    return GestureDetector(
                                                       onTap: () {
+                                                        setState(() {
+                                                          selectedDayIndex = index;
+                                                          selectedHourIndices.clear(); // Clear selected hours when changing day
+                                                        });
                                                       },
-                                                      child: Container(
-                                                        padding: EdgeInsets.all(12),
-                                                        width: 150,
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                            padding: EdgeInsets.symmetric(horizontal: 10),
+                                                            decoration: BoxDecoration(
+                                                                color: selectedDayIndex == index ? Colors.blue : Colors.white,
+                                                                borderRadius: BorderRadius.circular(10),
+                                                                border:
+                                                                Border.all(color: Colors.black.withOpacity(0.1))),
+                                                            child: Container(
+                                                              padding: EdgeInsets.all(12),
+                                                              width: 150,
 
-                                                        //height: 10,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(5),
-                                                            border: Border.all(
-                                                                color: Colors.white.withOpacity(0.1))
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Text(
-                                                              '21st August 2023',
-                                                              style: TextStyle(fontSize: 13,
-                                                                  color: Colors.black.withOpacity(0.5)),
+                                                              //height: 10,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(5),
+                                                                  border: Border.all(
+                                                                      color: Colors.white.withOpacity(0.1))
+                                                              ),
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: [
+                                                                  Text(
+                                                                    '${date.day}${_getDaySuffix(date.day)}',
+                                                                    style: TextStyle(fontSize: 13,
+                                                                      color: selectedDayIndex == index ? Colors.white : Colors.black.withOpacity(0.5),
+                                                                  ),),
+                                                                  SizedBox(width: 5),
+                                                                  Text(
+                                                                    selectedMonth,
+                                                                    style: TextStyle(
+                                                                      fontSize: 13,
+                                                                      color: selectedDayIndex == index ? Colors.white : Colors.black.withOpacity(0.5),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10 ,
+                                                          )
+                                                        ],
                                                       ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 10),
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        border:
-                                                        Border.all(color: Colors.black.withOpacity(0.1))),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                      },
-                                                      child: Container(
-                                                        padding: EdgeInsets.all(12),
-                                                        width: 150,
+                                                    );
 
-                                                        //height: 10,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(5),
-                                                            border: Border.all(
-                                                                color: Colors.white.withOpacity(0.1))
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Text(
-                                                              '21st August 2023',
-                                                              style: TextStyle(fontSize: 13,
-                                                                  color: Colors.black.withOpacity(0.5)),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                              })
                                             ),
+
+
+
                                           ],
                                         ),
                                       ),
@@ -440,119 +404,53 @@ class _MyAvailabilityState extends State<MyAvailability> {
                                               height: 10,
                                             ),
 
-                                            Container(
-                                              height: 50,
-                                              child: ListView(
-                                                scrollDirection: Axis.horizontal,
-                                                children: [
-                                                  Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 10),
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        border:
-                                                        Border.all(color: Colors.black.withOpacity(0.1))),
-                                                    child: GestureDetector(
+                                            if (selectedDayIndex != null)
+                                              Container(
+                                                height: 50,
+                                                child: ListView.builder(
+                                                  scrollDirection: Axis.horizontal,
+                                                  itemCount: hourlySlots.length,
+                                                  itemBuilder: (BuildContext context, int index) {
+                                                    return GestureDetector(
                                                       onTap: () {
+                                                        setState(() {
+                                                          if (selectedHourIndices.contains(index)) {
+                                                            selectedHourIndices.remove(index);
+                                                          } else {
+                                                            selectedHourIndices.add(index);
+                                                          }
+                                                        });
                                                       },
                                                       child: Container(
-                                                        padding: EdgeInsets.all(12),
-                                                        width: 150,
-
-                                                        //height: 10,
+                                                        margin: EdgeInsets.symmetric(horizontal: 4),
+                                                        padding: EdgeInsets.symmetric(horizontal: 10),
                                                         decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(5),
-                                                            border: Border.all(
-                                                                color: Colors.white.withOpacity(0.1))
+                                                          color: selectedHourIndices.contains(index) ? Colors.blue : Colors.white,
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          border: Border.all(color: Colors.black.withOpacity(0.1)),
                                                         ),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Text(
-                                                              '10:00am',
-                                                              style: TextStyle(fontSize: 13,
-                                                                  color: Colors.black.withOpacity(0.5)),
+                                                        child: Container(
+                                                          padding: EdgeInsets.all(12),
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(5),
+                                                            border: Border.all(color: Colors.white.withOpacity(0.1)),
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              hourlySlots[index],
+                                                              style: TextStyle(
+                                                                fontSize: 13,
+                                                                color: selectedHourIndices.contains(index) ? Colors.white : Colors.black.withOpacity(0.5),
+                                                                fontWeight: selectedHourIndices.contains(index) ? FontWeight.bold : FontWeight.normal,
+                                                              ),
                                                             ),
-                                                          ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 10),
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        border:
-                                                        Border.all(color: Colors.black.withOpacity(0.1))),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                      },
-                                                      child: Container(
-                                                        padding: EdgeInsets.all(12),
-                                                        width: 150,
-
-                                                        //height: 10,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(5),
-                                                            border: Border.all(
-                                                                color: Colors.white.withOpacity(0.1))
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Text(
-                                                              '11:00am',
-                                                              style: TextStyle(fontSize: 13,
-                                                                  color: Colors.black.withOpacity(0.5)),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 10),
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        border:
-                                                        Border.all(color: Colors.black.withOpacity(0.1))),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                      },
-                                                      child: Container(
-                                                        padding: EdgeInsets.all(12),
-                                                        width: 150,
-
-                                                        //height: 10,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(5),
-                                                            border: Border.all(
-                                                                color: Colors.white.withOpacity(0.1))
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Text(
-                                                              '12:00pm',
-                                                              style: TextStyle(fontSize: 13,
-                                                                  color: Colors.black.withOpacity(0.5)),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                                    );
+                                                  },
+                                                ),
                                               ),
-                                            ),
                                           ],
                                         ),
                                       ),
@@ -603,6 +501,20 @@ class _MyAvailabilityState extends State<MyAvailability> {
 
                                       InkWell(
                                         onTap: () {
+                                          if(selectedHourIndices.isEmpty) {
+                                            print("Time is empty");
+
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content: Text("You must select at least a time slot",),
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            );
+
+                                          }else{
+                                            _onSaveAndAddMore();
+                                          }
+
                                         },
                                         child: Container(
                                           padding: EdgeInsets.all(15),
@@ -623,8 +535,35 @@ class _MyAvailabilityState extends State<MyAvailability> {
 
                                       InkWell(
                                         onTap: () {
+                                          if(selectedHourIndices.isEmpty) {
+                                            print("Time is empty");
 
-                                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyAvailabilityList()));
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content: Text("You must select at least a time slot",),
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            );
+
+                                          }else{
+                                            if(selectedInterval == null){
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("You must select an availability interval",),
+                                                  backgroundColor: Colors.red,
+                                                ),
+                                              );
+                                            }else{
+                                              _onSaveAndContinue();
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyAvailabilityList(
+                                                availability_data: availabilityList,
+                                                minimum_booking_time_frame: selectedInterval
+                                                ,)));
+
+                                            }
+
+                                          }
+
 
                                         },
                                         child: Container(
@@ -729,6 +668,107 @@ class _MyAvailabilityState extends State<MyAvailability> {
 
 
 
+  void _showMonthModal(BuildContext context) {
+    List<String> months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: months.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(
+                months[index],
+                style: TextStyle(
+                  color: selectedMonthIndex == index ? Colors.blue : Colors.black,
+                  fontWeight: selectedMonthIndex == index ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  selectedMonth = months[index];
+                  selectedMonthIndex = index;
+                  selectedMonthDays = [];
+
+                  // Generate a list of DateTime objects for all days in the selected month
+                  DateTime firstDay = DateTime(DateTime.now().year, index + 1, 1);
+                  DateTime lastDay = DateTime(DateTime.now().year, index + 2, 0);
+
+                  for (int i = 0; i < lastDay.day; i++) {
+                    selectedMonthDays.add(firstDay.add(Duration(days: i)));
+                  }
+
+                  // Clear selected day and hour when changing month
+                  selectedDayIndex = null;
+                  selectedHourIndices.clear();
+                });
+                Navigator.pop(context);
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+
+  String _getDaySuffix(int day) {
+    if (day >= 11 && day <= 13) {
+      return 'th';
+    }
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  }
+
+
+  void _onSaveAndAddMore() {
+    // Construct JSON object
+    String selectedDate = selectedDayIndex != null ? selectedMonthDays[selectedDayIndex!].toString().split(' ')[0] : '';
+    List<String> selectedTimes = selectedHourIndices.map((index) => hourlySlots[index]).toList();
+
+    Map<String, dynamic> availability = {
+      'date': selectedDate,
+      'time': selectedTimes,
+    };
+
+    availabilityList.add(availability);
+    print('Availability saved:\n$availabilityList');
+
+    // Clear selection for next input
+    setState(() {
+      selectedDayIndex = null;
+      selectedHourIndices.clear();
+    });
+  }
+
+  void _onSaveAndContinue() {
+    // Construct JSON object
+    String selectedDate = selectedDayIndex != null ? selectedMonthDays[selectedDayIndex!].toString().split(' ')[0] : '';
+    List<String> selectedTimes = selectedHourIndices.map((index) => hourlySlots[index]).toList();
+
+    Map<String, dynamic> availability = {
+      'date': selectedDate,
+      'time': selectedTimes,
+    };
+
+    availabilityList.add(availability);
+    print('Availability saved:\n$availabilityList');
+
+    // Continue to the next screen or perform any other action
+  }
 
 
 }

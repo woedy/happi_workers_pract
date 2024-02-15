@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Components/keyboard_utils.dart';
 import 'package:happi_workers_pract/Components/photos/select_photo_options_screen.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class MyPersonalInfo extends StatefulWidget {
   const MyPersonalInfo({super.key});
@@ -22,17 +24,25 @@ class MyPersonalInfo extends StatefulWidget {
 class _MyPersonalInfoState extends State<MyPersonalInfo> {
   final _formKey = GlobalKey<FormState>();
 
-  String? selectedGender;
-  File? _image;
+  FocusNode focusNode = FocusNode();
 
+  String? selectedGender;
+  String? academic_title;
+  String? dob;
+  String? contact_number;
+
+  String? _code;
+  String? _number;
+  String? country;
+
+
+  File? _image;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body: SafeArea(
             bottom: false,
-
             child: Stack(
               children: [
                 Container(
@@ -40,14 +50,12 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                   width: MediaQuery.of(context).size.width,
                   child: Stack(
                     children: [
-
                       Positioned(
                           top: 0,
                           right: 0,
                           child: Image(
                               height: 280,
                               image: AssetImage("assets/images/conner.png"))),
-
                     ],
                   ),
                 ),
@@ -64,46 +72,49 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                             height: 10,
                           ),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               Navigator.of(context).pop();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Image(
-                                    image: AssetImage("assets/images/Back_b.png")),
+                                    image:
+                                        AssetImage("assets/images/Back_b.png")),
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text("Back", style: TextStyle(fontSize: 20),)
+                                Text(
+                                  "Back",
+                                  style: TextStyle(fontSize: 20),
+                                )
                               ],
                             ),
                           ),
                           SizedBox(
                             height: 10,
                           ),
-
                         ],
                       ),
                     ),
-
                     Expanded(
                       child: SingleChildScrollView(
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           //color: Colors.red,
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 1),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 1),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-
                               SingleChildScrollView(
                                 child: Container(
                                   height: MediaQuery.of(context).size.height,
                                   child: Column(
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Text(
                                             "My Personal\nInformation",
@@ -117,50 +128,65 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                       SizedBox(
                                         height: 10,
                                       ),
-
                                       Stack(
                                         children: [
                                           InkWell(
-                                            onTap: (){
+                                            onTap: () {
                                               _showSelectPhotoOptions(context);
                                             },
                                             child: _image == null
-                                                ?  Container(
-                                                height: 132,
-                                                width: MediaQuery.of(context).size.width,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius: BorderRadius.circular(15),
-                                                    border:
-                                                    Border.all(color: Colors.black.withOpacity(0.1)) ),
-                                                child:  Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(Icons.upload_file, size: 50, color: Colors.grey,),
-                                                    Text("Upload a picture")
-                                                  ],
-                                                )
-                                            )
-                                                :Container(
-                                              height: 132,
-                                              width: MediaQuery.of(context).size.width,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-
-                                                      image: FileImage(_image!),
-                                                      fit: BoxFit.cover
+                                                ? Container(
+                                                    height: 132,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                        border: Border.all(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.1))),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.upload_file,
+                                                          size: 50,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        Text("Upload a picture")
+                                                      ],
+                                                    ))
+                                                : Container(
+                                                    height: 132,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: FileImage(
+                                                                _image!),
+                                                            fit: BoxFit.cover),
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                        border: Border.all(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.1))),
                                                   ),
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1)) ),
-
-
-                                            ),
-
                                           ),
-
                                           if (_image != null)
                                             Positioned(
                                               bottom: 10,
@@ -171,7 +197,10 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                                     _image = null;
                                                   });
                                                 },
-                                                child: Icon(Icons.delete_forever, color: Colors.white,),
+                                                child: Icon(
+                                                  Icons.delete_forever,
+                                                  color: Colors.white,
+                                                ),
                                                 style: ElevatedButton.styleFrom(
                                                   primary: Colors.red,
                                                   shape: CircleBorder(),
@@ -181,7 +210,6 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                             ),
                                         ],
                                       ),
-
                                       SizedBox(
                                         height: 20,
                                       ),
@@ -189,190 +217,242 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                         key: _formKey,
                                         child: Column(
                                           children: [
+
                                             Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 0),
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: TextFormField(
+                                                  borderRadius:
+                                                  BorderRadius.circular(15),
+                                                  border: Border.all(
+                                                      color: Colors.black
+                                                          .withOpacity(0.1))),
+                                              child: IntlPhoneField(
+                                                focusNode: focusNode,
                                                 style: TextStyle(color: Colors.black),
+                                                dropdownIcon: Icon(Icons.arrow_drop_down, color: Colors.white,),
                                                 decoration: InputDecoration(
-                                                  //hintText: 'Enter Username/Email',
+                                                  // labelText: 'Phone Number',
+                                                    border: OutlineInputBorder(
 
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.normal),
-                                                  labelText: "Contact",
-                                                  labelStyle: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  border: InputBorder.none,
+                                                      borderSide: BorderSide(
+                                                          color: Colors.transparent
+                                                      ),
+                                                    ),
+                                                    enabledBorder:  new OutlineInputBorder(
+                                                      borderSide:  BorderSide(color: Colors.grey.withOpacity(0.1)),
+                                                    ),
+                                                    focusedBorder:  new OutlineInputBorder(
+                                                      borderSide:  BorderSide(color: Colors.grey.withOpacity(0.1)),
+                                                    )
                                                 ),
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(225),
-                                                  PasteTextInputFormatter(),
-                                                ],
-                                                validator: (value) {
-                                                  if (value!.isEmpty) {
-                                                    return 'Contact name is required';
+                                                languageCode: "en",
+                                                initialCountryCode: "GH",
+                                                validator: (e){
+                                                  if(e == null){
+                                                    return 'Contact Number required';
                                                   }
-                                                  if (value.length < 3) {
-                                                    return 'Contact too short';
-                                                  }
+                                                  return null;
                                                 },
-                                                textInputAction: TextInputAction.next,
-                                                autofocus: false,
+                                                onChanged: (value) {
+                                                  _code = value.countryCode.toString();
+                                                  _number = value.number.toString();
+                                                  country = value.countryISOCode.toString();
+                                                },
+                                                onCountryChanged: (country) {
+
+                                                },
+
                                                 onSaved: (value) {
+                                                  //_onSaveForm(value.toString());
                                                   setState(() {
-                                                    //email = value;
+                                                    _code = value!.countryCode.toString();
+                                                    _number = value.number.toString();
+                                                    country = value.countryISOCode.toString();
+
                                                   });
+
                                                 },
+
                                               ),
                                             ),
                                             SizedBox(
                                               height: 20,
                                             ),
                                             Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10,
+                                                  vertical: 10
+                                              ,),
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  border: Border.all(
+                                                      color: Colors.black
+                                                          .withOpacity(0.1))),
                                               child: DateTimeFormField(
-                                                decoration: const InputDecoration(
-                                                  hintStyle: TextStyle(color: Colors.white),
-                                                  errorStyle: TextStyle(color: Colors.redAccent),
+                                                decoration:
+                                                    const InputDecoration(
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.white),
+                                                  errorStyle: TextStyle(
+                                                      color: Colors.redAccent),
                                                   border: InputBorder.none,
-                                                  suffixIcon: Icon(Icons.event_note, color: Colors.black),
+                                                  suffixIcon: Icon(
+                                                      Icons.event_note,
+                                                      color: Colors.black),
                                                   labelText: 'Date of birth',
-                                                  labelStyle: TextStyle(color: Colors.grey),
+                                                  labelStyle: TextStyle(
+                                                      color: Colors.grey),
                                                 ),
-                                                mode: DateTimeFieldPickerMode.date,
-                                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                                mode: DateTimeFieldPickerMode
+                                                    .date,
+                                                autovalidateMode:
+                                                    AutovalidateMode
+                                                        .onUserInteraction,
                                                 validator: (e) {
                                                   if (e == null) {
                                                     return 'Date of birth required';
                                                   }
 
-                                                  /* bool isValid = isDateBeforeToday(e.toString());
+                                                  bool isValid =
+                                                      isDateBeforeToday(
+                                                          e.toString());
 
-        if (isValid) {
-
-        } else {
-          return "The dob field must be a date before today.";
-        }*/
+                                                  if (isValid) {
+                                                  } else {
+                                                    return "The dob field must be a date before today.";
+                                                  }
 
                                                   return null;
                                                 },
-                                                onDateSelected: (DateTime value) {},
+                                                onDateSelected: (DateTime value) {
+
+                                                },
                                                 onSaved: (value) {
                                                   setState(() {
-
+                                                    dob = value.toString();
                                                   });
                                                 },
-                                                dateFormat: DateFormat("dd/MM/yy"), // Specify the desired date format (month/year)
+                                                dateFormat: DateFormat(
+                                                    "dd/MM/yy"), // Specify the desired date format (month/year)
                                               ),
                                             ),
                                             SizedBox(
                                               height: 20,
                                             ),
-
                                             Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10),
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  border: Border.all(
+                                                      color: Colors.black
+                                                          .withOpacity(0.1))),
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  _showGenderSelectionModal(context);
+                                                  _showGenderSelectionModal(
+                                                      context);
                                                 },
                                                 child: Container(
                                                   padding: EdgeInsets.all(10),
-
                                                   height: 60,
                                                   decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(5),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
                                                       border: Border.all(
-                                                          color: Colors.white.withOpacity(0.1))
-                                                  ),
+                                                          color: Colors.white
+                                                              .withOpacity(
+                                                                  0.1))),
                                                   child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        selectedGender ?? 'Select Gender',
-                                                        style: TextStyle(fontSize: 13,
-                                                            color: Colors.black.withOpacity(0.5)),
+                                                        selectedGender ??
+                                                            'Select Gender',
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.5)),
                                                       ),
-                                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
+                                                      Icon(
+                                                        Icons.arrow_drop_down,
+                                                        size: 30,
+                                                        color: Colors.black,
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
                                               ),
                                             ),
-
                                             SizedBox(
                                               height: 20,
                                             ),
                                             Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10),
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  border: Border.all(
+                                                      color: Colors.black
+                                                          .withOpacity(0.1))),
                                               child: TextFormField(
-                                                style: TextStyle(color: Colors.black),
+                                                style: TextStyle(
+                                                    color: Colors.black),
                                                 decoration: InputDecoration(
                                                   //hintText: 'Enter Username/Email',
 
                                                   hintStyle: TextStyle(
                                                       color: Colors.grey,
-                                                      fontWeight: FontWeight.normal),
+                                                      fontWeight:
+                                                          FontWeight.normal),
                                                   labelText: "Academic Title",
                                                   labelStyle: TextStyle(
                                                       fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
+                                                      color: Colors.black
+                                                          .withOpacity(0.5)),
+                                                  enabledBorder:
+                                                      UnderlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .white)),
+                                                  focusedBorder:
+                                                      UnderlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .white)),
                                                   border: InputBorder.none,
                                                 ),
                                                 inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(225),
+                                                  LengthLimitingTextInputFormatter(
+                                                      225),
                                                   PasteTextInputFormatter(),
                                                 ],
                                                 validator: (value) {
                                                   if (value!.isEmpty) {
-                                                    return 'Email is required';
+                                                    return 'Academic title required';
                                                   }
-                                                  if (value.length < 3) {
-                                                    return 'Name too short';
-                                                  }
-                                                  String pattern =
-                                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?)*$";
-                                                  RegExp regex = RegExp(pattern);
-                                                  if (!regex.hasMatch(value))
-                                                    return 'Enter a valid email address';
 
                                                   return null;
                                                 },
-                                                textInputAction: TextInputAction.next,
+                                                textInputAction:
+                                                    TextInputAction.next,
                                                 autofocus: false,
                                                 onSaved: (value) {
                                                   setState(() {
-                                                    //email = value;
+                                                    academic_title = value;
                                                   });
                                                 },
                                               ),
@@ -385,17 +465,43 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PracticedDetails()));
+
+
+                                          if (_formKey.currentState!.validate()) {
+                                            _formKey.currentState!.save();
+                                            KeyboardUtil.hideKeyboard(context);
+
+                                            var personal_info_data = {};
+                                            personal_info_data["avatar"] = _image!.path;
+                                            personal_info_data["contact_number"] = _code.toString() + _number.toString();
+                                            personal_info_data["gender"] = selectedGender;
+                                            personal_info_data["academic_title"] = academic_title;
+
+                                            print("##############");
+                                            print(personal_info_data);
+
+                                          /*  Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder:
+                                                        (BuildContext context) =>
+                                                        PracticedDetails()));*/
+
+                                          }
+
+
+
                                         },
                                         child: Container(
                                           padding: EdgeInsets.all(20),
                                           decoration: BoxDecoration(
                                               color: happiPrimary,
-                                              borderRadius: BorderRadius.circular(15)),
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
                                           child: Center(
                                             child: Text(
                                               "Continue",
-                                              style: TextStyle(color: Colors.white),
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             ),
                                           ),
                                         ),
@@ -403,7 +509,6 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                       SizedBox(
                                         height: 20,
                                       ),
-
                                     ],
                                   ),
                                 ),
@@ -418,7 +523,6 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
               ],
             )));
   }
-
 
   void _showGenderSelectionModal(BuildContext context) {
     showModalBottomSheet(
@@ -446,14 +550,21 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                   Navigator.pop(context);
                 },
               ),
+              ListTile(
+                title: const Text('Prefer Not To Say'),
+                onTap: () {
+                  setState(() {
+                    selectedGender = 'Prefer Not To Say';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
             ],
           ),
         );
       },
     );
   }
-
-
 
   void _showSelectPhotoOptions(BuildContext context) {
     showModalBottomSheet(
@@ -480,7 +591,6 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
     );
   }
 
-
   Future _pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -499,12 +609,34 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
 
   Future<File?> _cropImage({required File imageFile}) async {
     CroppedFile? croppedImage =
-    await ImageCropper().cropImage(sourcePath: imageFile.path);
+        await ImageCropper().cropImage(sourcePath: imageFile.path);
     if (croppedImage == null) return null;
     return File(croppedImage.path);
   }
 
+  String formatDateTime(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    DateFormat formatter = DateFormat('dd/MM/yyyy');
+    String formattedDateTime = formatter.format(dateTime);
+    return formattedDateTime;
+  }
 
+  bool isDateBeforeToday(String inputDate) {
+    DateTime currentDate = DateTime.now();
+    DateTime date = DateTime.parse(inputDate);
 
+    // Extract only the date part from the input date
+    DateTime inputDateOnly = DateTime(date.year, date.month, date.day);
 
+    // Extract only the date part from the current date
+    DateTime currentDateOnly =
+        DateTime(currentDate.year, currentDate.month, currentDate.day);
+
+    // Check if the input date is before today
+    if (inputDateOnly.isBefore(currentDateOnly)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

@@ -5,6 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Components/theme.dart';
 
 import 'package:happi_workers_pract/Home/home_screen.dart';
+import 'package:happi_workers_pract/Onboarding/my_availability.dart';
+import 'package:happi_workers_pract/Onboarding/my_documents.dart';
+import 'package:happi_workers_pract/Onboarding/personal_Info.dart';
+import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 
 import 'package:happi_workers_pract/Welcome/welcome_page1.dart';
 import 'package:happi_workers_pract/constants.dart';
@@ -65,8 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
         future: _user_api,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
-         return api_key == null ? WelcomePage1() : HomeScreen();
-          //return VerifyEmail(token: "43543543543",);
+          //return api_key == null ? WelcomePage1() : HomeScreen();
+          return MyDocuments();
 
         });
   }

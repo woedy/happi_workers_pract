@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Components/keyboard_utils.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents.dart';
 import 'package:happi_workers_pract/constants.dart';
 
@@ -15,10 +16,21 @@ class PracticedDetails extends StatefulWidget {
 class _PracticedDetailsState extends State<PracticedDetails> {
   final _formKey = GlobalKey<FormState>();
 
+
+  TextEditingController _accred_controller = TextEditingController();
+  TextEditingController _therapies_controller = TextEditingController();
+
+  List<String> _accreditations = [];
+  List<String> _therapies = [];
+  List<String> _approaches = [];
+
+  List<String> _predefinedApproaches = [
+    "safe", "creative", "..."];
+
+
   String? selectedTitle;
   String? selectedQualification;
-  String? selectedApproach;
-  String? selectedTherapiesOffered;
+  String? specialization;
 
 
   @override
@@ -46,384 +58,323 @@ class _PracticedDetailsState extends State<PracticedDetails> {
                     ],
                   ),
                 ),
-                Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      //color: Colors.red,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          InkWell(
-                            onTap: (){
-                              Navigator.of(context).pop();
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image(
-                                    image: AssetImage("assets/images/Back_b.png")),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text("Back", style: TextStyle(fontSize: 20),)
-                              ],
+                Container(
+
+                  child: Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        //color: Colors.red,
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                            InkWell(
+                              onTap: (){
+                                Navigator.of(context).pop();
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image(
+                                      image: AssetImage("assets/images/Back_b.png")),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Back", style: TextStyle(fontSize: 20),)
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
 
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
 
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          //color: Colors.red,
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 1),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            //color: Colors.red,
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 1),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
 
-                              SingleChildScrollView(
-                                child: Container(
-                                  height: MediaQuery.of(context).size.height,
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "My Practice\nDetails",
-                                            style: TextStyle(
-                                                fontSize: 48,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-
-                                      Form(
-                                        key: _formKey,
-                                        child: Column(
+                                SingleChildScrollView(
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height,
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  _showTitleSelectionModal(context);
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10),
-
-                                                  height: 60,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(5),
-                                                      border: Border.all(
-                                                          color: Colors.white.withOpacity(0.1))
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        selectedTitle ?? 'Profile Title',
-                                                        style: TextStyle(fontSize: 13,
-                                                            color: Colors.black.withOpacity(0.5)),
-                                                      ),
-                                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  _showQualificationSelectionModal(context);
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10),
-
-                                                  height: 60,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(5),
-                                                      border: Border.all(
-                                                          color: Colors.white.withOpacity(0.1))
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        selectedQualification ?? 'Highest Qualification',
-                                                        style: TextStyle(fontSize: 13,
-                                                            color: Colors.black.withOpacity(0.5)),
-                                                      ),
-                                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: TextFormField(
-                                                style: TextStyle(color: Colors.black),
-                                                decoration: InputDecoration(
-                                                  //hintText: 'Enter Username/Email',
-
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.normal),
-                                                  labelText: "Specialization",
-                                                  labelStyle: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  border: InputBorder.none,
-                                                ),
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(225),
-                                                  PasteTextInputFormatter(),
-                                                ],
-                                                validator: (value) {
-                                                  if (value!.isEmpty) {
-                                                    return 'Email is required';
-                                                  }
-                                                  if (value.length < 3) {
-                                                    return 'Name too short';
-                                                  }
-                                                  String pattern =
-                                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?)*$";
-                                                  RegExp regex = RegExp(pattern);
-                                                  if (!regex.hasMatch(value))
-                                                    return 'Enter a valid email address';
-
-                                                  return null;
-                                                },
-                                                textInputAction: TextInputAction.next,
-                                                autofocus: false,
-                                                onSaved: (value) {
-                                                  setState(() {
-                                                    //email = value;
-                                                  });
-                                                },
-                                              ),
-                                            ),
-
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: TextFormField(
-                                                style: TextStyle(color: Colors.black),
-                                                decoration: InputDecoration(
-                                                  //hintText: 'Enter Username/Email',
-
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.normal),
-                                                  labelText: "Accreditations",
-                                                  labelStyle: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                  enabledBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  focusedBorder: UnderlineInputBorder(
-                                                      borderSide: BorderSide(color: Colors.white)),
-                                                  border: InputBorder.none,
-                                                ),
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(225),
-                                                  PasteTextInputFormatter(),
-                                                ],
-                                                validator: (value) {
-                                                  if (value!.isEmpty) {
-                                                    return 'Email is required';
-                                                  }
-                                                  if (value.length < 3) {
-                                                    return 'Name too short';
-                                                  }
-                                                  String pattern =
-                                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                                      r"{0,253}[a-zA-Z0-9])?)*$";
-                                                  RegExp regex = RegExp(pattern);
-                                                  if (!regex.hasMatch(value))
-                                                    return 'Enter a valid email address';
-
-                                                  return null;
-                                                },
-                                                textInputAction: TextInputAction.next,
-                                                autofocus: false,
-                                                onSaved: (value) {
-                                                  setState(() {
-                                                    //email = value;
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-
-                                            Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  _showApproachSelectionModal(context);
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10),
-
-                                                  height: 60,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(5),
-                                                      border: Border.all(
-                                                          color: Colors.white.withOpacity(0.1))
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        selectedApproach ?? 'My Approach Is (Choose 3 Approaches)',
-                                                        style: TextStyle(fontSize: 13,
-                                                            color: Colors.black.withOpacity(0.5)),
-                                                      ),
-                                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-
-                                            SizedBox(
-                                              height: 30,
-                                            ),
-
-                                            Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(15),
-                                                  border:
-                                                  Border.all(color: Colors.black.withOpacity(0.1))),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  _showTherapiesOfferedSelectionModal(context);
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10),
-
-                                                  height: 60,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(5),
-                                                      border: Border.all(
-                                                          color: Colors.white.withOpacity(0.1))
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          selectedTherapiesOffered ?? 'Therapies Offered (More than one if applicable)',
-                                                          style: TextStyle(fontSize: 13,
-                                                              color: Colors.black.withOpacity(0.5)),
-                                                        ),
-                                                      ),
-                                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-
-
-                                            SizedBox(
-                                              height: 30,
+                                            Text(
+                                              "My Practice\nDetails",
+                                              style: TextStyle(
+                                                  fontSize: 48,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.black),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyDocuments()));
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(20),
-                                          decoration: BoxDecoration(
-                                              color: happiPrimary,
-                                              borderRadius: BorderRadius.circular(15)),
-                                          child: Center(
-                                            child: Text(
-                                              "Continue",
-                                              style: TextStyle(color: Colors.white),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+
+                                        Expanded(
+                                          child: Form(
+                                            key: _formKey,
+                                            child: ListView(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(15),
+                                                      border:
+                                                      Border.all(color: Colors.black.withOpacity(0.1))),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      _showTitleSelectionModal(context);
+                                                    },
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(10),
+
+                                                      height: 60,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          border: Border.all(
+                                                              color: Colors.white.withOpacity(0.1))
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            selectedTitle ?? 'Profile Title',
+                                                            style: TextStyle(fontSize: 13,
+                                                                color: Colors.black.withOpacity(0.5)),
+                                                          ),
+                                                          Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(15),
+                                                      border:
+                                                      Border.all(color: Colors.black.withOpacity(0.1))),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      _showQualificationSelectionModal(context);
+                                                    },
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(10),
+
+                                                      height: 60,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          border: Border.all(
+                                                              color: Colors.white.withOpacity(0.1))
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            selectedQualification ?? 'Highest Qualification',
+                                                            style: TextStyle(fontSize: 13,
+                                                                color: Colors.black.withOpacity(0.5)),
+                                                          ),
+                                                          Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(15),
+                                                      border:
+                                                      Border.all(color: Colors.black.withOpacity(0.1))),
+                                                  child: TextFormField(
+                                                    style: TextStyle(color: Colors.black),
+                                                    decoration: InputDecoration(
+                                                      //hintText: 'Enter Username/Email',
+
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.normal),
+                                                      labelText: "Specialization",
+                                                      labelStyle: TextStyle(
+                                                          fontSize: 13,
+                                                          color: Colors.black.withOpacity(0.5)),
+                                                      enabledBorder: UnderlineInputBorder(
+                                                          borderSide: BorderSide(color: Colors.white)),
+                                                      focusedBorder: UnderlineInputBorder(
+                                                          borderSide: BorderSide(color: Colors.white)),
+                                                      border: InputBorder.none,
+                                                    ),
+                                                    inputFormatters: [
+                                                      LengthLimitingTextInputFormatter(225),
+                                                      PasteTextInputFormatter(),
+                                                    ],
+                                                    validator: (value) {
+                                                      if (value!.isEmpty) {
+                                                        return 'Specialization is required';
+                                                      }
+                                                      if (value.length < 3) {
+                                                        return 'Specialization too short';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    textInputAction: TextInputAction.next,
+                                                    autofocus: false,
+                                                    onSaved: (value) {
+                                                      setState(() {
+                                                        specialization = value;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+
+
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                  width: MediaQuery.of(context).size.width,
+                                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(15),
+                                                    border: Border.all(color: Colors.black.withOpacity(0.1)),
+                                                  ),
+                                                  child: Wrap(
+                                                    spacing: 8.0,
+                                                    children: _buildAccredWidgets(),
+                                                  ),
+                                                ),
+
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                  width: MediaQuery.of(context).size.width,
+                                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(15),
+                                                    border: Border.all(color: Colors.black.withOpacity(0.1)),
+                                                  ),
+                                                  child: Wrap(
+                                                    spacing: 8.0,
+                                                    children: _buildApporachWidgets(),
+                                                  ),
+                                                ),
+
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                  width: MediaQuery.of(context).size.width,
+                                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(15),
+                                                    border: Border.all(color: Colors.black.withOpacity(0.1)),
+                                                  ),
+                                                  child: Wrap(
+                                                    spacing: 8.0,
+                                                    children: _buildTherapiesWidgets(),
+                                                  ),
+                                                ),
+
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+
+
+
+                                                SizedBox(
+                                                  height: 30,
+                                                ),
+
+                                                InkWell(
+                                                  onTap: () {
+                                                    if (_formKey.currentState!.validate()) {
+                                                      _formKey.currentState!
+                                                          .save();
+                                                      KeyboardUtil.hideKeyboard(context);
+
+                                                      var practiced_detail_data = {};
+                                                      practiced_detail_data["profile_title"] = selectedTitle;
+                                                      practiced_detail_data["highest_academic_qualification"] = selectedQualification;
+                                                      practiced_detail_data["specialization"] = specialization;
+                                                      practiced_detail_data["approaches"] = _approaches;
+                                                      practiced_detail_data["therapies"] = _therapies;
+                                                      practiced_detail_data["accreditations"] = _accreditations;
+
+                                                      print("############");
+                                                      print(practiced_detail_data);
+
+
+
+                                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyDocuments()));
+
+                                                    }
+
+
+
+                                                  },
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(20),
+                                                    decoration: BoxDecoration(
+                                                        color: happiPrimary,
+                                                        borderRadius: BorderRadius.circular(15)),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "Continue",
+                                                        style: TextStyle(color: Colors.white),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                              ],
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
 
-                                    ],
+
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 )
               ],
             )));
@@ -540,93 +491,161 @@ class _PracticedDetailsState extends State<PracticedDetails> {
 
 
 
-  void _showApproachSelectionModal(BuildContext context) {
-    showModalBottomSheet(
+
+
+  List<Widget> _buildAccredWidgets() {
+    List<Widget> accredWidgets = [];
+    for (String tag in _accreditations) {
+      accredWidgets.add(Chip(
+        label: Text(tag),
+        onDeleted: () {
+          setState(() {
+            _accreditations.remove(tag);
+          });
+        },
+      ));
+    }
+    accredWidgets.add(
+      SizedBox(
+        //: 100, // Adjust width accordingly
+        child: TextFormField(
+          controller: _accred_controller,
+          style: TextStyle(color: Colors.black),
+          decoration: InputDecoration(
+            hintText: 'Accreditations',
+            hintStyle: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.normal,
+              fontSize: 13
+            ),
+            border: InputBorder.none,
+          ),
+          onFieldSubmitted: (value) {
+            _addAccredTag(value.trim());
+          },
+        ),
+      ),
+    );
+    return accredWidgets;
+  }
+
+  void _addAccredTag(String tag) {
+    if (tag.isNotEmpty) {
+      setState(() {
+        _accreditations.add(tag);
+        _accred_controller.clear();
+      });
+    }
+  }
+
+
+  List<Widget> _buildTherapiesWidgets() {
+    List<Widget> theraWidgets = [];
+    for (String tag in _therapies) {
+      theraWidgets.add(Chip(
+        label: Text(tag),
+        onDeleted: () {
+          setState(() {
+            _therapies.remove(tag);
+          });
+        },
+      ));
+    }
+    theraWidgets.add(
+      SizedBox(
+        //: 100, // Adjust width accordingly
+        child: TextFormField(
+          controller: _therapies_controller,
+          style: TextStyle(color: Colors.black),
+          decoration: InputDecoration(
+            hintText: 'Therapies',
+            hintStyle: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.normal,
+              fontSize: 13
+            ),
+            border: InputBorder.none,
+          ),
+          onFieldSubmitted: (value) {
+            _addTherapyTag(value.trim());
+          },
+        ),
+      ),
+    );
+    return theraWidgets;
+  }
+
+  void _addTherapyTag(String tag) {
+    if (tag.isNotEmpty) {
+      setState(() {
+        _therapies.add(tag);
+        _therapies_controller.clear();
+      });
+    }
+  }
+
+
+  List<Widget> _buildApporachWidgets() {
+    List<Widget> tagWidgets = [];
+
+    // Add chips for selected tags
+    for (String approach in _approaches) {
+      tagWidgets.add(Chip(
+        label: Text(approach),
+        onDeleted: () {
+          setState(() {
+            _approaches.remove(approach);
+          });
+        },
+      ));
+    }
+
+    // Add button for selecting predefined tags
+    tagWidgets.add(
+      ElevatedButton(
+        onPressed: _showTagsDialog,
+        child: Text('Select Approach'),
+      ),
+    );
+
+    return tagWidgets;
+  }
+
+
+
+  void _showTagsDialog() {
+    showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-
-              ListTile(
-                title: const Text('Approach 1'),
-                onTap: () {
-                  setState(() {
-                    selectedApproach = 'Approach 1';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Approach 2'),
-                onTap: () {
-                  setState(() {
-                    selectedApproach = 'Approach 2';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Approach 3'),
-                onTap: () {
-                  setState(() {
-                    selectedApproach = 'Approach 3';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-
-            ],
+        return AlertDialog(
+          title: Text('Select Approach'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: _predefinedApproaches.map((approach) {
+                return ListTile(
+                  title: Text(approach),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _addApproach(approach);
+                  },
+                );
+              }).toList(),
+            ),
           ),
         );
       },
     );
   }
- void _showTherapiesOfferedSelectionModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
 
-              ListTile(
-                title: const Text('Therapy 1'),
-                onTap: () {
-                  setState(() {
-                    selectedTherapiesOffered = 'Therapy 1';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Therapy 2'),
-                onTap: () {
-                  setState(() {
-                    selectedTherapiesOffered = 'Therapy 2';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Therapy 3'),
-                onTap: () {
-                  setState(() {
-                    selectedTherapiesOffered = 'Therapy 3';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
 
-            ],
-          ),
-        );
-      },
-    );
+  void _addApproach(String approach) {
+    if (approach.isNotEmpty && !_approaches.contains(approach)) {
+      setState(() {
+        _approaches.add(approach);
+      });
+    }
   }
-
 
 
 }
+
