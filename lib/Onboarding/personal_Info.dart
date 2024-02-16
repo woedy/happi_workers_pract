@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:date_field/date_field.dart';
@@ -5,14 +6,158 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
+import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
 import 'package:happi_workers_pract/Components/keyboard_utils.dart';
 import 'package:happi_workers_pract/Components/photos/select_photo_options_screen.dart';
+import 'package:happi_workers_pract/Onboarding/models/user_profile_models.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+
+import 'package:http/http.dart' as http;
+
+/*
+Future<UserProfileModel> update_personal_info(data) async {
+
+  print("############");
+  print("FUNCTION CALL");
+  final url = Uri.parse(hostName + "/profile/personal-information");
+  final request = http.MultipartRequest('POST', url);
+
+  request.headers['Accept'] = 'application/json';
+  //request.headers['Content-Type'] = 'multipart/form-data';
+  request.headers['Authorization'] = 'Bearer ' + '10|Hw6CCoRmcETHdgp6uuitvFvkmjzx21aS0JEJEwaJe88e3b00';
+
+  request.files.add(await http.MultipartFile.fromPath('avatar', data["avatar"]));
+  request.files.add(await http.MultipartFile.fromPath('id_card', data["avatar"]));
+
+  request.fields['gender'] = data["gender"];
+  request.fields['academic_title'] = data["academic_title"];
+  request.fields['first_name'] = data["first_name"];
+  request.fields['last_name'] = data["last_name"];
+  request.fields['dob'] = data["dob"];
+  request.fields['contact_number'] = data["contact_number"];
+  request.fields['id_type'] = "None";
+  request.fields['address_line_1'] = "None";
+  request.fields['address_line2'] = "None";
+  request.fields['city'] = "None";
+  request.fields['postcode'] = "None";
+  request.fields['country'] = "None";
+
+  try {
+    print("############");
+    print("SENDINGGG");
+    final response = await request.send();
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final responseBody = await response.stream.bytesToString();
+      final result = json.decode(responseBody);
+
+
+      print("############");
+      print("WE ARE INNNNNNNN");
+      print(result);
+
+      return UserProfileModel.fromJson(result);
+
+    } else if (response.statusCode == 422 ||
+        response.statusCode == 403 ||
+        response.statusCode == 400) {
+      final responseBody = await response.stream.bytesToString();
+      final result = json.decode(responseBody);
+
+
+      print("############");
+      print("ERRORRRRRR");
+      print(result);
+
+      return UserProfileModel.fromJson(result);
+    } else {
+      throw Exception('Failed to add data');
+    }
+  } catch (e) {
+    print('Error: $e');
+    throw Exception('Failed to add data');
+  }
+}
+*/
+
+
+Future<UserProfileModel> update_personal_info(data) async {
+  try {
+    print("############");
+    print("FUNCTION CALL");
+
+    print(data);
+
+    final url = Uri.parse(hostName + "/profile/personal-information");
+    final request = http.MultipartRequest('POST', url);
+
+    request.headers['Accept'] = 'application/json';
+    request.headers['Authorization'] = 'Bearer ' + "10|Hw6CCoRmcETHdgp6uuitvFvkmjzx21aS0JEJEwaJe88e3b00";
+
+    request.files.add(await http.MultipartFile.fromPath('avatar', data["avatar"]));
+    request.files.add(await http.MultipartFile.fromPath('id_card', data["avatar"]));
+
+    request.fields['gender'] = data["gender"];
+    request.fields['academic_title'] = data["academic_title"];
+    request.fields['first_name'] = "Dicee";
+    request.fields['last_name'] = "Micee";
+    request.fields['dob'] = data["dob"];
+    request.fields['contact_number'] = data["contact_number"];
+    request.fields['id_type'] = "None";
+    request.fields['address_line_1'] = "None";
+    request.fields['address_line_2'] = "None";
+    request.fields['city'] = "None";
+    request.fields['postcode'] = "None";
+    request.fields['country'] = "None";
+
+    print("############");
+    print("SENDINGGG");
+
+    final response = await request.send();
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final responseBody = await response.stream.bytesToString();
+      final result = json.decode(responseBody);
+
+      print("############");
+      print("WE ARE INNNNNNNN");
+      print(result);
+
+      if (result["data"] != null && result["data"].length > 0) {
+        return UserProfileModel.fromJson(result["data"][0]);
+      } else {
+        // Return a default UserProfileModel if data is empty
+        return UserProfileModel();
+      }
+    } else if (response.statusCode == 422 ||
+        response.statusCode == 403 ||
+        response.statusCode == 400 ||
+        response.statusCode == 500) {
+      final responseBody = await response.stream.bytesToString();
+      final result = json.decode(responseBody);
+
+      print("############");
+      print("ERRORRRRRR");
+      print(result);
+
+      return UserProfileModel.fromJson(result);
+    } else {
+      print("############");
+      print("Failed to add data. Status code: ${response.statusCode}");
+      throw Exception('Failed to add data. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error: $e');
+    throw Exception('Failed to add data. Error: $e');
+  }
+}
+
 
 class MyPersonalInfo extends StatefulWidget {
   const MyPersonalInfo({super.key});
@@ -38,8 +183,15 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
 
   File? _image;
 
+  Future<UserProfileModel>? _futureUpdatePersonalInfo;
+
+
   @override
   Widget build(BuildContext context) {
+    return (_futureUpdatePersonalInfo == null) ? buildColumn() : buildFutureBuilder();
+  }
+
+  buildColumn(){
     return Scaffold(
         body: SafeArea(
             bottom: false,
@@ -80,7 +232,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                               children: [
                                 Image(
                                     image:
-                                        AssetImage("assets/images/Back_b.png")),
+                                    AssetImage("assets/images/Back_b.png")),
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -103,7 +255,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                           width: MediaQuery.of(context).size.width,
                           //color: Colors.red,
                           padding:
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 1),
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 1),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -114,7 +266,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         children: [
                                           Text(
                                             "My Personal\nInformation",
@@ -136,56 +288,56 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                             },
                                             child: _image == null
                                                 ? Container(
-                                                    height: 132,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                        border: Border.all(
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    0.1))),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.upload_file,
-                                                          size: 50,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        Text("Upload a picture")
-                                                      ],
-                                                    ))
+                                                height: 132,
+                                                width:
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(15),
+                                                    border: Border.all(
+                                                        color: Colors.black
+                                                            .withOpacity(
+                                                            0.1))),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .center,
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.upload_file,
+                                                      size: 50,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    Text("Upload a picture")
+                                                  ],
+                                                ))
                                                 : Container(
-                                                    height: 132,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: FileImage(
-                                                                _image!),
-                                                            fit: BoxFit.cover),
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                        border: Border.all(
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    0.1))),
-                                                  ),
+                                              height: 132,
+                                              width:
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: FileImage(
+                                                          _image!),
+                                                      fit: BoxFit.cover),
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                  BorderRadius
+                                                      .circular(15),
+                                                  border: Border.all(
+                                                      color: Colors.black
+                                                          .withOpacity(
+                                                          0.1))),
+                                            ),
                                           ),
                                           if (_image != null)
                                             Positioned(
@@ -282,19 +434,19 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                             ),
                                             Container(
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                  vertical: 10
-                                              ,),
+                                                horizontal: 10,
+                                                vertical: 10
+                                                ,),
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
-                                                      BorderRadius.circular(15),
+                                                  BorderRadius.circular(15),
                                                   border: Border.all(
                                                       color: Colors.black
                                                           .withOpacity(0.1))),
                                               child: DateTimeFormField(
                                                 decoration:
-                                                    const InputDecoration(
+                                                const InputDecoration(
                                                   hintStyle: TextStyle(
                                                       color: Colors.white),
                                                   errorStyle: TextStyle(
@@ -310,16 +462,16 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                                 mode: DateTimeFieldPickerMode
                                                     .date,
                                                 autovalidateMode:
-                                                    AutovalidateMode
-                                                        .onUserInteraction,
+                                                AutovalidateMode
+                                                    .onUserInteraction,
                                                 validator: (e) {
                                                   if (e == null) {
                                                     return 'Date of birth required';
                                                   }
 
                                                   bool isValid =
-                                                      isDateBeforeToday(
-                                                          e.toString());
+                                                  isDateBeforeToday(
+                                                      e.toString());
 
                                                   if (isValid) {
                                                   } else {
@@ -349,7 +501,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
-                                                      BorderRadius.circular(15),
+                                                  BorderRadius.circular(15),
                                                   border: Border.all(
                                                       color: Colors.black
                                                           .withOpacity(0.1))),
@@ -363,16 +515,16 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                                   height: 60,
                                                   decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
+                                                      BorderRadius.circular(
+                                                          5),
                                                       border: Border.all(
                                                           color: Colors.white
                                                               .withOpacity(
-                                                                  0.1))),
+                                                              0.1))),
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                     children: [
                                                       Text(
                                                         selectedGender ??
@@ -381,7 +533,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                                             fontSize: 13,
                                                             color: Colors.black
                                                                 .withOpacity(
-                                                                    0.5)),
+                                                                0.5)),
                                                       ),
                                                       Icon(
                                                         Icons.arrow_drop_down,
@@ -402,7 +554,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
-                                                      BorderRadius.circular(15),
+                                                  BorderRadius.circular(15),
                                                   border: Border.all(
                                                       color: Colors.black
                                                           .withOpacity(0.1))),
@@ -415,24 +567,24 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                                   hintStyle: TextStyle(
                                                       color: Colors.grey,
                                                       fontWeight:
-                                                          FontWeight.normal),
+                                                      FontWeight.normal),
                                                   labelText: "Academic Title",
                                                   labelStyle: TextStyle(
                                                       fontSize: 13,
                                                       color: Colors.black
                                                           .withOpacity(0.5)),
                                                   enabledBorder:
-                                                      UnderlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .white)),
+                                                  UnderlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide(
+                                                          color: Colors
+                                                              .white)),
                                                   focusedBorder:
-                                                      UnderlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .white)),
+                                                  UnderlineInputBorder(
+                                                      borderSide:
+                                                      BorderSide(
+                                                          color: Colors
+                                                              .white)),
                                                   border: InputBorder.none,
                                                 ),
                                                 inputFormatters: [
@@ -448,7 +600,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                                   return null;
                                                 },
                                                 textInputAction:
-                                                    TextInputAction.next,
+                                                TextInputAction.next,
                                                 autofocus: false,
                                                 onSaved: (value) {
                                                   setState(() {
@@ -476,11 +628,15 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                             personal_info_data["contact_number"] = _code.toString() + _number.toString();
                                             personal_info_data["gender"] = selectedGender;
                                             personal_info_data["academic_title"] = academic_title;
+                                            personal_info_data["dob"] = dob;
 
                                             print("##############");
                                             print(personal_info_data);
 
-                                          /*  Navigator.of(context).push(
+                                            _futureUpdatePersonalInfo = update_personal_info(personal_info_data);
+
+
+                                            /*  Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                     builder:
                                                         (BuildContext context) =>
@@ -496,7 +652,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                           decoration: BoxDecoration(
                                               color: happiPrimary,
                                               borderRadius:
-                                                  BorderRadius.circular(15)),
+                                              BorderRadius.circular(15)),
                                           child: Center(
                                             child: Text(
                                               "Continue",
@@ -524,6 +680,75 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
             )));
   }
 
+  FutureBuilder<UserProfileModel> buildFutureBuilder() {
+    return FutureBuilder<UserProfileModel>(
+        future: _futureUpdatePersonalInfo,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingDialogBox(text: 'Please Wait..',);
+          }
+          else if(snapshot.hasData) {
+
+            var data = snapshot.data!;
+
+            print("#########################");
+            //print(data.data!.token!);
+
+
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              showDialog(
+                  barrierDismissible: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    // Show the dialog
+                    return SuccessDialogBox(text: "Personal Info Updated.");
+                  }
+              );
+              Future.delayed(Duration(milliseconds: 500), () {
+                // Pop the dialog
+                //Navigator.of(context).pop();
+
+                // Navigate to the dashboard
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => PracticedDetails()),
+                );
+              });
+
+
+
+
+            });
+
+
+          }
+
+          return Scaffold(
+            body: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Please Wait...")
+                ],
+              ),
+            ),
+          );
+
+
+        }
+    );
+  }
+
+
+
+
+
   void _showGenderSelectionModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -550,7 +775,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                   Navigator.pop(context);
                 },
               ),
-              ListTile(
+            /*  ListTile(
                 title: const Text('Prefer Not To Say'),
                 onTap: () {
                   setState(() {
@@ -558,7 +783,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                   });
                   Navigator.pop(context);
                 },
-              ),
+              ),*/
             ],
           ),
         );
@@ -639,4 +864,9 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
       return false;
     }
   }
+
+  void dispose() {
+    super.dispose();
+  }
+
 }

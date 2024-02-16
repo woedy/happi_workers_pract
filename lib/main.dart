@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
           //return api_key == null ? WelcomePage1() : HomeScreen();
-          return MyDocuments();
+          return PracticedDetails();
 
         });
   }
