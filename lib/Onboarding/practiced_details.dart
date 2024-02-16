@@ -1,10 +1,67 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Components/generic_error_dialog_box.dart';
+import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
+import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
 import 'package:happi_workers_pract/Components/keyboard_utils.dart';
+import 'package:happi_workers_pract/Onboarding/models/practiced_detail_model.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents.dart';
 import 'package:happi_workers_pract/constants.dart';
+import 'package:http/http.dart' as http;
+
+Future<PracticedDetailModel> update_practiced_details(data) async {
+  try {
+    print("FUNCTION CALL..!!!!!!");
+
+    final response = await http.post(
+      Uri.parse(hostName + "/profile/practice-details"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + "10|Hw6CCoRmcETHdgp6uuitvFvkmjzx21aS0JEJEwaJe88e3b00"
+      },
+      body: jsonEncode({
+        "profile_title": data["profile_title"],
+        "highest_academic_qualification": data["highest_academic_qualification"],
+        "specialization": data["specialization"],
+        "approaches": data["approaches"],
+        "therapies": data["therapies"],
+        "accreditations": data["accreditations"],
+        "expertise": {
+          "mind": ["anger-management", "autism"],
+          "body": ["body-image-issues", "gut-health"],
+          "addiction": ["alcohol", "food"],
+          "personal_growth": ["mindfulness", "building"],
+          "work": ["burnout", "bullying"],
+          "relationship": ["insecurity", "intimacy-issues"]
+        }
+      }),
+    );
+
+    print("RESPONSE STATUS CODE: ${response.statusCode}");
+    print("RESPONSE BODY: ${response.body}");
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final result = json.decode(response.body);
+      if (result != null) {
+        //await saveUserData(result['userData']);
+      }
+      return PracticedDetailModel.fromJson(jsonDecode(response.body));
+    } else if (response.statusCode == 422 || response.statusCode == 403) {
+      return PracticedDetailModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load data');
+    }
+  } catch (e) {
+    print("EXCEPTION: $e");
+    throw e;
+  }
+}
+
 
 class PracticedDetails extends StatefulWidget {
   const PracticedDetails({super.key});
@@ -24,8 +81,8 @@ class _PracticedDetailsState extends State<PracticedDetails> {
   List<String> _therapies = [];
   List<String> _approaches = [];
 
-  List<String> _predefinedApproaches = [
-    "safe", "creative", "..."];
+  List<String> _predefinedApproaches = ["Safe", "Creative"];
+  List<String> _predefinedTherapies = ["Drama-therapy", "Applied-behaviour-analysis"];
 
 
   String? selectedTitle;
@@ -33,8 +90,17 @@ class _PracticedDetailsState extends State<PracticedDetails> {
   String? specialization;
 
 
+  Future<PracticedDetailModel>? _futureUpdatePracticedDetail;
+
+
   @override
   Widget build(BuildContext context) {
+    return (_futureUpdatePracticedDetail == null) ? buildColumn() : buildFutureBuilder();
+  }
+
+
+
+  buildColumn(){
     return Scaffold(
 
         body: SafeArea(
@@ -306,16 +372,11 @@ class _PracticedDetailsState extends State<PracticedDetails> {
                                                     children: _buildTherapiesWidgets(),
                                                   ),
                                                 ),
-
                                                 SizedBox(
                                                   height: 20,
                                                 ),
 
 
-
-                                                SizedBox(
-                                                  height: 30,
-                                                ),
 
                                                 InkWell(
                                                   onTap: () {
@@ -324,20 +385,79 @@ class _PracticedDetailsState extends State<PracticedDetails> {
                                                           .save();
                                                       KeyboardUtil.hideKeyboard(context);
 
-                                                      var practiced_detail_data = {};
-                                                      practiced_detail_data["profile_title"] = selectedTitle;
-                                                      practiced_detail_data["highest_academic_qualification"] = selectedQualification;
-                                                      practiced_detail_data["specialization"] = specialization;
-                                                      practiced_detail_data["approaches"] = _approaches;
-                                                      practiced_detail_data["therapies"] = _therapies;
-                                                      practiced_detail_data["accreditations"] = _accreditations;
+                                                      if(selectedTitle == null) {
+                                                        ScaffoldMessenger.of(
+                                                            context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              "You must select a title",),
+                                                            backgroundColor: Colors
+                                                                .red,
+                                                          ),
+                                                        );
+                                                      }else if(selectedQualification == null) {
+                                                        ScaffoldMessenger.of(
+                                                            context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              "You must select a Highest qualification",),
+                                                            backgroundColor: Colors
+                                                                .red,
+                                                          ),
+                                                        );
+                                                      }  else if(_accreditations.length < 1) {
+                                                        ScaffoldMessenger.of(
+                                                            context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              "You must add more than 1 accreditations",),
+                                                            backgroundColor: Colors
+                                                                .red,
+                                                          ),
+                                                        );
+                                                      }else if(_approaches.length < 2){
 
-                                                      print("############");
-                                                      print(practiced_detail_data);
+                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                          SnackBar(
+                                                            content: Text("You must select more than 2 approaches",),
+                                                            backgroundColor: Colors.red,
+                                                          ),
+                                                        );
+
+                                                      }else if(_therapies.length < 1){
+
+                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                          SnackBar(
+                                                            content: Text("You must select more than 1 therapy",),
+                                                            backgroundColor: Colors.red,
+                                                          ),
+                                                        );
+
+                                                      } else {
+
+                                                        var practiced_detail_data = {};
+                                                        practiced_detail_data["profile_title"] = selectedTitle;
+                                                        practiced_detail_data["highest_academic_qualification"] = selectedQualification;
+                                                        practiced_detail_data["specialization"] = specialization;
+                                                        _approaches.add("creative");
+                                                        practiced_detail_data["approaches"] = _approaches;
+                                                        practiced_detail_data["therapies"] = _therapies;
+                                                        practiced_detail_data["accreditations"] = _accreditations;
+
+                                                        print("############");
+                                                        print(practiced_detail_data);
+
+                                                        _futureUpdatePracticedDetail = update_practiced_details(practiced_detail_data);
 
 
 
-                                                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyDocuments()));
+
+
+                                                      }
+
 
                                                     }
 
@@ -356,6 +476,9 @@ class _PracticedDetailsState extends State<PracticedDetails> {
                                                       ),
                                                     ),
                                                   ),
+                                                ),
+                                                SizedBox(
+                                                  height: 30,
                                                 ),
 
                                               ],
@@ -380,6 +503,96 @@ class _PracticedDetailsState extends State<PracticedDetails> {
             )));
   }
 
+  FutureBuilder<PracticedDetailModel> buildFutureBuilder() {
+    return FutureBuilder<PracticedDetailModel>(
+        future: _futureUpdatePracticedDetail,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingDialogBox(text: 'Please Wait..',);
+          }
+          else if(snapshot.hasData) {
+
+            var data = snapshot.data!;
+
+            print("#########################");
+            //print(data.data!.token!);
+
+            if(data.message == "Practice details updated successfully") {
+
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                showDialog(
+                    barrierDismissible: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      // Show the dialog
+                      return SuccessDialogBox(text: "Practice Detail updated.");
+                    }
+                );
+                Future.delayed(Duration(milliseconds: 500), () {
+                  // Pop the dialog
+                  //Navigator.of(context).pop();
+
+                  // Navigate to the dashboard
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyDocuments()),
+                  );
+                });
+
+
+
+
+              });
+
+
+            }
+
+            else  {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => PracticedDetails())
+                );
+
+                showDialog(
+                    barrierDismissible: true,
+                    context: context,
+                    builder: (BuildContext context){
+                      return ErrorDialogBox(text: 'Error saving data',);
+                    }
+                );
+              });
+
+            }
+
+
+
+          }
+
+          return Scaffold(
+            body: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Please Wait...")
+                ],
+              ),
+            ),
+          );
+
+
+        }
+    );
+  }
+
+
+
 
   void _showTitleSelectionModal(BuildContext context) {
     showModalBottomSheet(
@@ -391,42 +604,15 @@ class _PracticedDetailsState extends State<PracticedDetails> {
             children: [
 
               ListTile(
-                title: const Text('Dr'),
+                title: const Text('Certified-life-coach'),
                 onTap: () {
                   setState(() {
-                    selectedTitle = 'Dr';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Mr'),
-                onTap: () {
-                  setState(() {
-                    selectedTitle = 'Mr';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Mrs'),
-                onTap: () {
-                  setState(() {
-                    selectedTitle = 'Mrs';
+                    selectedTitle = 'Certified-life-coach';
                   });
                   Navigator.pop(context);
                 },
               ),
 
-              ListTile(
-                title: const Text('Prof'),
-                onTap: () {
-                  setState(() {
-                    selectedTitle = 'Prof';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
             ],
           ),
         );
@@ -539,51 +725,6 @@ class _PracticedDetailsState extends State<PracticedDetails> {
   }
 
 
-  List<Widget> _buildTherapiesWidgets() {
-    List<Widget> theraWidgets = [];
-    for (String tag in _therapies) {
-      theraWidgets.add(Chip(
-        label: Text(tag),
-        onDeleted: () {
-          setState(() {
-            _therapies.remove(tag);
-          });
-        },
-      ));
-    }
-    theraWidgets.add(
-      SizedBox(
-        //: 100, // Adjust width accordingly
-        child: TextFormField(
-          controller: _therapies_controller,
-          style: TextStyle(color: Colors.black),
-          decoration: InputDecoration(
-            hintText: 'Therapies',
-            hintStyle: TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.normal,
-              fontSize: 13
-            ),
-            border: InputBorder.none,
-          ),
-          onFieldSubmitted: (value) {
-            _addTherapyTag(value.trim());
-          },
-        ),
-      ),
-    );
-    return theraWidgets;
-  }
-
-  void _addTherapyTag(String tag) {
-    if (tag.isNotEmpty) {
-      setState(() {
-        _therapies.add(tag);
-        _therapies_controller.clear();
-      });
-    }
-  }
-
 
   List<Widget> _buildApporachWidgets() {
     List<Widget> tagWidgets = [];
@@ -603,7 +744,7 @@ class _PracticedDetailsState extends State<PracticedDetails> {
     // Add button for selecting predefined tags
     tagWidgets.add(
       ElevatedButton(
-        onPressed: _showTagsDialog,
+        onPressed: _showApproachDialog,
         child: Text('Select Approach'),
       ),
     );
@@ -611,9 +752,7 @@ class _PracticedDetailsState extends State<PracticedDetails> {
     return tagWidgets;
   }
 
-
-
-  void _showTagsDialog() {
+  void _showApproachDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -645,6 +784,68 @@ class _PracticedDetailsState extends State<PracticedDetails> {
       });
     }
   }
+
+
+
+  List<Widget> _buildTherapiesWidgets() {
+    List<Widget> tagWidgets = [];
+
+    // Add chips for selected tags
+    for (String therapy in _therapies) {
+      tagWidgets.add(Chip(
+        label: Text(therapy),
+        onDeleted: () {
+          setState(() {
+            _therapies.remove(therapy);
+          });
+        },
+      ));
+    }
+
+    // Add button for selecting predefined tags
+    tagWidgets.add(
+      ElevatedButton(
+        onPressed: _showTherapiesDialog,
+        child: Text('Select Therapies'),
+      ),
+    );
+
+    return tagWidgets;
+  }
+
+  void _showTherapiesDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select Therapies'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: _predefinedTherapies.map((approach) {
+                return ListTile(
+                  title: Text(approach),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _addTherapy(approach);
+                  },
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  void _addTherapy(String therapy) {
+    if (therapy.isNotEmpty && !_therapies.contains(therapy)) {
+      setState(() {
+        _therapies.add(therapy);
+      });
+    }
+  }
+
 
 
 }

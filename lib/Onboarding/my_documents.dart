@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -5,12 +6,76 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
+import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
+import 'package:happi_workers_pract/Onboarding/models/my_document_model.dart';
 import 'package:happi_workers_pract/Onboarding/my_availability.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+
+
+Future<MyDocumentModel> update_document(data) async {
+  try {
+    print("############");
+    print("FUNCTION CALL");
+
+    print(data);
+
+    final url = Uri.parse(hostName + "/profile/documents");
+    final request = http.MultipartRequest('POST', url);
+
+    request.headers['Accept'] = 'application/json';
+    request.headers['Authorization'] = 'Bearer ' + "10|Hw6CCoRmcETHdgp6uuitvFvkmjzx21aS0JEJEwaJe88e3b00";
+
+    request.files.add(await http.MultipartFile.fromPath('document', data["document"]));
+
+    request.fields['type'] = data["type"];
+
+    print("############");
+    print("SENDINGGG");
+
+    final response = await request.send();
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final responseBody = await response.stream.bytesToString();
+      final result = json.decode(responseBody);
+
+      print("############");
+      print("WE ARE INNNNNNNN");
+      print(result);
+
+      if (result["data"] != null && result["data"].length > 0) {
+        return MyDocumentModel.fromJson(result);
+      } else {
+        // Return a default UserProfileModel if data is empty
+        return MyDocumentModel();
+      }
+    } else if (response.statusCode == 422 ||
+        response.statusCode == 403 ||
+        response.statusCode == 400 ||
+        response.statusCode == 500) {
+      final responseBody = await response.stream.bytesToString();
+      final result = json.decode(responseBody);
+
+      print("############");
+      print("ERRORRRRRR");
+      print(result);
+
+      return MyDocumentModel.fromJson(result);
+    } else {
+      print("############");
+      print("Failed to add data. Status code: ${response.statusCode}");
+      throw Exception('Failed to add data. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error: $e');
+    throw Exception('Failed to add data. Error: $e');
+  }
+}
 
 class MyDocuments extends StatefulWidget {
   const MyDocuments({super.key});
@@ -25,10 +90,19 @@ class _MyDocumentsState extends State<MyDocuments> {
   File? _file;
   File? _document;
   String? selectedCertificate;
+  String? status;
+
+
+  Future<MyDocumentModel>? _futureUpdateDocument;
 
 
   @override
   Widget build(BuildContext context) {
+    return (_futureUpdateDocument == null) ? buildColumn() : buildFutureBuilder();
+  }
+
+
+  buildColumn(){
     return Scaffold(
 
         body: SafeArea(
@@ -180,21 +254,21 @@ class _MyDocumentsState extends State<MyDocuments> {
                                       ),
                                       if (_image != null)
                                         Container(
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  borderRadius: BorderRadius.circular(10)
-                                              ),
-                                              child: Text(
-                                                selectedCertificate.toString(),
-                                                style: TextStyle(color: Colors.white, fontSize: 12),),
-                                            )
-                                          ],
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.black,
+                                                    borderRadius: BorderRadius.circular(10)
+                                                ),
+                                                child: Text(
+                                                  selectedCertificate.toString(),
+                                                  style: TextStyle(color: Colors.white, fontSize: 12),),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
                                       SizedBox(
                                         height: 20,
                                       ),
@@ -251,7 +325,7 @@ class _MyDocumentsState extends State<MyDocuments> {
                                                     border: Border.all(color: Colors.black.withOpacity(0.1)),
                                                   ),
                                                   child: Center(
-                                                    child: Icon(Icons.insert_drive_file, size: 50, color: Colors.grey),
+                                                    child: Icon(Icons.insert_drive_file, size: 50, color: Colors.green),
                                                   ),
                                                 ),
                                                 Positioned(
@@ -299,39 +373,39 @@ class _MyDocumentsState extends State<MyDocuments> {
 
                                       if (_image != null)
                                         Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 10),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(15),
-                                            border:
-                                            Border.all(color: Colors.black.withOpacity(0.1))),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            _showCertificateSelectionModal(context);
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.all(10),
+                                          padding: EdgeInsets.symmetric(horizontal: 10),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(15),
+                                              border:
+                                              Border.all(color: Colors.black.withOpacity(0.1))),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              _showCertificateSelectionModal(context);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(10),
 
-                                            height: 60,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(5),
-                                                border: Border.all(
-                                                    color: Colors.white.withOpacity(0.1))
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  selectedCertificate ?? 'Certificate type',
-                                                  style: TextStyle(fontSize: 13,
-                                                      color: Colors.black.withOpacity(0.5)),
-                                                ),
-                                                Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
-                                              ],
+                                              height: 60,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  border: Border.all(
+                                                      color: Colors.white.withOpacity(0.1))
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    selectedCertificate ?? 'Certificate type',
+                                                    style: TextStyle(fontSize: 13,
+                                                        color: Colors.black.withOpacity(0.5)),
+                                                  ),
+                                                  Icon(Icons.arrow_drop_down, size: 30, color: Colors.black,),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
 
 
                                       SizedBox(
@@ -342,56 +416,67 @@ class _MyDocumentsState extends State<MyDocuments> {
 
                                       if (_image != null || _file != null)...[
 
-                                          InkWell(
-                                            onTap: () {
+                                        InkWell(
+                                          onTap: () {
 
-                                              if(selectedCertificate != null) {
-                                                // Make post request before navigation
+                                            if(selectedCertificate != null) {
+                                              // Make post request before navigation
 
 
-                                                if (_image == null) {
-                                                  _document = _file;
-                                                } else {
-                                                  _document = _image;
-                                                }
-
-                                                print(_document);
-
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(builder: (
-                                                        BuildContext context) =>
-                                                        MyDocuments()));
-                                              }else{
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text("Please select file type.",),
-                                                    backgroundColor: Colors.red,
-                                                  ),
-                                                );
+                                              if (_image == null) {
+                                                _document = _file;
+                                              } else {
+                                                _document = _image;
                                               }
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.all(15),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  borderRadius: BorderRadius.circular(15)),
-                                              child: Center(
-                                                child: Text(
-                                                  "Upload another",
-                                                  style: TextStyle(color: Colors.white),
+
+                                              print(_document);
+
+                                              var data = {
+                                                "document": _document!.path,
+                                                "type": selectedCertificate
+                                              };
+
+
+                                              setState(() {
+                                                status = "Another";
+                                                _futureUpdateDocument = update_document(data);
+
+                                              });
+
+
+
+
+                                            }else{
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Please select file type.",),
+                                                  backgroundColor: Colors.red,
                                                 ),
+                                              );
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(15),
+                                            decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.circular(15)),
+                                            child: Center(
+                                              child: Text(
+                                                "Upload another",
+                                                style: TextStyle(color: Colors.white),
                                               ),
                                             ),
                                           ),
+                                        ),
 
-                                          SizedBox(
-                                            height: 10,
-                                          ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
 
-                                          InkWell(
-                                            onTap: () {
-                                              // Make post request before navigation
-                                              if(selectedCertificate != null) {
+                                        InkWell(
+                                          onTap: () {
+                                            // Make post request before navigation
+                                            if(selectedCertificate != null) {
                                               if(_image == null){
                                                 _document = _file;
                                               }else{
@@ -399,29 +484,46 @@ class _MyDocumentsState extends State<MyDocuments> {
                                               }
 
                                               print(_document);
+                                              var data = {
+                                                "document": _document!.path,
+                                                "type": selectedCertificate
+                                              };
 
 
-                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyAvailability()));
+                                              setState(() {
+                                                status = "Continue";
+                                                _futureUpdateDocument = update_document(data);
+
+                                              });
 
 
-                                            }
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.all(15),
-                                              decoration: BoxDecoration(
-                                                  color: happiPrimary,
-                                                  borderRadius: BorderRadius.circular(15)),
-                                              child: Center(
-                                                child: Text(
-                                                  "Save & Continue",
-                                                  style: TextStyle(color: Colors.white),
+
+
+                                            }else{
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Please select file type.",),
+                                                  backgroundColor: Colors.red,
                                                 ),
+                                              );
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(15),
+                                            decoration: BoxDecoration(
+                                                color: happiPrimary,
+                                                borderRadius: BorderRadius.circular(15)),
+                                            child: Center(
+                                              child: Text(
+                                                "Save & Continue",
+                                                style: TextStyle(color: Colors.white),
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
 
 
 
@@ -508,6 +610,86 @@ class _MyDocumentsState extends State<MyDocuments> {
             )));
   }
 
+  FutureBuilder<MyDocumentModel> buildFutureBuilder() {
+    return FutureBuilder<MyDocumentModel>(
+        future: _futureUpdateDocument,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingDialogBox(text: 'Please Wait..',);
+          }
+          else if(snapshot.hasData) {
+
+            var data = snapshot.data!;
+
+            print("#########################");
+            print("#########################");
+            print("#########################");
+            print(data.data);
+
+            if(data.data != null){
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                showDialog(
+                    barrierDismissible: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      // Show the dialog
+                      return SuccessDialogBox(text: "Document Updated.");
+                    }
+                );
+                Future.delayed(Duration(milliseconds: 500), () {
+                  // Pop the dialog
+                  //Navigator.of(context).pop();
+
+                  // Navigate to the dashboard
+
+                  if(status == "Continue"){
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyAvailability()),
+                    );
+                  }else if(status == "Another"){
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyDocuments()),
+                    );
+                  }
+
+                });
+
+
+
+
+              });
+            }
+
+
+          }
+
+          return Scaffold(
+            body: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Please Wait...")
+                ],
+              ),
+            ),
+          );
+
+
+        }
+    );
+  }
+
+
+
+
 /*
 
   Future _pickImage(ImageSource source) async {
@@ -549,7 +731,7 @@ class _MyDocumentsState extends State<MyDocuments> {
                 title: const Text('Certificate'),
                 onTap: () {
                   setState(() {
-                    selectedCertificate = 'Certificate';
+                    selectedCertificate = 'certificate';
                   });
                   Navigator.pop(context);
                 },
@@ -558,7 +740,7 @@ class _MyDocumentsState extends State<MyDocuments> {
                 title: const Text('Accreditation'),
                 onTap: () {
                   setState(() {
-                    selectedCertificate = 'Accreditation';
+                    selectedCertificate = 'accreditation';
                   });
                   Navigator.pop(context);
                 },
@@ -567,7 +749,7 @@ class _MyDocumentsState extends State<MyDocuments> {
                 title: const Text('DBS Check'),
                 onTap: () {
                   setState(() {
-                    selectedCertificate = 'DBS Check';
+                    selectedCertificate = 'dbs';
                   });
                   Navigator.pop(context);
                 },

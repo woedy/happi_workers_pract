@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happi_workers_pract/Authentication/SignIn/sign_in_screen.dart';
 import 'package:happi_workers_pract/Authentication/SignUp/sign_up_password.dart';
+import 'package:happi_workers_pract/Components/generic_loading_dialogbox.dart';
+import 'package:happi_workers_pract/Components/generic_success_dialog_box.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents2.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
 import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
@@ -173,7 +175,48 @@ class _MyDeviceCheckState extends State<MyDeviceCheck> {
 
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => RegistrationVerification()));
+
+                                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                                  showDialog(
+                                      barrierDismissible: true,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        // Show the dialog
+                                        return LoadingDialogBox(text: 'Hold on tight! Almost complete',);
+                                      }
+                                  );
+                                  Future.delayed(Duration(seconds: 2), () {
+
+                                    showDialog(
+                                        barrierDismissible: true,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          // Show the dialog
+                                          return SuccessDialogBox(text: 'Your device has passed the check ',);
+                                        }
+                                    );
+
+                                    Future.delayed(Duration(seconds: 2), () {
+
+
+
+                                      // Navigate to the dashboard
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => RegistrationVerification()),
+                                      );
+                                    });
+
+
+                                  });
+
+
+
+
+
+                                });
+
+                                //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => RegistrationVerification()));
 
 
                               },

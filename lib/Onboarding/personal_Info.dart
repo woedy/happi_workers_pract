@@ -696,6 +696,13 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
 
 
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => PracticedDetails()),
+              );
+
+
+
               showDialog(
                   barrierDismissible: true,
                   context: context,
@@ -704,18 +711,6 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                     return SuccessDialogBox(text: "Personal Info Updated.");
                   }
               );
-              Future.delayed(Duration(milliseconds: 500), () {
-                // Pop the dialog
-                //Navigator.of(context).pop();
-
-                // Navigate to the dashboard
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => PracticedDetails()),
-                );
-              });
-
-
 
 
             });

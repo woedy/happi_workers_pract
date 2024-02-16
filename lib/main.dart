@@ -7,8 +7,10 @@ import 'package:happi_workers_pract/Components/theme.dart';
 import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/Onboarding/my_availability.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents.dart';
+import 'package:happi_workers_pract/Onboarding/onboarding_1.dart';
 import 'package:happi_workers_pract/Onboarding/personal_Info.dart';
 import 'package:happi_workers_pract/Onboarding/practiced_details.dart';
+import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
 
 import 'package:happi_workers_pract/Welcome/welcome_page1.dart';
 import 'package:happi_workers_pract/constants.dart';
@@ -70,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
           //return api_key == null ? WelcomePage1() : HomeScreen();
-          return PracticedDetails();
+          return Onboarding1();
 
         });
   }

@@ -249,6 +249,9 @@ class _MyAvailabilityState extends State<MyAvailability> {
                                                   width: 10,
                                                 ),
                                                 Expanded(
+                                                  child: Container(),
+                                                )
+                                                /*Expanded(
                                                   child: Container(
                                                     padding: EdgeInsets.symmetric(horizontal: 10),
                                                     decoration: BoxDecoration(
@@ -284,7 +287,7 @@ class _MyAvailabilityState extends State<MyAvailability> {
                                                       ),
                                                     ),
                                                   ),
-                                                ),
+                                                ),*/
                                               ],
                                             ),
                                           ],
@@ -555,6 +558,7 @@ class _MyAvailabilityState extends State<MyAvailability> {
                                               );
                                             }else{
                                               _onSaveAndContinue();
+
                                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyAvailabilityList(
                                                 availability_data: availabilityList,
                                                 minimum_booking_time_frame: selectedInterval
