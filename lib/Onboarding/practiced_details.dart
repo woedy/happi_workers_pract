@@ -12,6 +12,7 @@ import 'package:happi_workers_pract/Onboarding/models/practiced_detail_model.dar
 import 'package:happi_workers_pract/Onboarding/my_documents.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<PracticedDetailModel> update_practiced_details(data) async {
   try {
@@ -22,7 +23,7 @@ Future<PracticedDetailModel> update_practiced_details(data) async {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
-        'Authorization': 'Bearer ' + "10|Hw6CCoRmcETHdgp6uuitvFvkmjzx21aS0JEJEwaJe88e3b00"
+        'Authorization': 'Bearer ' + data["token"].toString()
       },
       body: jsonEncode({
         "profile_title": data["profile_title"],
@@ -88,6 +89,25 @@ class _PracticedDetailsState extends State<PracticedDetails> {
   String? selectedTitle;
   String? selectedQualification;
   String? specialization;
+
+  Map<String, dynamic> userData = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // Retrieve data from SharedPreferences
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userDataString = prefs.getString('user_data') ?? '';
+    setState(() {
+      userData = json.decode(userDataString);
+    });
+  }
+
 
 
   Future<PracticedDetailModel>? _futureUpdatePracticedDetail;
@@ -446,6 +466,9 @@ class _PracticedDetailsState extends State<PracticedDetails> {
                                                         practiced_detail_data["approaches"] = _approaches;
                                                         practiced_detail_data["therapies"] = _therapies;
                                                         practiced_detail_data["accreditations"] = _accreditations;
+
+
+                                                        practiced_detail_data["token"] = userData['token'];
 
                                                         print("############");
                                                         print(practiced_detail_data);

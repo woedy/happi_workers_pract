@@ -6,6 +6,7 @@ import 'package:happi_workers_pract/Components/theme.dart';
 
 import 'package:happi_workers_pract/Home/home_screen.dart';
 import 'package:happi_workers_pract/Onboarding/my_availability.dart';
+import 'package:happi_workers_pract/Onboarding/my_device_check.dart';
 import 'package:happi_workers_pract/Onboarding/my_documents.dart';
 import 'package:happi_workers_pract/Onboarding/onboarding_1.dart';
 import 'package:happi_workers_pract/Onboarding/personal_Info.dart';
@@ -56,6 +57,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String? api_key = "";
+  String? status = "";
   Future? _user_api;
 
   @override
@@ -71,13 +73,40 @@ class _MyHomePageState extends State<MyHomePage> {
         future: _user_api,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
-          //return api_key == null ? WelcomePage1() : HomeScreen();
-          return Onboarding1();
+          if(api_key == null){
+            return WelcomePage1();
+          }else{
+            if(status == "Register Complete"){
+              return Onboarding1();
+            }else if(status == "Personal Info Complete"){
+              return PracticedDetails();
+            }else if(status == "Practice Detail Complete"){
+              return MyDocuments();
+            }else if(status == "My Document Complete"){
+              return MyAvailability();
+            }else if(status == "My Availability Complete"){
+              return MyDeviceCheck();
+            }else if(status == "My Device Check Complete"){
+              return RegistrationVerification();
+            }else if(status == "Registration Verification Complete"){
+              return HomeScreen();
+            }else {
+              return HomeScreen();
+            }
+
+          }
+
+         // return api_key == null ? WelcomePage1() : HomeScreen();
+          //return Onboarding1();
 
         });
   }
 
   Future apiKey() async {
     api_key = await getApiPref();
+  }
+
+  Future getStatus() async {
+    status = await getRegStatus();
   }
 }

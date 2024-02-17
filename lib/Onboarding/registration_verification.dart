@@ -17,9 +17,10 @@ import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 
-Future<UserProfileModel> get_verification_status() async {
+Future<UserProfileModel> get_verification_status(token) async {
   try {
     print("FUNCTION CALL..!!!!!!");
 
@@ -28,7 +29,7 @@ Future<UserProfileModel> get_verification_status() async {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
-        'Authorization': 'Bearer ' + "10|Hw6CCoRmcETHdgp6uuitvFvkmjzx21aS0JEJEwaJe88e3b00"
+        'Authorization': 'Bearer ' + token
       },
     );
 
@@ -68,11 +69,25 @@ class _RegistrationVerificationState extends State<RegistrationVerification> {
 
 
   Future<UserProfileModel>? _futureGetVerification;
+  Map<String, dynamic> userData = {};
+
 
   @override
   void initState() {
-    _futureGetVerification = get_verification_status();
     super.initState();
+    // Retrieve data from SharedPreferences
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userDataString = prefs.getString('user_data') ?? '';
+    setState(() {
+      userData = json.decode(userDataString);
+    });
+
+    _futureGetVerification = get_verification_status(userData['token']);
+
   }
 
   @override

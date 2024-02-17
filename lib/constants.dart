@@ -22,6 +22,11 @@ Future<String?> getApiPref() async {
   return prefs.getString("API_Key");
 }
 
+Future<String?> getRegStatus() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString("status");
+}
+
 
 
 Future<String?> getUserIDPref() async {
@@ -29,6 +34,12 @@ Future<String?> getUserIDPref() async {
   return prefs.getString("USER_ID");
 }
 
+
+Future<bool> saveStatus(String status) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString("status", status);
+  return prefs.commit();
+}
 
 
 class PasteTextInputFormatter extends TextInputFormatter {

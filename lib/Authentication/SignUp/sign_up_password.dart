@@ -13,6 +13,7 @@ import 'package:happi_workers_pract/Components/keyboard_utils.dart';
 import 'package:happi_workers_pract/Onboarding/onboarding_1.dart';
 import 'package:happi_workers_pract/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -40,6 +41,9 @@ Future<SignUpModel> signUpUser(String first_name, String last_name, String email
     if (result != null) {
 
       print(result['data']['token']);
+
+      await saveIDApiKey(result['data']['token'].toString());
+      await saveUserData(result['data']);
 
 
     }
@@ -202,7 +206,7 @@ class _SignUpPasswordState extends State<SignUpPassword> {
                                   if (value!.isEmpty) {
                                     return 'Password is required';
                                   }
-                                  if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$%^&*])')
+                                  if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[-!@#\$%^&*_()\-+=/.,<>?"~`£{}|:;])')
                                       .hasMatch(value)) {
 
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -420,7 +424,9 @@ class _SignUpPasswordState extends State<SignUpPassword> {
             //print(data.data!.token!);
 
 
-            if(data.message == "Registration successful"){
+            if(data.message == "Registration successful") {
+              saveStatus("Register Complete");
+
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                 Navigator.pushReplacement(
                   context,
@@ -496,6 +502,7 @@ class _SignUpPasswordState extends State<SignUpPassword> {
         }
     );
   }
+
 
 
   void dispose() {

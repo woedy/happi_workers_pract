@@ -16,6 +16,7 @@ import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 Future<MyDocumentModel> update_document(data) async {
@@ -29,7 +30,7 @@ Future<MyDocumentModel> update_document(data) async {
     final request = http.MultipartRequest('POST', url);
 
     request.headers['Accept'] = 'application/json';
-    request.headers['Authorization'] = 'Bearer ' + "10|Hw6CCoRmcETHdgp6uuitvFvkmjzx21aS0JEJEwaJe88e3b00";
+    request.headers['Authorization'] = 'Bearer ' + data["token"].toString();
 
     request.files.add(await http.MultipartFile.fromPath('document', data["document"]));
 
@@ -92,8 +93,27 @@ class _MyDocumentsState extends State<MyDocuments> {
   String? selectedCertificate;
   String? status;
 
+  Map<String, dynamic> userData = {};
+
+
 
   Future<MyDocumentModel>? _futureUpdateDocument;
+
+
+  @override
+  void initState() {
+    super.initState();
+    // Retrieve data from SharedPreferences
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userDataString = prefs.getString('user_data') ?? '';
+    setState(() {
+      userData = json.decode(userDataString);
+    });
+  }
 
 
   @override
@@ -433,7 +453,8 @@ class _MyDocumentsState extends State<MyDocuments> {
 
                                               var data = {
                                                 "document": _document!.path,
-                                                "type": selectedCertificate
+                                                "type": selectedCertificate,
+                                                "token": userData['token']
                                               };
 
 
@@ -486,7 +507,8 @@ class _MyDocumentsState extends State<MyDocuments> {
                                               print(_document);
                                               var data = {
                                                 "document": _document!.path,
-                                                "type": selectedCertificate
+                                                "type": selectedCertificate,
+                                                "token": userData['token']
                                               };
 
 

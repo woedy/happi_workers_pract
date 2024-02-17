@@ -17,6 +17,7 @@ import 'package:happi_workers_pract/constants.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<PracticedDetailModel> update_availability(data) async {
   try {
@@ -27,7 +28,7 @@ Future<PracticedDetailModel> update_availability(data) async {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
-        'Authorization': 'Bearer ' + "10|Hw6CCoRmcETHdgp6uuitvFvkmjzx21aS0JEJEwaJe88e3b00"
+        'Authorization': 'Bearer ' + data["token"].toString()
       },
       body: jsonEncode({
         "minimum_booking_time_frame": data["minimum_booking_time_frame"],
@@ -71,8 +72,25 @@ class _MyAvailabilityListState extends State<MyAvailabilityList> {
   final _formKey = GlobalKey<FormState>();
   String? selectedInterval;
 
+  Map<String, dynamic> userData = {};
+
 
   Future<PracticedDetailModel>? _futureUpdateAvailability;
+
+  @override
+  void initState() {
+    super.initState();
+    // Retrieve data from SharedPreferences
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userDataString = prefs.getString('user_data') ?? '';
+    setState(() {
+      userData = json.decode(userDataString);
+    });
+  }
 
 
   @override
@@ -268,8 +286,11 @@ class _MyAvailabilityListState extends State<MyAvailabilityList> {
                                 var _data = {
                                   "minimum_booking_time_frame": widget.minimum_booking_time_frame.split(" ")[0],
                                   "timezone": "Europe/Dublin",
-                                  "availability": widget.availability_data
+                                  "availability": widget.availability_data,
+                                  "token": userData['token']
                                 };
+
+
 
                                 print(_data);
 

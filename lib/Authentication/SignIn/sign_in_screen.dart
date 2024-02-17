@@ -38,8 +38,9 @@ Future<SignInModel> signInUser(String email, String password) async {
     if (result != null) {
       print(result['data']['token'].toString());
       await saveIDApiKey(result['data']['token'].toString());
-      //await saveUserData(result['userData']);
 
+
+      await saveUserData(result['data']);
     }
     return SignInModel.fromJson(jsonDecode(response.body));
   } else if (response.statusCode == 422) {
@@ -58,6 +59,11 @@ Future<bool> saveIDApiKey(String apiKey) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString("API_Key", apiKey);
   return prefs.commit();
+}
+
+Future<void> saveUserData(Map<String, dynamic> userData) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('user_data', json.encode(userData));
 }
 
 
@@ -262,7 +268,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   if (value!.isEmpty) {
                                     return 'Password is required';
                                   }
-                                  if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$%^&*])')
+                                  if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[-!@#\$%^&*_()\-+=/.,<>?"~`£{}|:;])')
                                       .hasMatch(value)) {
 
                                     ScaffoldMessenger.of(context).showSnackBar(

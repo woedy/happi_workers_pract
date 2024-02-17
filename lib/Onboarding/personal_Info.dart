@@ -19,6 +19,7 @@ import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 /*
 Future<UserProfileModel> update_personal_info(data) async {
@@ -98,15 +99,15 @@ Future<UserProfileModel> update_personal_info(data) async {
     final request = http.MultipartRequest('POST', url);
 
     request.headers['Accept'] = 'application/json';
-    request.headers['Authorization'] = 'Bearer ' + "10|Hw6CCoRmcETHdgp6uuitvFvkmjzx21aS0JEJEwaJe88e3b00";
+    request.headers['Authorization'] = 'Bearer ' + data["token"].toString();
 
     request.files.add(await http.MultipartFile.fromPath('avatar', data["avatar"]));
     request.files.add(await http.MultipartFile.fromPath('id_card', data["avatar"]));
 
     request.fields['gender'] = data["gender"];
     request.fields['academic_title'] = data["academic_title"];
-    request.fields['first_name'] = "Dicee";
-    request.fields['last_name'] = "Micee";
+    request.fields['first_name'] = data["first_name"];
+    request.fields['last_name'] = data["last_name"];
     request.fields['dob'] = data["dob"];
     request.fields['contact_number'] = data["contact_number"];
     request.fields['id_type'] = "None";
@@ -179,11 +180,29 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
   String? _code;
   String? _number;
   String? country;
-
-
   File? _image;
 
+  Map<String, dynamic> userData = {};
+
+
   Future<UserProfileModel>? _futureUpdatePersonalInfo;
+
+
+  @override
+  void initState() {
+    super.initState();
+    // Retrieve data from SharedPreferences
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userDataString = prefs.getString('user_data') ?? '';
+    setState(() {
+      userData = json.decode(userDataString);
+    });
+  }
+
 
 
   @override
@@ -630,6 +649,11 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                             personal_info_data["academic_title"] = academic_title;
                                             personal_info_data["dob"] = dob;
 
+                                            personal_info_data["first_name"] = userData['first_name'];
+                                            personal_info_data["last_name"] = userData['last_name'];
+
+                                            personal_info_data["token"] = userData['token'];
+
                                             print("##############");
                                             print(personal_info_data);
 
@@ -696,6 +720,10 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
 
 
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+              saveStatus("Personal Info Complete");
+
+
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => PracticedDetails()),
