@@ -59,11 +59,13 @@ class _MyHomePageState extends State<MyHomePage> {
   String? api_key = "";
   String? status = "";
   Future? _user_api;
+  Future? _status_f;
 
   @override
   void initState() {
     super.initState();
     _user_api = apiKey();
+    _status_f = getStatus();
   }
 
 
@@ -72,6 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return FutureBuilder(
         future: _user_api,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
+
+          print("######################################");
+          print("######################################");
+          print(status);
+
 
           if(api_key == null){
             return WelcomePage1();

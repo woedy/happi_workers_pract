@@ -176,6 +176,8 @@ class _MyDeviceCheckState extends State<MyDeviceCheck> {
                             InkWell(
                               onTap: () {
 
+                                saveStatus("My Device Check Complete");
+
                                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                                   showDialog(
                                       barrierDismissible: true,
@@ -185,7 +187,7 @@ class _MyDeviceCheckState extends State<MyDeviceCheck> {
                                         return LoadingDialogBox(text: 'Hold on tight! Almost complete',);
                                       }
                                   );
-                                  Future.delayed(Duration(seconds: 2), () {
+                                  Future.delayed(Duration(seconds: 3), () {
 
                                     showDialog(
                                         barrierDismissible: true,
@@ -197,7 +199,6 @@ class _MyDeviceCheckState extends State<MyDeviceCheck> {
                                     );
 
                                     Future.delayed(Duration(seconds: 2), () {
-
 
 
                                       // Navigate to the dashboard

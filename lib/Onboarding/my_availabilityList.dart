@@ -345,8 +345,11 @@ class _MyAvailabilityListState extends State<MyAvailabilityList> {
             //print(data.data!.token!);
 
             if(data.message == "Availability set successfully") {
+              saveStatus("My Availability Complete");
 
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+
                 showDialog(
                     barrierDismissible: true,
                     context: context,

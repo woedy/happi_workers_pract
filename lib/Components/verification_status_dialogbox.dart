@@ -34,6 +34,7 @@ class VerificationStatusDialogbox extends StatelessWidget {
               SizedBox(height: 30),
               InkWell(
                 onTap: (){
+                  saveStatus("Registration Verification Complete");
                   Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
 
                 },

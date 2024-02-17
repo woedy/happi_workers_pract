@@ -649,7 +649,11 @@ class _MyDocumentsState extends State<MyDocuments> {
             print(data.data);
 
             if(data.data != null){
+
+              saveStatus("My Document Complete");
+
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
                 showDialog(
                     barrierDismissible: true,
                     context: context,

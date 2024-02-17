@@ -425,6 +425,7 @@ class _SignUpPasswordState extends State<SignUpPassword> {
 
 
             if(data.message == "Registration successful") {
+
               saveStatus("Register Complete");
 
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

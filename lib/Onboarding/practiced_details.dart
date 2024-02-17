@@ -542,7 +542,10 @@ class _PracticedDetailsState extends State<PracticedDetails> {
 
             if(data.message == "Practice details updated successfully") {
 
+              saveStatus("Practice Detail Complete");
+
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
                 showDialog(
                     barrierDismissible: true,
                     context: context,
