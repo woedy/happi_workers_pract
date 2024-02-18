@@ -32,6 +32,8 @@
 	<string>your usage description here</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library.</string>
+	<key>NSDocumentPickerUsageDescription</key>
+    <string>Our app needs access to the document picker to upload files.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
