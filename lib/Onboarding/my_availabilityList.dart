@@ -60,9 +60,10 @@ Future<PracticedDetailModel> update_availability(data) async {
 
 class MyAvailabilityList extends StatefulWidget {
   final availability_data;
+  final display_data;
   final minimum_booking_time_frame;
 
-  const MyAvailabilityList({super.key, required this.availability_data, required this.minimum_booking_time_frame});
+  const MyAvailabilityList({super.key, required this.availability_data,required this.display_data, required this.minimum_booking_time_frame});
 
   @override
   State<MyAvailabilityList> createState() => _MyAvailabilityListState();
@@ -82,6 +83,9 @@ class _MyAvailabilityListState extends State<MyAvailabilityList> {
     super.initState();
     // Retrieve data from SharedPreferences
     getUserData();
+
+
+
   }
 
   Future<void> getUserData() async {
@@ -200,7 +204,7 @@ class _MyAvailabilityListState extends State<MyAvailabilityList> {
                             Expanded(
                               child: Container(
                                 child: ListView.builder(
-                                    itemCount: widget.availability_data.length,
+                                    itemCount: widget.display_data.length,
                                     itemBuilder: (context, index){
                                       return Column(
                                         children: [
@@ -224,20 +228,16 @@ class _MyAvailabilityListState extends State<MyAvailabilityList> {
                                                     crossAxisAlignment: CrossAxisAlignment.start,
 
                                                     children: [
-                                                      Text(widget.availability_data[index]["date"], style: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),),
-                                                      Column(
+                                                      Text(widget.display_data[index]["date"], style: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),),
+                                                      Row(
                                                         children: [
-                                                          ...widget.availability_data[index]["time"].map((time) => Row(
-                                                            children: [
-                                                              Icon(Icons.access_time_sharp),
-                                                              SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Text("$time", style: TextStyle(fontSize: 12, color: Colors.black),),
-                                                            ],
-                                                          ),)
+                                                          Icon(Icons.access_time_sharp),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Text(widget.display_data[index]["date"].toString(), style: TextStyle(fontSize: 12, color: Colors.black),),
                                                         ],
-                                                      ),
+                                                      )
 
                                                     ],
                                                   ),
@@ -381,7 +381,7 @@ class _MyAvailabilityListState extends State<MyAvailabilityList> {
               WidgetsBinding.instance.addPostFrameCallback((_) {
 
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => MyAvailabilityList(availability_data: widget.availability_data, minimum_booking_time_frame: widget.minimum_booking_time_frame))
+                    MaterialPageRoute(builder: (context) => MyAvailabilityList(availability_data: widget.availability_data, display_data: widget.display_data, minimum_booking_time_frame: widget.minimum_booking_time_frame))
                 );
 
                 showDialog(

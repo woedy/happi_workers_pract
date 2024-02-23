@@ -385,7 +385,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           SizedBox(
                             height: 20,
                           ),
-                          InkWell(
+                         /* InkWell(
                             onTap: () {
                               //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => WelcomePage2()));
                             },
@@ -445,7 +445,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ],
                               ),
                             ),
-                          ),
+                          ),*/
                           SizedBox(
                             height: 20,
                           ),

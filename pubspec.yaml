@@ -44,6 +44,7 @@ dependencies:
   image_cropper:
   intl_phone_field:
   file_picker:
+  image:
 
 
 

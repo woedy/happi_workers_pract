@@ -82,8 +82,87 @@ class _PracticedDetailsState extends State<PracticedDetails> {
   List<String> _therapies = [];
   List<String> _approaches = [];
 
-  List<String> _predefinedApproaches = ["Safe", "Creative"];
-  List<String> _predefinedTherapies = ["Drama-therapy", "Applied-behaviour-analysis"];
+  List<String> _predefinedApproaches = [
+    "Safe",
+    "Creative",
+    "Tailored",
+    "Humanistic",
+    "Empowering",
+    "Collaborative",
+    "Holistic",
+    "Open",
+    "Warm",
+    "Calming",
+    "Solution-Based",
+    "Evidence-Based",
+    "Dynamic",
+    "Directive",
+    "Pluralistic",
+    "Integrative",
+  ];
+
+
+  List<String> _predefinedTherapies = [
+    "Acceptance-and-Commitment-Therapy-ACT",
+    "Adlerian-Therapy",
+    "Applied-Behaviour-Analysis",
+    "Art-Therapy",
+    "Attachment-Based-Therapy",
+    "Career-Coaching",
+    "Clinical-Psychology",
+    "Christian-Counselling",
+    "Cognitive-Behavioural-Therapy-CBT",
+    "Compassion-Focused-Therapy",
+    "Counselling",
+    "Counselling-psychology",
+    "Culturally-Sensitive-Therapy",
+    "Drama-Therapy",
+    "Dance-Therapy",
+    "Dialectical-Behaviour-Therapy-DBT",
+    "Educational-psychology",
+    "EMDR",
+    "Emotionally-Focused-Therapy-EFT",
+    "Existential",
+    "Expressive-Arts-Therapy",
+    "Family-Systems-Therapy",
+    "Gestalt",
+    "Health-psychology",
+    "Holistic-Health-Coaching",
+    "Human-Givens-Therapy",
+    "Executive-Coaching",
+    "Internal-Family-Systems-Therapy",
+    "Interpersonal-Psychotherapy",
+    "Inter-Cultural-Therapy",
+    "Jungian",
+    "Financial-Coaching",
+    "Life-Coaching",
+    "Marriage-and-Family-Therapy",
+    "Mindfulness",
+    "Mentalisation-Based-Therapy",
+    "Multicultural-Therapy",
+    "Music-Therapy",
+    "Narrative-Therapy",
+    "NLP-Neuro-Linguistic-Programming",
+    "Person-Centred-Therapy",
+    "Play-Therapy",
+    "Positive-Psychology",
+    "Psychoanalytic",
+    "Psychodynamic",
+    "Sandplay-Therapy",
+    "Psychosynthesis",
+    "Psychosexual-Therapy",
+    "Schema-Therapy",
+    "Solution-Focused-Brief-Therapy",
+    "Somatic-Therapy",
+    "Strength-Based-Therapy",
+    "Structural-Family-Therapy",
+    "Transpersonal-Therapy",
+    "The-Gottman-Method",
+    "Therapeutic-Coaching",
+    "Transactional-analysis",
+    "Trauma-Informed"
+  ];
+
 
 
   String? selectedTitle;
@@ -620,26 +699,53 @@ class _PracticedDetailsState extends State<PracticedDetails> {
 
 
 
+  List<String> titleOptions = [
+    'Certified-life-coach',
+    'Chartered-Psychologist',
+    'Cognitive-Behaviour-Therapist',
+    'Counselling-Psychologist',
+    'Counsellor',
+
+    'Educational-Psychologist',
+    'Executive-Coach',
+    'Dance-Psychotherapist',
+    'Drama-Psychotherapist',
+    'Financial-Wellbeing-Coaching',
+    'Forensic-Psychologist',
+    'Health-Psychologist',
+    'Holistic-Health-Coach',
+    'Hypno-Psychotherapist',
+    'Licensed-Clinical-Social-Worker',
+    'Licensed-Social-Worker',
+    'NLP-Master-Practitioner',
+    'LP-Practitioner',
+    'Occupational-Psychologist',
+    'Organisational-Psychologist',
+    'Psychologist',
+    'Other',
+  ];
+
   void _showTitleSelectionModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-
-              ListTile(
-                title: const Text('Certified-life-coach'),
-                onTap: () {
-                  setState(() {
-                    selectedTitle = 'Certified-life-coach';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-
-            ],
+        return SingleChildScrollView(
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (var title in titleOptions)
+                  ListTile(
+                    title: Text(title),
+                    onTap: () {
+                      setState(() {
+                        selectedTitle = title;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+              ],
+            ),
           ),
         );
       },
@@ -647,61 +753,44 @@ class _PracticedDetailsState extends State<PracticedDetails> {
   }
 
 
+
+  List<String> qualificationOptions = [
+    'Doctoral degree',
+    'Masters degree',
+    'Bachelor’s Degree',
+    'Bachelor’s Degree With Honours',
+    'Higher National Certificate',
+    'A-level',
+    'GCSEs',
+    'Skills for Life',
+  ];
 
   void _showQualificationSelectionModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-
-              ListTile(
-                title: const Text('Doctoral degree'),
-                onTap: () {
-                  setState(() {
-                    selectedQualification = 'Doctoral degree';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Masters degree'),
-                onTap: () {
-                  setState(() {
-                    selectedQualification = 'Masters degree';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Graduate diploma'),
-                onTap: () {
-                  setState(() {
-                    selectedQualification = 'Graduate diploma';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-
-              ListTile(
-                title: const Text('Graduate certificate'),
-                onTap: () {
-                  setState(() {
-                    selectedQualification = 'Graduate certificate';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+        return SingleChildScrollView(
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (var qualification in qualificationOptions)
+                  ListTile(
+                    title: Text(qualification),
+                    onTap: () {
+                      setState(() {
+                        selectedQualification = qualification;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+              ],
+            ),
           ),
         );
       },
     );
   }
-
-
 
 
 

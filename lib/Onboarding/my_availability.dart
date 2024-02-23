@@ -34,6 +34,9 @@ class _MyAvailabilityState extends State<MyAvailability> {
 
   List<Map<String, dynamic>> availabilityList = [];
 
+  List<Map<String, String>>? _availability_list;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -558,12 +561,18 @@ class _MyAvailabilityState extends State<MyAvailability> {
                                               );
                                             }else{
                                               _onSaveAndContinue();
+                                              print("################ availabilityList");
+                                              print(availabilityList);
 
-                                              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyAvailabilityList(
+                                              List outputData = convertData(availabilityList);
+                                              print(outputData);
+
+
+                                                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyAvailabilityList(
                                                 availability_data: availabilityList,
+                                                display_data: outputData,
                                                 minimum_booking_time_frame: selectedInterval
                                                 ,)));
-
                                             }
 
                                           }
@@ -744,7 +753,7 @@ class _MyAvailabilityState extends State<MyAvailability> {
     List<String> selectedTimes = selectedHourIndices.map((index) => hourlySlots[index]).toList();
 
     Map<String, dynamic> availability = {
-      'date': selectedDate,
+      'date': selectedDate.toString(),
       'time': selectedTimes,
     };
 
@@ -764,7 +773,7 @@ class _MyAvailabilityState extends State<MyAvailability> {
     List<String> selectedTimes = selectedHourIndices.map((index) => hourlySlots[index]).toList();
 
     Map<String, dynamic> availability = {
-      'date': selectedDate,
+      'date': selectedDate.toString(),
       'time': selectedTimes,
     };
 
@@ -773,6 +782,58 @@ class _MyAvailabilityState extends State<MyAvailability> {
 
     // Continue to the next screen or perform any other action
   }
+
+
+
+  List<Map<String, String>> convertData(List<Map<String, dynamic>> originalData) {
+    List<Map<String, String>> convertedData = [];
+
+    originalData.forEach((element) {
+      String date = element['date'];
+      List<String> times = List<String>.from(element['time']);
+
+      times.forEach((time) {
+        convertedData.add({
+          'date': '${date.substring(0, 4)}-${_getMonthAbbreviation(date.substring(5, 7))}-${date.substring(8)}',
+          'time': time,
+        });
+      });
+    });
+
+    return convertedData;
+  }
+
+  String _getMonthAbbreviation(String monthNumber) {
+    switch (monthNumber) {
+      case '01':
+        return 'Jan';
+      case '02':
+        return 'Feb';
+      case '03':
+        return 'Mar';
+      case '04':
+        return 'Apr';
+      case '05':
+        return 'May';
+      case '06':
+        return 'Jun';
+      case '07':
+        return 'Jul';
+      case '08':
+        return 'Aug';
+      case '09':
+        return 'Sep';
+      case '10':
+        return 'Oct';
+      case '11':
+        return 'Nov';
+      case '12':
+        return 'Dec';
+      default:
+        return '';
+    }
+  }
+
 
 
 }

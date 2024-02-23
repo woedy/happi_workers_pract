@@ -17,6 +17,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image/image.dart' as img;
 
 
 Future<MyDocumentModel> update_document(data) async {
@@ -31,6 +32,7 @@ Future<MyDocumentModel> update_document(data) async {
 
     request.headers['Accept'] = 'application/json';
     request.headers['Authorization'] = 'Bearer ' + data["token"].toString();
+    //request.headers['Authorization'] = 'Bearer ' + "10|Hw6CCoRmcETHdgp6uuitvFvkmjzx21aS0JEJEwaJe88e3b00";
 
     request.files.add(await http.MultipartFile.fromPath('document', data["document"]));
 
@@ -272,7 +274,7 @@ class _MyDocumentsState extends State<MyDocuments> {
                                       SizedBox(
                                         height: 20,
                                       ),
-                                      if (_image != null)
+                                      if (_image != null || _file != null)
                                         Container(
                                           child: Row(
                                             children: [
@@ -391,7 +393,7 @@ class _MyDocumentsState extends State<MyDocuments> {
                                         height: 20,
                                       ),
 
-                                      if (_image != null)
+                                      if (_image != null || _file != null)
                                         Container(
                                           padding: EdgeInsets.symmetric(horizontal: 10),
                                           decoration: BoxDecoration(
@@ -437,7 +439,8 @@ class _MyDocumentsState extends State<MyDocuments> {
                                       if (_image != null || _file != null)...[
 
                                         InkWell(
-                                          onTap: () {
+                                          onTap: () async {
+
 
                                             if(selectedCertificate != null) {
                                               // Make post request before navigation
@@ -449,21 +452,33 @@ class _MyDocumentsState extends State<MyDocuments> {
                                                 _document = _image;
                                               }
 
+                                              if(await isFileLessThan2MB(_document)){
+                                                var data = {
+                                                  "document": _document!.path,
+                                                  "type": selectedCertificate,
+                                                  "token": userData['token']
+                                                };
+
+
+                                                setState(() {
+                                                  status = "Another";
+                                                  _futureUpdateDocument = update_document(data);
+
+                                                });
+
+
+
+                                              } else {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("File must be less than 2MB",),
+                                                    backgroundColor: Colors.red,
+                                                  ),
+                                                );
+                                              }
+
+
                                               print(_document);
-
-                                              var data = {
-                                                "document": _document!.path,
-                                                "type": selectedCertificate,
-                                                "token": userData['token']
-                                              };
-
-
-                                              setState(() {
-                                                status = "Another";
-                                                _futureUpdateDocument = update_document(data);
-
-                                              });
-
 
 
 
@@ -495,7 +510,7 @@ class _MyDocumentsState extends State<MyDocuments> {
                                         ),
 
                                         InkWell(
-                                          onTap: () {
+                                          onTap: () async {
                                             // Make post request before navigation
                                             if(selectedCertificate != null) {
                                               if(_image == null){
@@ -504,22 +519,31 @@ class _MyDocumentsState extends State<MyDocuments> {
                                                 _document = _image;
                                               }
 
-                                              print(_document);
-                                              var data = {
-                                                "document": _document!.path,
-                                                "type": selectedCertificate,
-                                                "token": userData['token']
-                                              };
+                                              if(await isFileLessThan2MB(_document)){
+                                                print(_document);
+                                                var data = {
+                                                  "document": _document!.path,
+                                                  "type": selectedCertificate,
+                                                  "token": userData['token']
+                                                };
 
 
-                                              setState(() {
-                                                status = "Continue";
-                                                _futureUpdateDocument = update_document(data);
+                                                setState(() {
+                                                  status = "Continue";
+                                                  _futureUpdateDocument = update_document(data);
 
-                                              });
+                                                });
 
 
 
+                                              }else{
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("File must be less than 2MB",),
+                                                    backgroundColor: Colors.red,
+                                                  ),
+                                                );
+                                              }
 
                                             }else{
                                               ScaffoldMessenger.of(context).showSnackBar(
@@ -654,6 +678,19 @@ class _MyDocumentsState extends State<MyDocuments> {
 
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
 
+                if(status == "Continue"){
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyAvailability()),
+                  );
+                }else if(status == "Another"){
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyDocuments()),
+                  );
+                }
+
+
                 showDialog(
                     barrierDismissible: true,
                     context: context,
@@ -662,25 +699,6 @@ class _MyDocumentsState extends State<MyDocuments> {
                       return SuccessDialogBox(text: "Document Updated.");
                     }
                 );
-                Future.delayed(Duration(milliseconds: 500), () {
-                  // Pop the dialog
-                  //Navigator.of(context).pop();
-
-                  // Navigate to the dashboard
-
-                  if(status == "Continue"){
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyAvailability()),
-                    );
-                  }else if(status == "Another"){
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyDocuments()),
-                    );
-                  }
-
-                });
 
 
 
@@ -792,16 +810,27 @@ class _MyDocumentsState extends State<MyDocuments> {
     try {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return;
-      File? img = File(image.path);
-      img = await _cropImage(imageFile: img);
+
+      File? croppedFile = await _cropImage(imageFile: File(image.path));
+
+      File resizedFile = await _resizeImage(croppedFile!);
+
       setState(() {
-        _image = img;
+        _image = resizedFile;
         _file = null; // Reset _file when an image is selected
       });
     } on PlatformException catch (e) {
       print(e);
       Navigator.of(context).pop();
     }
+  }
+
+  Future<File> _resizeImage(File file) async {
+    final image = img.decodeImage(file.readAsBytesSync());
+    final resized = img.copyResize(image!, width: 800);
+
+    final compressedImage = File(file.path)..writeAsBytesSync(img.encodeJpg(resized, quality: 85));
+    return compressedImage;
   }
 
 
@@ -820,6 +849,19 @@ class _MyDocumentsState extends State<MyDocuments> {
     } else {
       // User canceled the picker
       print('No file picked');
+    }
+  }
+
+
+
+  Future<bool> isFileLessThan2MB(File? file) async {
+    try {
+      int fileSizeInBytes = await file!.length();
+      double fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+      return fileSizeInMB < 2;
+    } catch (e) {
+      print("Error while checking file size: $e");
+      return false;
     }
   }
 

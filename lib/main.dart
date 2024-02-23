@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:happi_workers_pract/Authentication/SignUp/sign_up_screen.dart';
 
 import 'package:happi_workers_pract/Components/theme.dart';
 
@@ -16,6 +17,7 @@ import 'package:happi_workers_pract/Onboarding/registration_verification.dart';
 import 'package:happi_workers_pract/Welcome/welcome_page1.dart';
 import 'package:happi_workers_pract/constants.dart';
 
+import 'Authentication/SignIn/sign_in_screen.dart';
 import 'Authentication/SignUp/verify_email.dart';
 
 
@@ -79,7 +81,6 @@ class _MyHomePageState extends State<MyHomePage> {
           print("######################################");
           print(status);
 
-
           if(api_key == null){
             return WelcomePage1();
           }else{
@@ -104,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
 
          // return api_key == null ? WelcomePage1() : HomeScreen();
-          //return Onboarding1();
+         //return MyAvailability();
 
         });
   }
