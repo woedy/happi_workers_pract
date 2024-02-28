@@ -23,8 +23,8 @@ An cross-platform (IOS and Android) mobile app to happiworkers platform.
 * •	Install the Flutter and Dart plugins in your chosen editor.
 
 **Clone the Project:**
-* •	Open a terminal and clone the Flutter project from GitHub using the git clone command or 
-*     extract src code from attached zip file.
+* •	Open a terminal and clone the Flutter project from GitHub using the git clone command 
+* or extract src code from attached zip file.
 
 **Get Dependencies:**
 * •	Navigate to the project directory in the terminal.
