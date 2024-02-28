@@ -4,13 +4,39 @@ A new Happi Workers Practitioner project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+An cross-platform (IOS and Android) mobile app to happiworkers platform.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Project Requirements.
+•	Flutter Dart
+•	Android Studio/vs code
+•	Xcode
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Project Setup
+
+Install Flutter:
+•	Download and install Flutter from the official website.
+•	Follow the installation instructions for your operating system.
+
+Set Up an Editor:
+•	Install Android Studio, IntelliJ IDEA, or Visual Studio Code.
+•	Install the Flutter and Dart plugins in your chosen editor.
+
+Clone the Project:
+•	Open a terminal and clone your Flutter project from GitHub using the git clone command.
+
+Get Dependencies:
+•	Navigate to the project directory in the terminal.
+•	Run flutter pub get to get the project dependencies.
+
+
+Run the Project:
+•	Connect a device or start an emulator.
+•	Run the project using flutter run in the terminal.
+
+Troubleshooting:
+•	If there are any issues, refer to the Flutter documentation or search for solutions online.
+•	Common issues include missing dependencies, SDK versions, and environment variables.
+
+Building:
+•	Use flutter build to build the project for release.
