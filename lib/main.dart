@@ -80,7 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
           print("######################################");
           print("######################################");
           print(status);
-
           if(api_key == null){
             return WelcomePage1();
           }else{
@@ -105,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
 
          // return api_key == null ? WelcomePage1() : HomeScreen();
-         //return MyAvailability();
+        // return MyPersonalInfo();
 
         });
   }

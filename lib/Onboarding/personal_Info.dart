@@ -655,6 +655,7 @@ class _MyPersonalInfoState extends State<MyPersonalInfo> {
                                             personal_info_data["token"] = userData['token'];
 
                                             print("##############");
+                                            print("##############");
                                             print(personal_info_data);
 
                                             _futureUpdatePersonalInfo = update_personal_info(personal_info_data);
